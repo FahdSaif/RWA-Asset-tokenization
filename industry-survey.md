@@ -1,4 +1,4 @@
-# 📝 Industry Survey: Unlocking Liquidity for Mineral & Gemstone Assets
+# 📝 Industry Interviews: Unlocking Liquidity for Mineral & Gemstone Assets
 
 As part of our Real World Asset (RWA) Tokenization initiative, we are conducting a survey to better understand the challenges faced by asset owners in the **mineral and gemstone sectors**.
 
