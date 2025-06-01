@@ -24,10 +24,10 @@ We are gathering input to explore:
 
 This research will help us build a platform that:
 
-- ✅ Increases global visibility and access to new investors.
-- ✅ Simplifies legal and administrative overhead via digital workflows.
-- ✅ Improves trust and transparency through blockchain-based proofs and certifications.
-- ✅ Offers tokenized fundraising options compliant with global standards.
+-  Increases global visibility and access to new investors.
+-  Simplifies legal and administrative overhead via digital workflows.
+-  Improves trust and transparency through blockchain-based proofs and certifications.
+-  Offers tokenized fundraising options compliant with global standards.
 
 ---
 
