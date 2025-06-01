@@ -58,11 +58,11 @@ Focus only on tokenizing the **final product** once it’s verified or certified
 
 This repository will soon include:
 
-- ✅ Smart contract codebase
-- ✅ Frontend for asset minting and portfolio management
-- ✅ API layer for integrations and automation
-- ✅ Documentation for contributors and adopters
-- ✅ Test suites and use-case demos
+-  Smart contract codebase
+-  Frontend for asset minting and portfolio management
+-  API layer for integrations and automation
+-  Documentation for contributors and adopters
+-  Test suites and use-case demos
 
 ---
 
