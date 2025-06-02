@@ -4,24 +4,24 @@ This page describes the typical structure of a blockchain block used when regist
 
 ---
 
-## 🖼 Visual Example
+##  Visual Example
 
 ![block](https://github.com/user-attachments/assets/336ba6bf-3e49-482e-b64a-669bb390a5d3)
 
 
 ---
 
-## 🧱 Block Components
+##  Block Components
 
 ### 1. 🔗 Block Hash
 - The cryptographic fingerprint of the entire block
 - Ensures integrity and immutability of all included data
 
-### 2. 🧱 Previous Hash
+### 2.  Previous Hash
 - Reference to the preceding block
 - Forms the chain and prevents tampering with past records
 
-### 3. 🚗 Asset Data (Automobile)
+### 3.  Asset Data (Automobile)
 Includes the following fields (often stored as hashed or structured data):
 - Asset Type: Automobile
 - VIN Hash: (hashed for privacy)
@@ -29,13 +29,13 @@ Includes the following fields (often stored as hashed or structured data):
 - Token ID or Registry Reference
 - Owner Address (or multiple addresses if fractionalized)
 
-### 4. 🕒 Timestamp
+### 4.  Timestamp
 - Block creation time (e.g. `2024-04-24 12:00:00`)
 - Critical for audit trails and time-based logic
 
 ---
 
-## 📦 Optional Metadata
+##  Optional Metadata
 
 - IPFS/Arweave URI (for off-chain data)
 - Event logs (e.g. asset transfer, KYC update)
@@ -56,7 +56,7 @@ This design ensures that every vehicle recorded on-chain has a **traceable, immu
 
 ---
 
-## 🧩 Related Files
+##  Related Files
 
 - [On-Chain Data Fields →](./on-chain-data.md)
 - [Off-Chain Data Structure →](./off-chain-data.md)
