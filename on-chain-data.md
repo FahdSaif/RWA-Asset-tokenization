@@ -4,40 +4,40 @@ This document outlines the key fields stored **directly on the blockchain** when
 
 ---
 
-## 📊 Visual Overview
+##  Visual Overview
 
 ![onchain](https://github.com/user-attachments/assets/6b70f6aa-53d2-40bb-b3d9-8f000f0f5317)
 
 
 ---
 
-## 🧱 Smart Contract Data Fields
+##  Smart Contract Data Fields
 
-### 1. 🔑 Asset ID
+### 1.  Asset ID
 - Unique identifier (e.g. ERC-721 token ID)
 - Links the digital token to the physical vehicle
 
-### 2. 🔒 VIN Hash
+### 2.  VIN Hash
 - Hashed version of the Vehicle Identification Number (VIN)
 - Ensures proof of link without exposing raw identity
 
-### 3. 📆 Year
+### 3.  Year
 - Manufacturing or model year
 - Helps determine valuation, depreciation, and eligibility
 
-### 4. 🚗 Make & Model
+### 4.  Make & Model
 - Brand + model name (e.g. Tesla Model 3)
 - Included for visual/reference metadata
 
-### 5. 🧮 Fraction ID (if fractionalized)
+### 5.  Fraction ID (if fractionalized)
 - Unique sub-token or series identifier (e.g. ERC-1155 or ERC-1400)
 - Enables shared or partial ownership of the vehicle
 
-### 6. 👤 Ownership
+### 6.  Ownership
 - Ethereum address(es) of current token holder(s)
 - Decentralized control and transfer logic
 
-### 7. ✅ Compliance Tag
+### 7.  Compliance Tag
 - Flags for regulatory readiness or market fit
   - e.g. "US Road Legal", "EU Compliant", "DeFi Transferable"
 
