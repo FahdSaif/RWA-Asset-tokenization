@@ -4,14 +4,14 @@ This document explains how data moves through our Real World Asset (RWA) Tokeniz
 
 ---
 
-## 🖼️ Data Flow Diagram
+## 🖼 Data Flow Diagram
 
 
 ![Dataflow](https://github.com/user-attachments/assets/3e5bfbf1-3f9e-4f85-b4b9-242ff0a6431a)
 
 ---
 
-## 📋 Flow Description
+##  Flow Description
 
 ### 1. 👤 User Initiates Tokenization
 The process begins when a verified user (e.g. asset owner) accesses the platform and initiates the tokenization of a physical asset.
@@ -21,13 +21,13 @@ The process begins when a verified user (e.g. asset owner) accesses the platform
 
 ---
 
-### 2. 🏠 Physical Asset Data Captured
+### 2.  Physical Asset Data Captured
 - The physical asset (e.g. car, property, gem, yacht) is represented digitally.
 - Asset data is verified and optionally enriched using IoT or legal registries.
 
 ---
 
-### 3. 💾 Off-Chain Storage
+### 3.  Off-Chain Storage
 Sensitive documents and large media files (title deeds, insurance, inspection reports, GPS logs) are stored off-chain:
 
 - Stored in: IPFS, Arweave, S3, or encrypted cloud
@@ -35,7 +35,7 @@ Sensitive documents and large media files (title deeds, insurance, inspection re
 
 ---
 
-### 4. 🧠 RWA Tokenization Platform
+### 4.  RWA Tokenization Platform
 The core logic performs:
 
 - Metadata hashing
@@ -56,7 +56,7 @@ The platform interacts with an Ethereum smart contract to:
 
 ---
 
-### 6. 🔁 Token Transfer & Metadata Access
+### 6.  Token Transfer & Metadata Access
 Once tokens are minted:
 
 - Ownership can be transferred via standard token interfaces
@@ -85,7 +85,7 @@ Once tokens are minted:
 
 ---
 
-## 📁 Related Diagrams
+##  Related Diagrams
 
 - [Solution Architecture →](./solution-architecture.md)  
 - [On-Chain Data →](./on-chain-data.md)  
