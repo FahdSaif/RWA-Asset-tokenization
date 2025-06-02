@@ -1,4 +1,4 @@
-# 🌍 Real World Asset (RWA) Tokenization Platform
+#  Real World Asset (RWA) Tokenization Platform
 
 Welcome to the RWA Tokenization project!
 
@@ -6,7 +6,7 @@ This repository is the foundation of our journey toward building a next-generati
 
 ---
 
-## 🧭 Project Vision
+##   Vision
 
 We aim to bring **trust, traceability, and liquidity** to physical assets by tokenizing them on-chain.
 
@@ -20,7 +20,7 @@ We may also start with a **multi-chain approach** for greater flexibility and in
 
 ---
 
-## 🚧 Project Scope
+##  Scope
 
 We're currently evaluating two core directions:
 
@@ -32,7 +32,7 @@ Focus only on tokenizing the **final product** once it’s verified or certified
 
 ---
 
-## 🔗 Blockchain Options Under Consideration
+##  Blockchain Options Under Consideration
 
 - **Ethereum** – For ERC-20, ERC-721, ERC-1155, and ERC-1400 tokens
 - **Polymesh** – Purpose-built for security tokens and compliance
@@ -43,7 +43,7 @@ Focus only on tokenizing the **final product** once it’s verified or certified
 
 ---
 
-## 🛠 Planned Features
+##  Planned Features
 
 - Asset minting and ownership transfer via smart contracts
 - KYC/AML integration and role-based access control
@@ -54,7 +54,7 @@ Focus only on tokenizing the **final product** once it’s verified or certified
 
 ---
 
-## 🚀 What’s Next
+##  What’s Next
 
 This repository will soon include:
 
@@ -70,7 +70,7 @@ This repository will soon include:
 
 We're in active research and prototyping mode.
 
-Whether you're a blockchain engineer, legal expert, compliance analyst, or just passionate about real-world utility — we’d love your input.
+Whether you're a blockchain engineer, legal expert, compliance analyst, or just passionate about real-world utility  we’d love your input.
 
 > Let's bring the physical world on-chain, one token at a time.
 
