@@ -1,19 +1,19 @@
-# 🏗️ Solution Architecture – RWA Tokenization on Ethereum
+# 🏗 Solution Architecture – RWA Tokenization on Ethereum
 
 This page outlines the high-level architecture of our blockchain-based system for **tokenizing physical assets** like real estate, minerals, food products, automobiles, yachts, and more. The core platform is designed to operate on Ethereum but is extensible to multichain deployments.
 
 ---
 
-## 🖼 Architecture Diagram
+##  Architecture Diagram
 
 ![Solution architecture](https://github.com/user-attachments/assets/949e2459-a320-4686-b8f7-fe8e381381a4)
 
 
 ---
 
-## 🧩 Architecture Components
+##  Architecture Components
 
-### 1. 🌍 Physical Asset Onboarding
+### 1.  Physical Asset Onboarding
 
 Assets include:
 - Real Estate
@@ -29,7 +29,7 @@ Assets are registered via:
 
 ---
 
-### 2. 🧾 Asset Tokenization Platform (Core Layer)
+### 2.  Asset Tokenization Platform (Core Layer)
 
 | Module             | Description |
 |--------------------|-------------|
@@ -44,7 +44,7 @@ Smart contracts deployed on:
 
 ---
 
-### 3. ⚙️ Backend Services
+### 3.  Backend Services
 
 - Metadata hashing & IPFS/Arweave integration
 - Legal wrapper generation & notarization APIs
@@ -52,7 +52,7 @@ Smart contracts deployed on:
 
 ---
 
-### 4. 🔗 Blockchain Interaction Layer
+### 4.  Blockchain Interaction Layer
 
 - Ethereum smart contracts
 - Signature verification via wallets (e.g. MetaMask, Safe)
@@ -60,7 +60,7 @@ Smart contracts deployed on:
 
 ---
 
-### 5. 🌐 Frontend Interfaces
+### 5.  Frontend Interfaces
 
 - **Asset Owner Portal** – Register, tokenize, manage
 - **Investor Portal** – View, buy/sell, verify ownership
@@ -68,7 +68,7 @@ Smart contracts deployed on:
 
 ---
 
-### 6. 🧠 Optional Modules
+### 6.  Optional Modules
 
 - **Oracles**: Chainlink for price feeds or external verifications
 - **ZK Proofs**: For selective disclosure of ownership or KYC
@@ -76,7 +76,7 @@ Smart contracts deployed on:
 
 ---
 
-## 🔐 Security & Compliance
+##  Security & Compliance
 
 - KYC/AML enforced on minting and secondary transfers
 - Transfer restrictions on security tokens (ERC-1400)
@@ -84,7 +84,7 @@ Smart contracts deployed on:
 
 ---
 
-## 🔭 Future Extensions
+## Future Extensions
 
 - Integration with DEXs or RWA marketplaces
 - Real-time valuation via oracles
