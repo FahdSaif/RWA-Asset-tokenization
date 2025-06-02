@@ -1,7 +1,7 @@
-# 🧪 Asset Fraction Flow Prototype
+#  Asset Fraction Flow Prototype
 
 
-## 🌐 Walkthrough Overview
+##  Walkthrough Overview
 
 Below is a screen-by-screen breakdown of the prototype with descriptions and screenshot placeholders.
 
@@ -55,7 +55,7 @@ Below is a screen-by-screen breakdown of the prototype with descriptions and scr
 
 ---
 
-## 🔧 Future Enhancements
+##  Future Enhancements
 
 We plan to integrate:
 
