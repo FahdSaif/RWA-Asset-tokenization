@@ -4,7 +4,7 @@ This document explains how data moves through our Real World Asset (RWA) Tokeniz
 
 ---
 
-## 🖼 Data Flow Diagram
+##  Data Flow Diagram
 
 
 ![Dataflow](https://github.com/user-attachments/assets/3e5bfbf1-3f9e-4f85-b4b9-242ff0a6431a)
