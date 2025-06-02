@@ -4,7 +4,7 @@ Below is a summary of responses from our ongoing Web3 founder interviews related
 
 ---
 
-## 🧠 Common Validation Methods
+##  Common Validation Methods
 
 - 65% use direct customer interviews
 - 40% rely on landing page + waitlist metrics
@@ -12,7 +12,7 @@ Below is a summary of responses from our ongoing Web3 founder interviews related
 
 ---
 
-## 🚧 Key Pain Points
+##  Key Pain Points
 
 - Difficulty in identifying qualified early users
 - Low response rate for traditional Web2-style surveys
@@ -20,7 +20,7 @@ Below is a summary of responses from our ongoing Web3 founder interviews related
 
 ---
 
-## 📈 Signals Considered Valid by Founders
+##  Signals Considered Valid by Founders
 
 | Signal                         | % of Founders |
 |-------------------------------|---------------|
@@ -31,7 +31,7 @@ Below is a summary of responses from our ongoing Web3 founder interviews related
 
 ---
 
-## 💬 Selected Anonymous Quotes
+##  Selected Anonymous Quotes
 
 > “We struggled to prove demand until we airdropped something useful — then got clarity.”
 
@@ -41,7 +41,7 @@ Below is a summary of responses from our ongoing Web3 founder interviews related
 
 ---
 
-## 📂 Raw Data Access
+##  Raw Data Access
 
 If you'd like access to anonymized raw data or want to contribute your own experience, open an issue or contact the maintainers.
 
