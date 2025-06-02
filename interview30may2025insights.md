@@ -4,7 +4,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 💡 Key Objectives of the Interviews
+##  Key Objectives of the Interviews
 
 - Understand how asset owners currently access liquidity.
 - Identify challenges in global fundraising or investment access.
@@ -13,7 +13,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 🧭 Participant Overview
+##  Participant Overview
 
 - Respondents include asset owners, brokers, and legal professionals across:
   - Minerals and ores (e.g. lithium, gold, rare earths)
@@ -23,7 +23,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 📉 Key Challenges Shared
+##  Key Challenges Shared
 
 | Challenge                                     | % of Respondents Reporting It |
 |----------------------------------------------|-------------------------------|
@@ -41,7 +41,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 📈 What Asset Owners Want
+##  What Asset Owners Want
 
 - A trusted, digital way to prove asset value
 - Access to **tokenized fundraising** models
@@ -51,7 +51,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 🔍 Validation of Blockchain Use
+##  Validation of Blockchain Use
 
 > ✅ Over 80% of respondents said they would explore blockchain-based platforms if:
 > - Legal compliance is built-in
@@ -70,7 +70,7 @@ This page summarizes early findings from our industry interviews with stakeholde
 
 ---
 
-## 📄 Want the Raw Data?
+##  Want the Raw Data?
 
 To request anonymized response data or share your own experience, [open an issue](https://github.com/YOUR_REPO/issues/new) or contact us via GitHub Discussions.
 
