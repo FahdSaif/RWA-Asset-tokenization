@@ -27,3 +27,16 @@ Users can place market or limit orders for buying and selling tokens
 The Order Book shows real-time bids and asks for each asset, including price, quantity, and total value
 
 Compliance check indicators (KYC, whitelisted, trading enabled) confirm eligibility
+
+<img width="1140" height="753" alt="Screen Shot 2025-08-01 at 12 00 25 pm" src="https://github.com/user-attachments/assets/ebe92d40-4aa8-42e9-9aa3-e22455aac2a9" />
+Description:
+Before investing, users must review and e-sign all required legal agreements.
+
+Documents include: Subscription Agreement, Risk Disclosure, Custody Agreement, and Privacy Policy
+
+Users can preview or download each document before signing
+
+Signing progress is tracked on the right with real-time updates and compliance indicators
+<img width="1116" height="791" alt="Screen Shot 2025-08-01 at 12 00 34 pm" src="https://github.com/user-attachments/assets/ee17e32c-82b9-434e-aee0-6943ce5ad06a" />
+
+
