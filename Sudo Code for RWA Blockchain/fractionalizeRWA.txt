@@ -1,0 +1,22 @@
+Function: fractionalizeRWA(assetId, shares)
+
+- Splits a single asset into fractional tokens
+- Only asset owner can initiate
+- Enables liquid trading and partial ownership
+
+Pseudocode:
+---------------
+function fractionalizeRWA(assetId, shares):
+    if RWARegistry[assetId].owner ≠ caller:
+        reject("Only owner can fractionalize")
+
+    if RWARegistry[assetId].fractionalized = true:
+        reject("Already fractionalized")
+
+    for i = 1 to shares:
+        fractionalTokenId = mintFractionalToken(assetId, i)
+        assignOwnership(fractionalTokenId, caller)
+
+    RWARegistry[assetId].fractionalized = true
+    emitEvent("AssetFractionalized", assetId, shares)
+---------------
