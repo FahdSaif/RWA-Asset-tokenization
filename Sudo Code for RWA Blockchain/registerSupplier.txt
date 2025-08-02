@@ -1,0 +1,18 @@
+Function: registerSupplier(address, region, cert)
+
+- Registers upstream suppliers on-chain with certified credentials
+- Can be used for ESG, logistics, or origin verification
+
+Pseudocode:
+---------------
+function registerSupplier(address, region, cert):
+    if not verifySupplierCertificate(cert):
+        reject("Invalid certificate")
+
+    SupplierRegistry[address] = {
+        region: region,
+        certHash: hash(cert),
+        approved: true
+    }
+    emitEvent("SupplierRegistered", address)
+---------------
