@@ -1,0 +1,17 @@
+Function: updateOracle(assetId, value, proof)
+
+- Updates valuation, ESG score, or proof-of-reserve
+- Uses decentralized oracles with verifiable proof
+
+Pseudocode:
+---------------
+function updateOracle(assetId, value, proof):
+    if not verifyProof(value, proof):
+        reject("Oracle proof invalid")
+
+    RWARegistry[assetId].oracleData = {
+        value: value,
+        timestamp: currentTime()
+    }
+    emitEvent("OracleUpdated", assetId)
+---------------
