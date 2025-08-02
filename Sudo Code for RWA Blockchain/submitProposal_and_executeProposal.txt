@@ -1,0 +1,21 @@
+Function: submitProposal / vote / executeProposal
+
+- Enables DAO governance for runtime protocol changes
+- Used for adding oracles, updating compliance modules, etc.
+
+Pseudocode:
+---------------
+function submitProposal(type, payload):
+    assert isDAOmember(caller)
+    proposalId = createProposal(type, payload)
+    startVoting(proposalId)
+
+function vote(proposalId, vote):
+    assert hasVotingRights(caller)
+    recordVote(proposalId, caller, vote)
+
+function executeProposal(proposalId):
+    if getVotes(proposalId).passThreshold():
+        params = getProposalDetails(proposalId)
+        applyProposal(params)
+---------------
