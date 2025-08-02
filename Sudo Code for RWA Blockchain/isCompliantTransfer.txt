@@ -1,0 +1,23 @@
+Function: isCompliantTransfer(sender, recipient, assetId)
+
+- Checks KYC/AML, sanctions, jurisdictional rules
+- Prevents non-compliant transfers
+
+Pseudocode:
+---------------
+function isCompliantTransfer(sender, recipient, assetId):
+    if not isWhitelisted(sender) or not isWhitelisted(recipient):
+        return false
+
+    senderRegion = getJurisdiction(sender)
+    recipientRegion = getJurisdiction(recipient)
+    tokenRules = getTokenComplianceRules(assetId)
+
+    if not tokenRules.isTransferAllowed(senderRegion, recipientRegion):
+        return false
+
+    if isBlacklisted(recipient):
+        return false
+
+    return true
+---------------
