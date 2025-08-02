@@ -1,0 +1,23 @@
+Function: mintRWA(assetData)
+
+- Verifies legal ownership and jurisdictional compliance
+- Mints a new RWA token with embedded metadata
+- Logs asset in on-chain RWA registry
+
+Pseudocode:
+---------------
+function mintRWA(assetData):
+    if not verifyOwnership(assetData.ownerProof):
+        reject("Ownership verification failed")
+
+    if not verifyJurisdictionCompliance(assetData.jurisdiction, assetData.complianceMetadata):
+        reject("Jurisdictional compliance failed")
+
+    assetId = generateUniqueAssetId()
+    RWARegistry[assetId] = {
+        owner: caller,
+        metadata: assetData,
+        fractionalized: false
+    }
+    emitEvent("AssetMinted", assetId)
+---------------
