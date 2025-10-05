@@ -1,0 +1,28 @@
+mindmap
+  root((.        RWA Blockchain))
+    User
+      Initiates transactions
+      Owns and manages tokenised assets
+      Interacts with smart contracts via wallet
+    Smart Contract
+      Executes core business logic
+      Manages token lifecycle and transfers
+      Invokes compliance, oracle, and audit modules
+    KYC Oracle
+      Verifies identity and AML status
+      Issues verifiable credentials or proofs
+    Jurisdiction Engine
+      Determines regional policy applicability
+      Evaluates cross-border rules and eligibility
+    Data Oracle
+      Supplies market data and proof-of-reserve
+      Ensures on-chain representation of verified data
+    Regulator / Audit Node
+      Reviews compliance records and transaction logs
+      Validates zero-knowledge proofs and audit data
+    Governance DAO
+      Votes on protocol changes and funding
+      Elects auditors and manages treasury
+    Compliance Log Database
+      Stores immutable compliance metadata
+      Provides transparency and traceability for audits
