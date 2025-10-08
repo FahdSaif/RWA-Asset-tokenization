@@ -31,3 +31,9 @@ You can export LaTeX snippets, but there’s no live sync or embedded updating l
 Limited color and font control
 It’s designed for academic math diagrams — lacks advanced styling for presentation-ready blockchain visuals.
 
+▶️ [![Protocol Enforced Model drawing in Matcha.io Video]](https://youtu.be/86H2cw-5ER4)
+In this video, I design the Protocol-Enforced Model for my blockchain project using Mathcha.io.
+I’ve recently learned this tool it’s excellent for mathematical notation and structured diagrams.
+While I usually prefer Draw.io and Miro for UI-style designs, Mathcha will be a handy addition for technical and academic visuals.
+
+
