@@ -1,89 +1,69 @@
-arca-prototype/
-├── Cargo.toml                      # Rust workspace (node + runtime + pallets)
-├── rust-toolchain.toml             # PIN the toolchain — saves you the Apple-Silicon pain
-├── README.md
-├── .gitignore                      # target/, node_modules/, build/, keys/, *.zkey
-├── Dockerfile
-├── docker-compose.yml              # node + AI service, for the reproducible artifact
-├── Makefile                        # make build / make demo / make bench
-│
-├── node/                           # ── the running blockchain service
-│   └── src/
-│       ├── main.rs
-│       ├── chain_spec.rs           # genesis: dev accounts, initial rules, ZK verif key
-│       ├── service.rs
-│       ├── rpc.rs
-│       └── command.rs
-│
-├── runtime/                        # ── wires the pallets into one state machine
-│   ├── build.rs
-│   └── src/
-│       └── lib.rs                  # construct_runtime!{...} — lists every pallet below
-│
-├── pallets/                        # ══ LAYER 3: Runtime Enforcement (your headline) ══
-│   ├── transaction-validation/     # Transaction Validation Module — the transfer HOOK
-│   │   ├── Cargo.toml
-│   │   └── src/
-│   │       ├── lib.rs              # intercepts every asset transfer pre-finalization
-│   │       ├── mock.rs             # test runtime
-│   │       ├── tests.rs            # incl. the raw-bypass rejection unit test
-│   │       ├── benchmarking.rs     # feeds your latency numbers
-│   │       └── weights.rs
-│   ├── rule-registry/              # Compliance Rule Registry Module (predicates)
-│   │   └── src/lib.rs
-│   ├── audit-log/                  # Audit Log Module (append-only, tamper-evident)
-│   │   └── src/lib.rs
-│   ├── verification/               # ══ LAYER 2: ZKP verify + DID registry ══
-│   │   └── src/lib.rs              # Groth16 verify (arkworks) against embedded vk
-│   ├── governance/                 # ══ LAYER 4: Governance Module ══
-│   │   └── src/lib.rs              # verifies signed CRR before a rule can activate
-│   └── asset-registry/             # Token standard + Asset Registry (Layer 4)
-│       └── src/lib.rs
-│
-├── circuits/                       # ══ LAYER 2: the ZK predicate (circom) ══
-│   ├── src/
-│   │   └── accreditation.circom    # ONE predicate: net_assets ≥ threshold
-│   ├── scripts/
-│   │   ├── compile.sh
-│   │   ├── setup.sh                # powers-of-tau + groth16 setup
-│   │   ├── prove.js                # snarkjs proof generation
-│   │   └── verify.js
-│   ├── build/                      # .r1cs, *_js/ (wasm), *.zkey  (gitignored)
-│   └── export/
-│       └── verification_key.json   # baked into pallets/verification + chain_spec
-│
-├── compliance-ai/                  # ══ LAYER 1: Compliance Intelligence (Python) ══
-│   ├── requirements.txt
-│   ├── src/arca_ai/
-│   │   ├── graph.py                # your LangGraph flow: classify→route→agent→gate
-│   │   ├── agents/
-│   │   │   ├── eligibility.py      # Investor Eligibility Evaluation Agent
-│   │   │   └── risk_scoring.py     # Transaction Risk Scoring Agent (SHAP explain)
-│   │   ├── crr.py                  # CRR schema + signing + input commitment
-│   │   ├── governance_gate.py      # the HITL / signature-verify step
-│   │   └── config.py               # Groq / Mistral
-│   ├── notebooks/
-│   │   └── arca_demo.ipynb         # the grown-up version of your current notebook
-│   └── tests/
-│
-├── offchain/                       # ── client that drives the chain
-│   ├── submit_compliant.py         # normal app-path transfer (substrate-interface)
-│   ├── submit_raw_bypass.py        # ★ raw extrinsic that skips the app layer
-│   ├── register_rule.py            # push a governance-signed rule into the registry
-│   └── keys/                       # dev keys (gitignored)
-│
-├── experiments/                    # ══ what becomes your evaluation section ══
-│   ├── bypass_experiment.py        # ★ runs both paths, asserts BOTH rejected
-│   ├── bench_latency.py            # validation latency
-│   ├── bench_zkp.py                # prove/verify time + proof size
-│   └── plots.py
-│
-├── results/
-│   ├── raw/                        # CSVs from the benchmarks
-│   ├── figures/                    # ← generate the REAL Fig 2/3/4 here
-│   └── tables/                     # component-mapping + measurement tables
-│
-└── docs/
-    ├── component-mapping.md        # pallet → paper module (your Table)
-    ├── architecture.md
-    └── reproduce.md                # one-command repro for reviewers
+ARCA — Reference Prototype
+
+A working slice of the AI-Assisted Runtime Compliance Architecture (ARCA) for tokenized real-world assets. The paper describes the full four-layer design; this repository implements the part of it that is worth arguing about, namely that compliance can be enforced below the application layer, where it cannot be routed around, and that a probabilistic AI recommendation can be turned into a deterministic, enforceable rule without letting the model decide anything on its own.
+
+This is a research prototype, not a product. It exists to make three claims falsifiable:
+
+A transfer that fails compliance is rejected inside the runtime, regardless of how it is submitted — through the intended client or as a hand-built raw extrinsic that ignores the client entirely.
+An AI-generated rule change has no effect until a governance step has verified its signature and admitted it to the rule registry.
+The zero-knowledge overhead this design assumes is measurable on commodity hardware, not hypothetical.
+
+Everything else in the paper (multi-jurisdiction rule sets, cross-chain, the full agent suite) is deliberately out of scope here. See "What is stubbed" below before you file a bug about it.
+
+Layout
+
+The directory tree mirrors the paper's layers so the mapping is legible:
+
+pallets/ — Layer 3 (runtime enforcement) plus the Layer 2/4 pallets it depends on. transaction-validation is the important one; the rest support it.
+circuits/ — the single ZK predicate (accreditation threshold), in circom.
+compliance-ai/ — Layer 1. The LangGraph agent that proposes actions and the governance gate that refuses to let them through unsigned.
+offchain/ — the clients that drive the chain, including the raw-bypass client.
+experiments/ — the scripts that produce the numbers and the bypass result.
+results/ — where those numbers and the paper figures are generated.
+
+A component-to-paper-module table lives in docs/component-mapping.md.
+
+Building
+
+You need a recent Rust toolchain (pinned in rust-toolchain.toml — don't override it, the version matters), Node 18+ for the circuits, and Python 3.11+ for the AI and experiment layers.
+
+# system deps (macOS / Apple Silicon)
+brew install cmake protobuf llvm
+
+rustup target add wasm32-unknown-unknown
+cargo build --release        # first build is slow; this is normal, not broken
+
+On Apple Silicon the node builds natively. If you hit a WASM-builder error against an older polkadot-sdk tag, the toolchain pin is usually the cause; failing that, arch -x86_64 cargo build under Rosetta is the escape hatch. All published timings in the paper were taken bare-metal on the machine named in the evaluation section — do not benchmark inside Docker or on shared cloud instances and expect the same figures.
+
+Running the demo
+make demo
+
+This starts a --dev node, pushes a governance-signed accreditation rule into the registry, and walks one transaction end to end: the agent proposes the transfer, emits a signed Compliance Recommendation Record, the governance gate checks it, a ZK proof is generated for the accreditation predicate, and the runtime either finalizes or rejects.
+
+The result that matters
+python experiments/bypass_experiment.py
+
+This submits the same non-compliant transfer twice: once through the normal client path, and once as a raw extrinsic constructed to bypass the client entirely. Both are rejected at the runtime layer. This is the whole point of the architecture — enforcement is not made harder to circumvent, it is relocated to a layer where circumvention is not a valid state transition. If either path succeeds, the claim is wrong and you have found something interesting.
+
+Latency and ZK figures:
+
+python experiments/bench_latency.py
+python experiments/bench_zkp.py
+What is stubbed
+
+Being honest about this saves everyone time:
+
+One jurisdiction, one asset class, one compliance predicate. The rule registry is general; the loaded rule set is minimal.
+The DID/VC layer is reduced to a hardcoded authorized-issuer key. The ZK verification path is real; the identity plumbing around it is not.
+The governance module verifies signatures and admits rules. It does not implement a full on-chain voting process — the point being demonstrated is the gate, not the deliberation.
+The AI agents run against a hosted model (Groq / Mistral). Determinism lives in the enforcement layer by design, not in the model.
+
+None of these affect the three claims above. They would all matter for a deployment, and they are exactly the future-work items in the paper.
+
+Citing
+
+If you use this in academic work, cite the paper (Saifuddin, Jadidi, and Muthukkumarasamy, "AI-Assisted Runtime Compliance Architecture for Tokenized Real-World Assets"). Prototype components are ongoing work at Griffith University.
+
+A note on status
+
+This tracks active research. Interfaces will move, pallets will be renamed, and the main branch is not a stable API. If you want the exact state used for a given set of results, use the tagged commit referenced in the paper rather than main.
