@@ -1,0 +1,3 @@
+substrate-interface>=1.7    # talk to the running node over ws
+pandas>=2.2
+matplotlib>=3.8
