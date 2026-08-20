@@ -1,0 +1,28 @@
+# Workspace root.
+#
+# NOTE ON node/ AND runtime/:
+# These two crates are NOT hand-written here. Run ./bootstrap.sh to fetch the
+# official polkadot-sdk template into node/ and runtime/, then register the
+# pallets below into runtime/src/lib.rs (construct_runtime!). The template pins
+# the exact polkadot-sdk version; match your pallet deps to THAT version, not to
+# whatever a tutorial shows. Version drift here is the #1 time sink.
+[workspace]
+resolver = "2"
+members = [
+    "node",
+    "runtime",
+    "pallets/transaction-validation",
+    "pallets/rule-registry",
+    "pallets/audit-log",
+    "pallets/verification",
+    "pallets/governance",
+    "pallets/asset-registry",
+]
+
+[profile.release]
+panic = "unwind"
+opt-level = 3
+
+# Faster iterative builds while developing pallets.
+[profile.dev.package."*"]
+opt-level = 2

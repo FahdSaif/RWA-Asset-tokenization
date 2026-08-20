@@ -1,0 +1,7 @@
+# Pin the toolchain. Substrate is extremely sensitive to the compiler + wasm
+# target combination; do not "cargo +stable" your way around this.
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy", "rust-src"]
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"
