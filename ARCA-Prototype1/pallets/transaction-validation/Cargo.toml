@@ -1,0 +1,34 @@
+[package]
+name = "pallet-transaction-validation"
+version = "0.1.0"
+edition = "2021"
+description = "ARCA Layer 3: intercepts asset transfers at the runtime and rejects non-compliant ones before finalization."
+license = "Apache-2.0"
+
+# IMPORTANT: these version strings must match the polkadot-sdk revision that
+# bootstrap.sh pulled into node/ and runtime/. Set them once, centrally, and
+# reuse via [workspace.dependencies] once the template is in place.
+[dependencies]
+codec = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2", default-features = false, features = ["derive"] }
+frame-support = { version = "*", default-features = false }
+frame-system = { version = "*", default-features = false }
+frame-benchmarking = { version = "*", default-features = false, optional = true }
+pallet-rule-registry = { path = "../rule-registry", default-features = false }
+pallet-verification = { path = "../verification", default-features = false }
+pallet-audit-log = { path = "../audit-log", default-features = false }
+
+[dev-dependencies]
+sp-core = { version = "*", default-features = false }
+sp-io = { version = "*", default-features = false }
+sp-runtime = { version = "*", default-features = false }
+
+[features]
+default = ["std"]
+std = [
+  "codec/std", "scale-info/std",
+  "frame-support/std", "frame-system/std",
+  "pallet-rule-registry/std", "pallet-verification/std", "pallet-audit-log/std",
+]
+runtime-benchmarks = ["frame-benchmarking/runtime-benchmarks"]
+try-runtime = ["frame-support/try-runtime"]
