@@ -25,18 +25,18 @@ arca-prototype/
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs              # intercepts every asset transfer pre-finalization
-│   │       ├── mock.rs            # test runtime
-│   │       ├── tests.rs           # incl. the raw-bypass rejection unit test
-│   │       ├── benchmarking.rs    # feeds your latency numbers
+│   │       ├── mock.rs             # test runtime
+│   │       ├── tests.rs            # incl. the raw-bypass rejection unit test
+│   │       ├── benchmarking.rs     # feeds your latency numbers
 │   │       └── weights.rs
 │   ├── rule-registry/              # Compliance Rule Registry Module (predicates)
 │   │   └── src/lib.rs
 │   ├── audit-log/                  # Audit Log Module (append-only, tamper-evident)
 │   │   └── src/lib.rs
 │   ├── verification/               # ══ LAYER 2: ZKP verify + DID registry ══
-│   │   └── src/lib.rs             # Groth16 verify (arkworks) against embedded vk
+│   │   └── src/lib.rs              # Groth16 verify (arkworks) against embedded vk
 │   ├── governance/                 # ══ LAYER 4: Governance Module ══
-│   │   └── src/lib.rs             # verifies signed CRR before a rule can activate
+│   │   └── src/lib.rs              # verifies signed CRR before a rule can activate
 │   └── asset-registry/             # Token standard + Asset Registry (Layer 4)
 │       └── src/lib.rs
 │
@@ -45,8 +45,8 @@ arca-prototype/
 │   │   └── accreditation.circom    # ONE predicate: net_assets ≥ threshold
 │   ├── scripts/
 │   │   ├── compile.sh
-│   │   ├── setup.sh               # powers-of-tau + groth16 setup
-│   │   ├── prove.js               # snarkjs proof generation
+│   │   ├── setup.sh                # powers-of-tau + groth16 setup
+│   │   ├── prove.js                # snarkjs proof generation
 │   │   └── verify.js
 │   ├── build/                      # .r1cs, *_js/ (wasm), *.zkey  (gitignored)
 │   └── export/
@@ -55,15 +55,15 @@ arca-prototype/
 ├── compliance-ai/                  # ══ LAYER 1: Compliance Intelligence (Python) ══
 │   ├── requirements.txt
 │   ├── src/arca_ai/
-│   │   ├── graph.py               # your LangGraph flow: classify→route→agent→gate
+│   │   ├── graph.py                # your LangGraph flow: classify→route→agent→gate
 │   │   ├── agents/
-│   │   │   ├── eligibility.py     # Investor Eligibility Evaluation Agent
-│   │   │   └── risk_scoring.py    # Transaction Risk Scoring Agent (SHAP explain)
-│   │   ├── crr.py                 # CRR schema + signing + input commitment
-│   │   ├── governance_gate.py     # the HITL / signature-verify step
-│   │   └── config.py              # Groq / Mistral
+│   │   │   ├── eligibility.py      # Investor Eligibility Evaluation Agent
+│   │   │   └── risk_scoring.py     # Transaction Risk Scoring Agent (SHAP explain)
+│   │   ├── crr.py                  # CRR schema + signing + input commitment
+│   │   ├── governance_gate.py      # the HITL / signature-verify step
+│   │   └── config.py               # Groq / Mistral
 │   ├── notebooks/
-│   │   └── arca_demo.ipynb        # the grown-up version of your current notebook
+│   │   └── arca_demo.ipynb         # the grown-up version of your current notebook
 │   └── tests/
 │
 ├── offchain/                       # ── client that drives the chain
