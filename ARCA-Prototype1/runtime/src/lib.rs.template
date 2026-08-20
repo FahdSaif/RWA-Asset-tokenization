@@ -1,0 +1,44 @@
+// ============================================================================
+// runtime/src/lib.rs  —  ARCA pallet wiring (TEMPLATE, not a drop-in)
+// ============================================================================
+// bootstrap.sh copies the upstream template's runtime/src/lib.rs into place.
+// Do NOT replace that file wholesale with this one — it lacks the version-matched
+// boilerplate (opaque types, RuntimeApi impls, etc). Instead, MERGE the two
+// additions below into the template's existing file:
+//
+//   1) impl each ARCA pallet's Config for Runtime
+//   2) add each pallet to construct_runtime!
+//
+// Everything else (System, Timestamp, Balances, Aura/Grandpa, RuntimeApis) stays
+// exactly as the template ships it for your pinned polkadot-sdk version.
+// ----------------------------------------------------------------------------
+
+// (1) Config impls -----------------------------------------------------------
+impl pallet_rule_registry::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+}
+impl pallet_verification::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+}
+impl pallet_audit_log::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+}
+impl pallet_governance::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+}
+impl pallet_asset_registry::Config for Runtime {}
+impl pallet_transaction_validation::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+    type WeightInfo = pallet_transaction_validation::weights::SubstrateWeight<Runtime>;
+}
+
+// (2) construct_runtime! — add these lines inside the template's macro ---------
+//
+//   RuleRegistry: pallet_rule_registry,
+//   Verification: pallet_verification,
+//   AuditLog: pallet_audit_log,
+//   Governance: pallet_governance,
+//   AssetRegistry: pallet_asset_registry,
+//   TxValidation: pallet_transaction_validation,
+//
+// ----------------------------------------------------------------------------
