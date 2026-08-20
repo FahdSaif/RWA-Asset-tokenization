@@ -1,0 +1,16 @@
+{
+  "name": "arca-circuits",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARCA Layer 2 — accreditation-threshold ZK predicate (circom/groth16).",
+  "scripts": {
+    "compile": "bash scripts/compile.sh",
+    "setup": "bash scripts/setup.sh",
+    "prove": "node scripts/prove.js",
+    "verify": "node scripts/verify.js"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.4"
+  }
+}
