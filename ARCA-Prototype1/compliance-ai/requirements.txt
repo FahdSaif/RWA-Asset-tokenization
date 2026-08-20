@@ -1,0 +1,6 @@
+# Layer 1 (Compliance Intelligence) + governance gate
+langgraph>=0.2.0
+langchain-core>=0.3.0
+langchain-groq>=0.2.0
+cryptography>=42.0          # ed25519 CRR signing
+pydantic>=2.6
