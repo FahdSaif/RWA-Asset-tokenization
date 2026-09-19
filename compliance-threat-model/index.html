@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runtime-Enforced Compliance — Threat Model Walkthrough</title>
+<style>
+  :root{
+    --bg:#0D1219;
+    --panel:#161C27;
+    --panel-raised:#1E2733;
+    --line:#2B3646;
+    --line-soft:#233040;
+    --line-strong:#3C4C60;
+    --text:#E9E6DD;
+    --text-muted:#8B95A3;
+    --text-dim:#5D6878;
+    --accent:#5FB8B0;
+    --accent-soft:rgba(95,184,176,.14);
+    --risk-low:#4C9A6A;
+    --risk-lowmed:#8CA24A;
+    --risk-med:#D0973D;
+    --risk-medhigh:#C97C3D;
+    --risk-high:#C6503E;
+    --radius:4px;
+    --serif:'Iowan Old Style','Palatino Linotype','Georgia',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:'SF Mono','IBM Plex Mono','JetBrains Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    padding:22px 28px 16px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .kicker{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:26px;
+    margin:0 0 6px;
+    letter-spacing:.2px;
+  }
+  .subtitle{
+    color:var(--text-muted);
+    font-size:13.5px;
+    max-width:560px;
+    margin:0;
+  }
+  .status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-muted);
+    padding:6px 10px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .status .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--text-muted);
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    margin-left:10px;
+  }
+  .reset-btn:hover{border-color:var(--line-strong); color:var(--text);}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{
+    display:flex;
+    gap:6px;
+    padding:14px 28px 0;
+    overflow-x:auto;
+    flex-shrink:0;
+  }
+  nav.tabs button{
+    background:none;
+    border:1px solid transparent;
+    border-bottom:2px solid transparent;
+    color:var(--text-muted);
+    padding:10px 14px;
+    font-size:13.5px;
+    cursor:pointer;
+    white-space:nowrap;
+    border-radius:4px 4px 0 0;
+  }
+  nav.tabs button:hover{color:var(--text);}
+  nav.tabs button.active{
+    color:var(--text);
+    border-bottom:2px solid var(--accent);
+    background:var(--panel);
+  }
+
+  /* ---------- workspace ---------- */
+  .workspace{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 360px;
+    gap:18px;
+    padding:18px 28px;
+    min-height:0;
+  }
+  @media (max-width:900px){
+    .workspace{grid-template-columns:1fr;}
+  }
+
+  #stage{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px;
+    min-height:440px;
+    display:flex;
+    flex-direction:column;
+    overflow:auto;
+  }
+  .legend{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:14px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .legend b{color:var(--text-muted); font-weight:600;}
+
+  aside#panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:18px;
+    overflow-y:auto;
+  }
+  .panel-section{margin-bottom:20px;}
+  .panel-section:last-child{margin-bottom:0;}
+  .panel-title{
+    font-size:11.5px;
+    text-transform:none;
+    color:var(--text-muted);
+    margin:0 0 10px;
+    letter-spacing:.02em;
+  }
+  .empty-hint{
+    color:var(--text-dim);
+    font-size:13px;
+    border:1px dashed var(--line);
+    border-radius:4px;
+    padding:14px;
+  }
+
+  /* adversary chips */
+  .chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{
+    border:1px solid var(--line);
+    background:var(--panel-raised);
+    color:var(--text-muted);
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:5px 9px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .chip:hover{border-color:var(--line-strong); color:var(--text);}
+  .chip.active{
+    border-color:var(--accent);
+    color:var(--text);
+    background:var(--accent-soft);
+  }
+  .adv-detail{
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    padding:10px 12px;
+    background:var(--panel-raised);
+    border-radius:4px;
+    border:1px solid var(--line);
+  }
+  .adv-detail b{color:var(--text); font-weight:600;}
+
+  /* mitigation toggles */
+  .toggle{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .toggle:last-child{border-bottom:none;}
+  .toggle-copy{flex:1;}
+  .toggle-label{font-size:12.5px; color:var(--text); margin-bottom:2px;}
+  .toggle-desc{font-size:11.5px; color:var(--text-dim); line-height:1.35;}
+  .switch{
+    width:34px;height:18px;border-radius:10px;
+    background:var(--line);
+    position:relative;
+    cursor:pointer;
+    flex-shrink:0;
+    margin-top:2px;
+  }
+  .switch.on{background:var(--accent);}
+  .switch::after{
+    content:'';
+    position:absolute; top:2px; left:2px;
+    width:14px;height:14px;border-radius:50%;
+    background:var(--text);
+    transition:left .15s;
+  }
+  .switch.on::after{left:18px; background:#0D1219;}
+  .switch.disabled{opacity:.4; cursor:not-allowed;}
+  .no-fix-note{
+    font-size:11.5px;
+    color:var(--risk-medhigh);
+    background:rgba(201,124,61,.1);
+    border:1px solid rgba(201,124,61,.35);
+    border-radius:4px;
+    padding:8px 10px;
+    margin-top:8px;
+  }
+
+  /* outcome / risk */
+  .outcome-node{
+    font-size:13px;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;}
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:var(--mono); font-size:10.5px;
+    padding:3px 8px; border-radius:3px;
+    border:1px solid var(--line-strong);
+    color:var(--text-muted);
+  }
+  .badge .swatch{width:7px;height:7px;border-radius:50%;}
+  .stride-tags{font-size:12px; color:var(--text-muted); margin-bottom:8px;}
+  .stride-tags b{color:var(--text); font-weight:600;}
+  .flag-warn{
+    font-size:11.5px;
+    color:var(--risk-high);
+    margin-top:4px;
+  }
+
+  /* ---------- module SVG boxes ---------- */
+  svg#archSvg{width:100%; height:auto; flex:1;}
+  .box-rect{
+    fill:var(--panel-raised);
+    stroke:var(--line-strong);
+    stroke-width:1.2;
+    rx:5;
+    transition:stroke .15s, fill .15s;
+  }
+  .box-group{cursor:pointer;}
+  .box-group:hover .box-rect{stroke:var(--accent);}
+  .box-group.walk .box-rect, .box-group.focused .box-rect{
+    stroke:var(--accent);
+    fill:var(--accent-soft);
+  }
+  .box-label{
+    font-family:var(--sans);
+    font-size:12.5px;
+    font-weight:600;
+    fill:var(--text);
+    text-anchor:middle;
+    pointer-events:none;
+  }
+  .box-sub{
+    font-family:var(--sans);
+    font-size:10.5px;
+    fill:var(--text-muted);
+    text-anchor:middle;
+    pointer-events:none;
+  }
+  .edge{stroke:var(--line-strong); stroke-width:1.4; fill:none;}
+  .edge-dashed{stroke:var(--line-strong); stroke-width:1.4; fill:none; stroke-dasharray:5,4;}
+  .edge-label{
+    font-family:var(--mono);
+    font-size:10px;
+    fill:var(--text-dim);
+    text-anchor:middle;
+  }
+  .arrow-head{fill:var(--line-strong);}
+
+  /* ---------- tree (CSS org-chart pattern) ---------- */
+  .tree, .tree ul, .tree li{
+    list-style:none;
+    margin:0; padding:0;
+    position:relative;
+  }
+  .tree{
+    display:flex; justify-content:center;
+    padding-top:6px;
+    min-width:max-content;
+  }
+  .tree ul{
+    display:flex; justify-content:center;
+    padding-top:26px;
+    position:relative;
+  }
+  .tree li{
+    display:flex; flex-direction:column; align-items:center;
+    padding:0 14px;
+    position:relative;
+  }
+  .tree li::before, .tree li::after{
+    content:'';
+    position:absolute; top:0; right:50%;
+    border-top:1px solid var(--line-soft);
+    width:50%; height:26px;
+  }
+  .tree li::after{ right:auto; left:50%; border-left:1px solid var(--line-soft); }
+  .tree li:only-child::before, .tree li:only-child::after{ display:none; }
+  .tree li:only-child{ padding-top:0; }
+  .tree li:first-child::before, .tree li:last-child::after{ border:0 none; }
+  .tree li:last-child::before{ border-right:1px solid var(--line-soft); }
+  .tree li:first-child::after{ }
+  .tree > li{ padding-top:0; }
+  .tree > li::before, .tree > li::after{ display:none; }
+  .tree ul::before{
+    content:'';
+    position:absolute; top:0; left:50%;
+    border-left:1px solid var(--line-soft);
+    width:0; height:26px;
+  }
+
+  .node{
+    display:inline-block;
+    background:var(--panel-raised);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:9px 12px;
+    font-size:12.5px;
+    max-width:210px;
+    text-align:center;
+    cursor:pointer;
+    position:relative;
+    z-index:1;
+    transition:border-color .12s, opacity .12s, background .12s;
+  }
+  .node:hover{border-color:var(--line-strong);}
+  .node.focused{ border-color:var(--accent); background:var(--accent-soft); }
+  .node.walk{ box-shadow:0 0 0 1px var(--accent); border-color:var(--accent); }
+  .node.dimmed{ opacity:.3; }
+  .node.bypassed{ border-style:dashed; opacity:.55; }
+  .node.no-fix{ border-color:var(--risk-medhigh); }
+  .node-label{line-height:1.35;}
+  .adv-tag{
+    display:block; margin-top:5px;
+    font-family:var(--mono); font-size:10px; color:var(--text-dim);
+  }
+  .and-badge{
+    font-family:var(--mono); font-size:10px; letter-spacing:.02em;
+    color:var(--accent); background:var(--accent-soft);
+    border:1px solid var(--accent); border-radius:20px;
+    padding:1px 9px; margin:8px auto 0; width:fit-content;
+  }
+  .no-fix-tag{
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.02em;
+    color:var(--risk-medhigh); border:1px solid var(--risk-medhigh);
+    border-radius:20px; padding:1px 7px; margin-top:5px; display:inline-block;
+  }
+
+  /* ---------- presenter bar ---------- */
+  footer.presenter{
+    border-top:1px solid var(--line);
+    background:var(--panel);
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-shrink:0;
+  }
+  .step-btn{
+    background:var(--panel-raised);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-size:14px;
+    padding:9px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .step-btn:hover:not(:disabled){border-color:var(--accent);}
+  .step-btn:disabled{opacity:.3; cursor:not-allowed;}
+  .step-caption{
+    flex:1;
+    font-size:17px;
+    color:var(--text);
+    text-align:center;
+    line-height:1.4;
+  }
+  .step-count{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+    flex-shrink:0;
+    min-width:52px;
+    text-align:right;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .switch::after, .box-rect, .node{ transition:none !important; }
+  }
+
+  @media (max-width:640px){
+    header{padding:16px 16px 12px;}
+    nav.tabs{padding:10px 16px 0;}
+    .workspace{padding:12px 16px;}
+    .step-caption{font-size:14px;}
+    footer.presenter{padding:12px 14px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div>
+      <div class="kicker">Interactive companion</div>
+      <h1>Runtime-Enforced Compliance Threat Model</h1>
+      <p class="subtitle">Reference architecture, six adversary classes, and three attack trees from the paper — walked through live. Self-contained, works offline.</p>
+    </div>
+    <div style="display:flex; align-items:center;">
+      <div class="status"><span class="dot"></span>Illustrative simulation, not a live system</div>
+      <button class="reset-btn" id="resetBtn" type="button">Reset</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="architecture" class="active">Reference architecture</button>
+    <button data-tab="bypass">Attack tree 1 — Bypass validation</button>
+    <button data-tab="deanon">Attack tree 2 — Deanonymisation</button>
+    <button data-tab="crosschain">Attack tree 3 — Cross-chain</button>
+  </nav>
+
+  <div class="workspace">
+    <main id="stage"></main>
+    <aside id="panel"></aside>
+  </div>
+
+  <footer class="presenter">
+    <button class="step-btn" id="prevBtn" type="button">◀ Prev</button>
+    <div class="step-caption" id="stepCaption">Press Next to begin the walkthrough, or click any box or node directly.</div>
+    <button class="step-btn" id="nextBtn" type="button">Next ▶</button>
+    <div class="step-count" id="stepCount"></div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================= DATA ============================= */
+
+  var ADVERSARIES = {
+    Adv1:{name:'Unauthenticated external adversary', desc:'Network-level access to the ledger only. No valid credential; not a recognised governance or issuance participant.'},
+    Adv2:{name:'Authenticated but ineligible participant', desc:'Holds a valid credential, but not the specific attribute a transaction requires (e.g. KYC\u2019d but not accredited).'},
+    Adv3:{name:'Malicious or compromised credential issuer', desc:'An authorised credential source whose issuance process has been subverted.'},
+    Adv4:{name:'Malicious or compromised regulatory-data provider', desc:'A recognised oracle source feeding the Governance Authority, whose data feed has been manipulated.'},
+    Adv5:{name:'Colluding governance quorum subset', desc:'A coalition meeting or exceeding the signing threshold required to authorise a rule update.'},
+    Adv6:{name:'Insider with elevated protocol access', desc:'A core developer or node operator with implementation-level access, but no legitimate governance authority.'}
+  };
+
+  var MODULES = {
+    participant:{ label:'Participant', stride:null, note:'The external actor submitting a transaction together with a compliance credential proof.'},
+    issuer:{ label:'Credential Issuer(s)', stride:null, note:'Trusted source of the credentials participants present \u2014 accreditation, jurisdiction, sanctions clearance.'},
+    oracle:{ label:'Oracle / Regulatory Data Feed', stride:['Spoofing','Tampering'], note:'Submission of falsified sanctions-list or jurisdictional data by a compromised or malicious data provider.'},
+    verification:{ label:'Identity & Credential Verification', stride:['Spoofing','Information disclosure'], note:'Presentation of a proof derived from a forged or revoked credential; metadata leakage narrowing the anonymity set of eligible participants.'},
+    governance:{ label:'Governance / Quorum Authority', stride:['Elevation of privilege','Repudiation'], note:'Collusion among a threshold-sufficient subset of quorum members to authorise an unauthorised or premature rule change.'},
+    store:{ label:'Compliance Parameter Store', stride:['Tampering','Elevation of privilege'], note:'Activation of a rule update not properly authorised by the governance quorum, or that encodes an incorrect jurisdictional predicate.'},
+    gateway:{ label:'Compliance Gateway', stride:['Tampering','Denial of service'], note:'Exploitation of a software defect to accept a transaction that should be rejected; resource-exhaustion against the validation pipeline itself.'},
+    trail:{ label:'Compliance Trail', stride:['Repudiation','Tampering'], note:'Retroactive alteration or selective omission of validation records, undermining evidentiary reliance by regulators or courts.'},
+    ledger:{ label:'Ledger State Transition', stride:null, note:'The accept / reject determination the Gateway hands back to the underlying ledger.'}
+  };
+
+  var MITIGATIONS = {
+    M1:{ label:'Protocol-level interception', desc:'The Gateway is the sole path for any state transition on a regulated asset \u2014 no raw-tx or legacy path bypasses it.'},
+    M2:{ label:'Formal verification + gateway audit', desc:'Independent audit / formal verification of the Gateway\u2019s own enforcement logic.'},
+    M3:{ label:'Threshold signatures + challenge period', desc:'FROST-style threshold signing, plus a mandatory delay before an authorised rule change activates.'},
+    M4:{ label:'Expedited emergency rule-activation tier', desc:'A defined, post-hoc-reviewed fast path for urgent regulatory updates.'},
+    M5:{ label:'Issuer allow-list + revocation propagation', desc:'Only recognised issuers are trusted; revocations propagate promptly to the Verification Module.'},
+    M6:{ label:'Coarser Compliance Trail logging', desc:'Log the matched rule class, not the specific sub-rule \u2014 reduces anonymity-set narrowing.'},
+    M7:{ label:'Batched / delayed proof submission', desc:'Reduces the timing signal available for on/off-chain correlation.'},
+    M8:{ label:'Cross-chain compliance-state attestation', desc:'The destination chain re-verifies eligibility under its own rules, instead of trusting the bridged asset state.'},
+    M9:{ label:'Rule-change flagging to bridge relayers', desc:'A pending rule change is flagged to relayers before it takes effect locally, narrowing the propagation-lag window.'}
+  };
+
+  // Values drawn from the paper's Table 2. "unmitigated" values are this
+  // demo's illustrative extrapolation of what the row looks like with the
+  // relevant control switched off \u2014 not a separate figure from the paper.
+  var RISK = {
+    A:    { likelihood:'Low',          impact:'High',   residual:'Low',          unmitigated:'High'},
+    B1:   { likelihood:'Low\u2013Medium',    impact:'High',   residual:'Medium',       unmitigated:'High'},
+    B2:   { likelihood:'Medium',       impact:'Medium', residual:'Low\u2013Medium',    unmitigated:'Medium\u2013High'},
+    C1:   { likelihood:'Low\u2013Medium',    impact:'High',   residual:'Medium',       unmitigated:'High'},
+    D1D2: { likelihood:'Medium\u2013High',   impact:'Medium', residual:'Medium',       unmitigated:'Medium\u2013High'},
+    D3:   { likelihood:'Low',          impact:'Medium', residual:'Low\u2013Medium',    unmitigated:'Medium'},
+    E1E2: { likelihood:'Medium',       impact:'Medium', residual:'Medium',       unmitigated:'Medium'},
+    E3:   { likelihood:'Medium',       impact:'High',   residual:'Medium\u2013High',   unmitigated:'High'}
+  };
+
+  var STRIDE_FOR_GROUP = {
+    A:'Tampering, Denial of service',
+    B1:'Tampering, Elevation of privilege',
+    B2:'Tampering, Elevation of privilege',
+    C1:'Spoofing',
+    D1D2:'Information disclosure',
+    D3:'Information disclosure',
+    E1E2:'Tampering, Elevation of privilege (emergent \u2014 spans two chain instances)',
+    E3:'Spoofing, Tampering'
+  };
+
+  var TREES = {
+    bypass:{
+      title:'Attack tree 1 \u2014 bypass compliance validation',
+      root:{ id:'goal', label:'Finalise a non-compliant asset transfer', children:[
+        { id:'A', label:'A. Submit transaction outside the validation path', children:[
+          { id:'A1', label:'A1. Raw / node-level transaction \u2014 no validation hook', riskGroup:'A', adversary:'Adv1', mitigations:['M1']},
+          { id:'A2', label:'A2. Exploit a Compliance Gateway software bug', riskGroup:'A', adversary:'Adv6', mitigations:['M2']}
+        ]},
+        { id:'B', label:'B. Corrupt the active rule set', children:[
+          { id:'B1', label:'B1. Compromise governance quorum', and:true, riskGroup:'B1', children:[
+            { id:'B1a', label:'B1a. Obtain quorum-member signing keys', adversary:'Adv5', riskGroup:'B1'},
+            { id:'B1b', label:'B1b. Defeat challenge / review window', adversary:'Adv5', riskGroup:'B1', mitigations:['M3'], collapsible:true}
+          ]},
+          { id:'B2', label:'B2. Exploit governance validation-latency window', riskGroup:'B2', adversary:'Adv1', mitigations:['M4']}
+        ]},
+        { id:'C', label:'C. Forge a valid-looking compliance proof', children:[
+          { id:'C1', label:'C1. Use a credential from an unauthorised issuer', riskGroup:'C1', children:[
+            { id:'C1a', label:'C1a. Compromise or impersonate a low-assurance issuer', adversary:'Adv3', riskGroup:'C1', mitigations:['M5']}
+          ]}
+        ]}
+      ]}
+    },
+    deanon:{
+      title:'Attack tree 2 \u2014 deanonymise a participant via metadata correlation',
+      root:{ id:'goal', label:'Link a pseudonymous participant to a real identity', children:[
+        { id:'D1', label:'D1. Correlate on-chain timing / value with off-chain data', riskGroup:'D1D2', adversary:'Adv2', mitigations:['M7']},
+        { id:'D2', label:'D2. Exploit excessive Compliance Trail granularity', riskGroup:'D1D2', adversary:'Adv2', mitigations:['M6']},
+        { id:'D3', label:'D3. Collude with a credential issuer', and:true, riskGroup:'D3', children:[
+          { id:'D3a', label:'D3a. Obtain issuer-side issuance logs', adversary:'Adv3', riskGroup:'D3', mitigations:['M5']},
+          { id:'D3b', label:'D3b. Correlate issuance timestamp with proof submission', adversary:'Adv3', riskGroup:'D3'}
+        ]}
+      ]}
+    },
+    crosschain:{
+      title:'Attack tree 3 \u2014 exploit cross-chain compliance inconsistency',
+      root:{ id:'goal', label:'Destination chain treats the asset as compliant when it should not', children:[
+        { id:'E1', label:'E1. Exploit asynchronous rule propagation between chains', riskGroup:'E1E2', adversary:'Adv2', mitigations:['M9']},
+        { id:'E2', label:'E2. Exploit inconsistent jurisdictional classification', riskGroup:'E1E2', adversary:'Adv2', noFix:true},
+        { id:'E3', label:'E3. Exploit bridge-level identity discontinuity', and:true, riskGroup:'E3', children:[
+          { id:'E3a', label:'E3a. Present a valid credential at the origin chain', adversary:'Adv2', riskGroup:'E3'},
+          { id:'E3b', label:'E3b. Destination Gateway trusts bridged state without re-verifying', adversary:'Adv2', riskGroup:'E3', mitigations:['M8'], collapsible:true}
+        ]}
+      ]}
+    }
+  };
+
+  var WALKS = {
+    architecture:[
+      { highlight:['participant','issuer','verification'], caption:'Every participant proof is checked against credentials issued by a trusted Credential Issuer.' },
+      { highlight:['gateway'], caption:'The Compliance Gateway is the runtime-level enforcement point \u2014 it intercepts every transaction before the ledger finalises it.' },
+      { highlight:['oracle','governance','store'], caption:'The rules the Gateway checks come from the Parameter Store, updated only through the Governance / Quorum Authority \u2014 itself fed by regulatory oracle data.' },
+      { highlight:['trail'], caption:'Every decision, accept or reject, is written to an append-only Compliance Trail for evidentiary purposes.' },
+      { highlight:['governance','store'], caption:'This boundary \u2014 Governance to Parameter Store \u2014 is the one the paper treats as the most consequential in the whole architecture.' }
+    ],
+    bypass:[
+      { highlight:['goal'], caption:'The goal: finalise a transfer that should have been rejected. Three branches lead here \u2014 none require breaking cryptography.' },
+      { highlight:['A','A1','A2'], caption:'Branch A: go around the Gateway entirely \u2014 a raw transaction, or a bug in its own code. Complete mediation closes this by construction.' },
+      { highlight:['B','B1','B2'], caption:'Branch B: instead of the transaction, corrupt the rule it gets checked against.' },
+      { highlight:['B1','B1a','B1b'], caption:'B1 is an AND: the coalition needs the signing keys AND has to get past a review window. Try switching the challenge-period mitigation off.' },
+      { highlight:['C','C1','C1a'], caption:'Branch C: leave the rule alone \u2014 forge a credential from a weak issuer instead.' },
+      { highlight:['B','C'], caption:'Where mitigation stops fully closing a branch, notice what\u2019s left: a human or organisational trust anchor, not a line of code.' }
+    ],
+    deanon:[
+      { highlight:['goal'], caption:'The goal here doesn\u2019t require breaking any zero-knowledge proof \u2014 just linking metadata.' },
+      { highlight:['D1'], caption:'D1: correlate on-chain timing and value with something observed off-chain \u2014 a known deposit, an exchange withdrawal.' },
+      { highlight:['D2'], caption:'D2: if the Compliance Trail logs the exact sub-rule matched rather than a coarse class, that narrows who it could have been.' },
+      { highlight:['D3','D3a','D3b'], caption:'D3 is an AND: issuer collusion needs issuance logs AND a timestamp correlation \u2014 a materially higher bar than D1 or D2.' }
+    ],
+    crosschain:[
+      { highlight:['goal'], caption:'This attack surface only exists once you compose two chain instances across a bridge \u2014 neither instance\u2019s own analysis catches it alone.' },
+      { highlight:['E1'], caption:'E1: race the window between a rule change landing on the origin chain and propagating to the destination.' },
+      { highlight:['E2'], caption:'E2: exploit two chains disagreeing about an asset\u2019s jurisdictional classification. There is no protocol-level fix for this one.' },
+      { highlight:['E3','E3a','E3b'], caption:'E3 is an AND: a valid origin credential, plus a destination Gateway that trusts bridged asset state instead of re-verifying eligibility.' },
+      { highlight:['E2','E3'], caption:'Bridges preserve what an asset is across chains \u2014 not who is eligible to hold it on each side. That gap is the finding.' }
+    ]
+  };
+
+  /* ============================= STATE ============================= */
+
+  var state = {
+    activeTab:'architecture',
+    focused:null,
+    selectedAdversary:null,
+    mitigations:{},
+    walkStep:-1
+  };
+  Object.keys(MITIGATIONS).forEach(function(k){ state.mitigations[k] = true; });
+
+  var NODE_INDEX = {}; // id -> node object, built per tree on demand
+
+  function indexTree(root){
+    NODE_INDEX = {};
+    (function walk(n){
+      NODE_INDEX[n.id] = n;
+      if(n.children){ n.children.forEach(walk); }
+    })(root);
+  }
+
+  function riskColorVar(val){
+    if(val==='Low') return 'var(--risk-low)';
+    if(val==='Low\u2013Medium') return 'var(--risk-lowmed)';
+    if(val==='Medium') return 'var(--risk-med)';
+    if(val==='Medium\u2013High') return 'var(--risk-medhigh)';
+    if(val==='High') return 'var(--risk-high)';
+    return 'var(--text-muted)';
+  }
+
+  /* ============================= RENDER: TABS ============================= */
+
+  var tabsEl = document.getElementById('tabs');
+  tabsEl.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-tab]');
+    if(!btn) return;
+    state.activeTab = btn.getAttribute('data-tab');
+    state.focused = null;
+    state.walkStep = -1;
+    Array.prototype.forEach.call(tabsEl.querySelectorAll('button'), function(b){
+      b.classList.toggle('active', b===btn);
+    });
+    render();
+  });
+
+  /* ============================= RENDER: STAGE ============================= */
+
+  function currentWalkHighlights(){
+    var seq = WALKS[state.activeTab];
+    if(!seq || state.walkStep<0 || state.walkStep>=seq.length) return [];
+    return seq[state.walkStep].highlight;
+  }
+
+  function renderStage(){
+    var stage = document.getElementById('stage');
+    if(state.activeTab==='architecture'){
+      stage.innerHTML = archSvgMarkup();
+      applyArchHighlights();
+      stage.querySelectorAll('.box-group').forEach(function(g){
+        g.addEventListener('click', function(){
+          state.focused = g.getAttribute('data-id');
+          renderPanel();
+          applyArchHighlights();
+        });
+      });
+    } else {
+      var tree = TREES[state.activeTab];
+      indexTree(tree.root);
+      stage.innerHTML =
+        '<div class="legend"><span><b>OR</b> \u2014 any single branch succeeds</span>' +
+        '<span><b>AND</b> \u2014 every child branch required</span>' +
+        '<span><b>Dimmed</b> \u2014 out of reach for the selected adversary</span></div>' +
+        '<ul class="tree">' + renderNode(tree.root) + '</ul>';
+      stage.querySelectorAll('.node').forEach(function(n){
+        n.addEventListener('click', function(){
+          var id = n.getAttribute('data-id');
+          state.focused = id;
+          var node = NODE_INDEX[id];
+          if(node && node.adversary) state.selectedAdversary = node.adversary;
+          render();
+        });
+      });
+    }
+  }
+
+  function renderNode(node){
+    var isFocused = state.focused===node.id;
+    var isWalk = currentWalkHighlights().indexOf(node.id)!==-1;
+    var mitigated = true;
+    if(node.mitigations){
+      mitigated = node.mitigations.every(function(m){ return state.mitigations[m]; });
+    }
+    var bypassed = node.collapsible && node.mitigations && !mitigated;
+    var dimmed = state.selectedAdversary && node.adversary && node.adversary!==state.selectedAdversary;
+    var classes = ['node'];
+    if(isFocused) classes.push('focused');
+    if(isWalk) classes.push('walk');
+    if(dimmed) classes.push('dimmed');
+    if(bypassed) classes.push('bypassed');
+    if(node.noFix) classes.push('no-fix');
+
+    var label = node.label;
+    if(bypassed) label += ' \u2014 auto-satisfied, no safeguard';
+
+    var advTag = node.adversary ? '<span class="adv-tag">'+node.adversary+'</span>' : '';
+    var noFixTag = node.noFix ? '<span class="no-fix-tag">no technical fix</span>' : '';
+
+    var childrenHtml = '';
+    if(node.children && node.children.length){
+      childrenHtml = '<ul>' + node.children.map(renderNode).join('') + '</ul>';
+    }
+    var andBadge = node.and ? '<div class="and-badge">AND</div>' : '';
+
+    return '<li>' +
+      '<div class="'+classes.join(' ')+'" data-id="'+node.id+'">' +
+        '<div class="node-label">'+label+'</div>' + advTag + noFixTag +
+      '</div>' +
+      andBadge +
+      childrenHtml +
+    '</li>';
+  }
+
+  function applyArchHighlights(){
+    var hl = currentWalkHighlights();
+    document.querySelectorAll('#stage .box-group').forEach(function(g){
+      var id = g.getAttribute('data-id');
+      g.classList.toggle('walk', hl.indexOf(id)!==-1);
+      g.classList.toggle('focused', state.focused===id);
+    });
+  }
+
+  /* ---- architecture SVG (Fig. 2 recreation) ---- */
+  function box(id,x,y,w,h,l1,l2){
+    var cx = x+w/2;
+    var ty = l2 ? y+h/2-4 : y+h/2+4;
+    var out = '<g class="box-group" data-id="'+id+'">' +
+      '<rect class="box-rect" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="5"></rect>' +
+      '<text class="box-label" x="'+cx+'" y="'+ty+'">'+l1+'</text>';
+    if(l2){ out += '<text class="box-sub" x="'+cx+'" y="'+(ty+16)+'">'+l2+'</text>'; }
+    out += '</g>';
+    return out;
+  }
+
+  function archSvgMarkup(){
+    var defs = '<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+      '<path class="arrow-head" d="M0,0 L10,5 L0,10 z"></path></marker></defs>';
+
+    var boxes =
+      box('participant',30,30,190,56,'Participant','(tx + credential proof)') +
+      box('issuer',280,20,190,50,'Credential Issuer(s)') +
+      box('oracle',760,20,210,50,'Regulatory Oracle Feed(s)') +
+      box('verification',255,132,230,64,'Identity & Credential','Verification Module') +
+      box('governance',740,132,230,64,'Governance /','Quorum Authority') +
+      box('store',560,244,210,64,'Compliance','Parameter Store') +
+      box('gateway',235,262,290,100,'Compliance Gateway','(runtime enforcement point)') +
+      box('trail',235,414,210,60,'Compliance Trail') +
+      box('ledger',560,414,230,60,'Ledger State Transition','(accept / reject)');
+
+    var edges =
+      '<path class="edge" marker-end="url(#arrow)" d="M220,70 L280,132"></path>' +
+      '<path class="edge" marker-end="url(#arrow)" d="M375,70 L375,132"></path>' +
+      '<path class="edge" marker-end="url(#arrow)" d="M420,196 L400,262"></path>' +
+      '<path class="edge" marker-end="url(#arrow)" d="M560,290 L525,300"></path>' +
+      '<path class="edge" marker-end="url(#arrow)" d="M330,362 L330,414"></path>' +
+      '<path class="edge" marker-end="url(#arrow)" d="M480,362 L600,414"></path>' +
+      '<path class="edge-dashed" marker-end="url(#arrow)" d="M855,70 L855,132"></path>' +
+      '<path class="edge-dashed" marker-end="url(#arrow)" d="M740,180 L700,244"></path>' +
+      '<text class="edge-label" x="740" y="222">governance update path</text>';
+
+    return '<svg id="archSvg" viewBox="0 0 1010 500" xmlns="http://www.w3.org/2000/svg">' + defs + edges + boxes + '</svg>';
+  }
+
+  /* ============================= RENDER: PANEL ============================= */
+
+  function renderPanel(){
+    var panel = document.getElementById('panel');
+    if(state.activeTab==='architecture'){
+      panel.innerHTML = renderArchPanel();
+      return;
+    }
+    var tree = TREES[state.activeTab];
+    indexTree(tree.root);
+
+    var html = '';
+
+    // adversary chips
+    html += '<div class="panel-section"><div class="panel-title">Adversary classes</div><div class="chips">';
+    Object.keys(ADVERSARIES).forEach(function(k){
+      var active = state.selectedAdversary===k ? ' active' : '';
+      html += '<button class="chip'+active+'" data-adv="'+k+'" type="button">'+k+'</button>';
+    });
+    html += '</div>';
+    if(state.selectedAdversary){
+      var a = ADVERSARIES[state.selectedAdversary];
+      html += '<div class="adv-detail"><b>'+state.selectedAdversary+' \u2014 '+a.name+'.</b> '+a.desc+'</div>';
+    }
+    html += '</div>';
+
+    // mitigations relevant to this tree
+    var mitKeys = [];
+    var hasNoFix = false;
+    Object.keys(NODE_INDEX).forEach(function(id){
+      var n = NODE_INDEX[id];
+      if(n.mitigations){ n.mitigations.forEach(function(m){ if(mitKeys.indexOf(m)===-1) mitKeys.push(m); }); }
+      if(n.noFix) hasNoFix = true;
+    });
+    html += '<div class="panel-section"><div class="panel-title">Mitigations</div>';
+    mitKeys.forEach(function(k){
+      var m = MITIGATIONS[k];
+      var on = state.mitigations[k];
+      html += '<div class="toggle"><div class="toggle-copy">' +
+        '<div class="toggle-label">'+m.label+'</div>' +
+        '<div class="toggle-desc">'+m.desc+'</div></div>' +
+        '<div class="switch'+(on?' on':'')+'" data-mit="'+k+'"></div></div>';
+    });
+    if(hasNoFix){
+      html += '<div class="no-fix-note">One branch in this tree (E2) has no protocol-level mitigation \u2014 the paper treats it as a governance / legal-harmonisation problem, not a code problem.</div>';
+    }
+    html += '</div>';
+
+    // outcome for focused node
+    html += '<div class="panel-section"><div class="panel-title">Selected node</div>';
+    var focusedNode = state.focused ? NODE_INDEX[state.focused] : null;
+    if(!focusedNode){
+      html += '<div class="empty-hint">Click a leaf node in the tree, or step through with Next \u25b6, to see its STRIDE category and residual risk.</div>';
+    } else {
+      html += '<div class="outcome-node">'+focusedNode.label+'</div>';
+      if(focusedNode.riskGroup){
+        var g = RISK[focusedNode.riskGroup];
+        var relevantMits = focusedNode.mitigations || [];
+        var mitigatedNow = focusedNode.noFix ? true : relevantMits.every(function(m){ return state.mitigations[m]; });
+        // if this node itself has no mitigations listed, fall back to checking
+        // whether ANY node sharing its riskGroup has an active unmitigated toggle
+        if(relevantMits.length===0 && !focusedNode.noFix){
+          var groupNodes = Object.keys(NODE_INDEX).map(function(id){return NODE_INDEX[id];})
+            .filter(function(n){ return n.riskGroup===focusedNode.riskGroup && n.mitigations; });
+          mitigatedNow = groupNodes.every(function(n){ return n.mitigations.every(function(m){ return state.mitigations[m]; }); });
+          if(groupNodes.length===0) mitigatedNow = true;
+        }
+        var residualVal = mitigatedNow ? g.residual : g.unmitigated;
+        html += '<div class="stride-tags"><b>STRIDE:</b> '+STRIDE_FOR_GROUP[focusedNode.riskGroup]+'</div>';
+        html += '<div class="badges">' +
+          badgeHtml('Likelihood', g.likelihood) +
+          badgeHtml('Impact', g.impact) +
+          badgeHtml('Residual', residualVal) +
+        '</div>';
+        if(!mitigatedNow){
+          html += '<div class="flag-warn">\u26a0 relevant mitigation disabled \u2014 showing the higher-risk, unmitigated reading</div>';
+        }
+        if(focusedNode.noFix){
+          html += '<div class="flag-warn">\u26a0 no technical mitigation exists for this branch (see panel note above)</div>';
+        }
+      } else {
+        html += '<div class="empty-hint">This is a branch or goal node \u2014 select one of its leaf children for a risk reading.</div>';
+      }
+    }
+    html += '</div>';
+
+    panel.innerHTML = html;
+
+    panel.querySelectorAll('[data-adv]').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        var k = chip.getAttribute('data-adv');
+        state.selectedAdversary = (state.selectedAdversary===k) ? null : k;
+        render();
+      });
+    });
+    panel.querySelectorAll('[data-mit]').forEach(function(sw){
+      sw.addEventListener('click', function(){
+        var k = sw.getAttribute('data-mit');
+        state.mitigations[k] = !state.mitigations[k];
+        render();
+      });
+    });
+  }
+
+  function badgeHtml(label,val){
+    return '<span class="badge"><span class="swatch" style="background:'+riskColorVar(val)+'"></span>'+label+': '+val+'</span>';
+  }
+
+  function renderArchPanel(){
+    var html = '<div class="panel-section"><div class="panel-title">Module detail</div>';
+    if(!state.focused || !MODULES[state.focused]){
+      html += '<div class="empty-hint">Click a box in the diagram, or step through with Next \u25b6, to see its STRIDE classification from Table 1.</div>';
+    } else {
+      var m = MODULES[state.focused];
+      html += '<div class="outcome-node">'+m.label+'</div>';
+      if(m.stride){
+        html += '<div class="stride-tags"><b>Dominant STRIDE categories:</b> '+m.stride.join(', ')+'</div>';
+      }
+      html += '<div class="adv-detail">'+m.note+'</div>';
+    }
+    html += '</div>';
+    html += '<div class="panel-section"><div class="panel-title">All modules</div><div class="chips">';
+    Object.keys(MODULES).forEach(function(id){
+      var active = state.focused===id ? ' active' : '';
+      html += '<button class="chip'+active+'" data-mod="'+id+'" type="button">'+MODULES[id].label+'</button>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  /* need delegated listener for module chips, added after panel render */
+  document.getElementById('panel').addEventListener('click', function(e){
+    var chip = e.target.closest('[data-mod]');
+    if(!chip) return;
+    state.focused = chip.getAttribute('data-mod');
+    render();
+  });
+
+  /* ============================= PRESENTER BAR ============================= */
+
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var stepCaption = document.getElementById('stepCaption');
+  var stepCount = document.getElementById('stepCount');
+
+  function renderPresenter(){
+    var seq = WALKS[state.activeTab] || [];
+    var n = seq.length;
+    if(state.walkStep<0){
+      stepCaption.textContent = 'Press Next to begin the walkthrough, or click any box or node directly.';
+      stepCount.textContent = n ? ('0 / '+n) : '';
+    } else {
+      stepCaption.textContent = seq[state.walkStep].caption;
+      stepCount.textContent = (state.walkStep+1)+' / '+n;
+    }
+    prevBtn.disabled = state.walkStep<=-1;
+    nextBtn.disabled = n===0 || state.walkStep>=n-1;
+  }
+
+  prevBtn.addEventListener('click', function(){
+    if(state.walkStep>-1){ state.walkStep--; render(); }
+  });
+  nextBtn.addEventListener('click', function(){
+    var seq = WALKS[state.activeTab] || [];
+    if(state.walkStep<seq.length-1){ state.walkStep++; render(); }
+  });
+  window.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'){ nextBtn.click(); }
+    if(e.key==='ArrowLeft'){ prevBtn.click(); }
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    state.focused = null;
+    state.selectedAdversary = null;
+    state.walkStep = -1;
+    Object.keys(MITIGATIONS).forEach(function(k){ state.mitigations[k] = true; });
+    render();
+  });
+
+  /* ============================= MAIN RENDER ============================= */
+
+  function render(){
+    renderStage();
+    renderPanel();
+    renderPresenter();
+    if(state.activeTab==='architecture'){ applyArchHighlights(); }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
