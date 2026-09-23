@@ -1,0 +1,25 @@
+# Core (required for every layer except the optional on-chain demo)
+numpy==2.4.4
+pandas==3.0.2
+scikit-learn==1.8.0
+shap==0.52.0
+networkx==3.6.1
+cryptography==46.0.6
+tinyec==0.4.0
+pycountry==26.2.16
+joblib==1.5.3
+pydantic==2.13.5
+
+# Testing
+pytest==9.1.1
+
+# Optional: on-chain Runtime Enforcement demo (arca/layer3_runtime/evm_bridge.py)
+# Requires the compiled contract artifacts too — see README "On-chain demo".
+web3==8.0.0
+eth-tester==0.14.0b1
+py-evm==0.12.1b1
+
+# Optional: notebooks
+matplotlib==3.10.8
+jupyter
+nbformat

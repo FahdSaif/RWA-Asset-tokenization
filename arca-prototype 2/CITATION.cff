@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite both the software itself and the
+  accompanying paper.
+title: >-
+  ARCA Prototype: A Reference Implementation of the AI-Assisted Runtime
+  Compliance Architecture for Tokenized Real-World Assets
+type: software
+authors:
+  - family-names: Saifuddin
+    given-names: Fahd
+    affiliation: Griffith University
+    email: fahd.saifuddin@griffithuni.edu.au
+  - family-names: Jadidi
+    given-names: Zahra
+    affiliation: Griffith University
+  - family-names: Muthukkumarasamy
+    given-names: Vallipuram
+    affiliation: Griffith University
+license: MIT
+version: 0.1.0
+date-released: "2026-09-23"
+preferred-citation:
+  type: article
+  title: "AI-Assisted Runtime Compliance Architecture for Tokenized Real-World Assets"
+  authors:
+    - family-names: Saifuddin
+      given-names: Fahd
+    - family-names: Jadidi
+      given-names: Zahra
+    - family-names: Muthukkumarasamy
+      given-names: Vallipuram
+  journal: "IEEE Access"
+  year: 2026
+  notes: >-
+    Update volume/pages/DOI once assigned by IEEE Access; this file is a
+    placeholder generated alongside the reference implementation.

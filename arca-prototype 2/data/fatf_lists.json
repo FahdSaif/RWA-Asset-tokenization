@@ -1,0 +1,41 @@
+{
+  "_provenance": {
+    "source": "FATF Plenary outcomes, 17-19 June 2026",
+    "source_urls": [
+      "https://www.fatf-gafi.org/en/publications/High-risk-and-other-monitored-jurisdictions/increased-monitoring-june-2026.html",
+      "https://www.fatf-gafi.org/en/publications/High-risk-and-other-monitored-jurisdictions/Call-for-action-february-2026.html",
+      "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+    ],
+    "retrieved": "2026-09-23",
+    "note": "FATF reviews these lists at each Plenary (Feb / June / Oct). This is a real, dated snapshot, not a live feed. Re-run scripts/fetch_regulatory_data.py (which points at the URLs above) before using this in anything beyond the demo, and see data/README.md for why this repo does not hardcode a 'live' list."
+  },
+  "high_risk_call_for_action": [
+    {"country": "Iran", "iso2": "IR"},
+    {"country": "North Korea (DPRK)", "iso2": "KP"},
+    {"country": "Myanmar", "iso2": "MM"}
+  ],
+  "increased_monitoring": [
+    {"country": "Angola", "iso2": "AO"},
+    {"country": "Bolivia", "iso2": "BO"},
+    {"country": "Bosnia and Herzegovina", "iso2": "BA"},
+    {"country": "Bulgaria", "iso2": "BG"},
+    {"country": "Cameroon", "iso2": "CM"},
+    {"country": "Cote d'Ivoire", "iso2": "CI"},
+    {"country": "Democratic Republic of the Congo", "iso2": "CD"},
+    {"country": "Haiti", "iso2": "HT"},
+    {"country": "Iraq", "iso2": "IQ"},
+    {"country": "Kenya", "iso2": "KE"},
+    {"country": "Kuwait", "iso2": "KW"},
+    {"country": "Lao PDR", "iso2": "LA"},
+    {"country": "Lebanon", "iso2": "LB"},
+    {"country": "Monaco", "iso2": "MC"},
+    {"country": "Nepal", "iso2": "NP"},
+    {"country": "Papua New Guinea", "iso2": "PG"},
+    {"country": "South Sudan", "iso2": "SS"},
+    {"country": "Syria", "iso2": "SY"},
+    {"country": "Venezuela", "iso2": "VE"},
+    {"country": "Vietnam", "iso2": "VN"},
+    {"country": "Virgin Islands (UK)", "iso2": "VG"},
+    {"country": "Yemen", "iso2": "YE"}
+  ]
+}

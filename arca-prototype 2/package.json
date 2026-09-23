@@ -1,0 +1,12 @@
+{
+  "name": "arca-prototype-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Solidity compilation toolchain for the ARCA prototype's Runtime Enforcement Layer demo contracts.",
+  "scripts": {
+    "compile": "node scripts/compile_contracts.js"
+  },
+  "dependencies": {
+    "solc": "0.8.20"
+  }
+}
