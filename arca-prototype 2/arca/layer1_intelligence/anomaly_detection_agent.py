@@ -136,4 +136,5 @@ class BehaviouralAnomalyDetectionAgent:
             outcome=is_outlier and severity in ("medium", "high"),
             reasoning_trace=reasoning,
             inputs={"did": did, **features},
+            subject_did=did,
         )

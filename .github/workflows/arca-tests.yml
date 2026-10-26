@@ -1,0 +1,54 @@
+# Place this file at:  .github/workflows/arca-tests.yml  (repository ROOT, not inside the prototype folder)
+#
+# Runs the same steps that were replayed locally in a clean virtual environment:
+# pinned dependencies -> compile contracts -> confirm the committed build is up to date
+# -> full test suite -> property-mapping check -> end-to-end demo.
+# The cost benchmark (scripts/benchmark_costs.py) is deliberately NOT run here: it takes
+# about 10 minutes and its timings are only meaningful on a known machine.
+name: arca-tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # If you rename the folder, change this path to match.
+        working-directory: "arca-prototype 2"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: "arca-prototype 2/requirements.txt"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install the pinned Solidity compiler
+        run: npm ci
+
+      - name: Compile contracts and confirm the committed build is up to date
+        run: |
+          before=$(sha256sum arca/layer3_runtime/contracts/build/contracts.json)
+          node scripts/compile_contracts.js
+          after=$(sha256sum arca/layer3_runtime/contracts/build/contracts.json)
+          test "$before" = "$after" || { echo "Committed contracts.json is out of date: re-run node scripts/compile_contracts.js and commit it."; exit 1; }
+
+      - name: Test suite
+        run: python -m pytest tests -q
+
+      - name: Property-mapping consistency check
+        run: python docs/property_mapping_check.py
+
+      - name: End-to-end demo runs
+        run: python -m arca.pipeline.end_to_end_demo > /dev/null

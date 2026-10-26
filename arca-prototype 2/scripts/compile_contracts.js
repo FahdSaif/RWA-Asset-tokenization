@@ -16,7 +16,7 @@ const solc = require("solc");
 const CONTRACTS_DIR = path.join(__dirname, "..", "arca", "layer3_runtime", "contracts");
 const BUILD_DIR = path.join(CONTRACTS_DIR, "build");
 
-const ENTRY_FILES = ["ComplianceRegistry.sol", "ComplianceToken.sol"];
+const ENTRY_FILES = ["ComplianceRegistry.sol", "ComplianceToken.sol", "PlainToken.sol"];
 
 function findImports(importPath) {
   const resolved = path.join(CONTRACTS_DIR, importPath);

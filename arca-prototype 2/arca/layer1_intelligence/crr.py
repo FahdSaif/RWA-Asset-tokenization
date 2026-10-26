@@ -45,6 +45,11 @@ class ComplianceRecommendationRecord:
     reasoning_trace: List[str]      # human-interpretable steps (XAI requirement, Sec. IV-C)
     input_commitment: str           # commit_to_inputs(...) of the evaluated inputs
     timestamp: float
+    # The participant this determination is ABOUT (eligibility, anomaly). Signed
+    # with the rest of the record so the runtime layer can require it to equal
+    # the transaction sender; empty for determinations that are not about one
+    # participant (risk score of a transaction, jurisdiction analysis).
+    subject_did: str = ""
     signature: bytes = dataclasses.field(default=b"", repr=False)
 
     def unsigned_payload(self) -> Dict[str, Any]:
@@ -57,6 +62,7 @@ class ComplianceRecommendationRecord:
             "reasoning_trace": self.reasoning_trace,
             "input_commitment": self.input_commitment,
             "timestamp": self.timestamp,
+            "subject_did": self.subject_did,
         }
 
 
@@ -67,6 +73,7 @@ def issue_crr(
     outcome: Any,
     reasoning_trace: List[str],
     inputs: Dict[str, Any],
+    subject_did: str = "",
 ) -> ComplianceRecommendationRecord:
     crr = ComplianceRecommendationRecord(
         record_id=str(uuid.uuid4()),
@@ -77,6 +84,7 @@ def issue_crr(
         reasoning_trace=reasoning_trace,
         input_commitment=commit_to_inputs(inputs),
         timestamp=time.time(),
+        subject_did=subject_did,
     )
     crr.signature = agent_keypair.sign(_canonical(crr.unsigned_payload()))
     return crr

@@ -99,7 +99,7 @@ class TestThreatClassII_StaleRuleExploitation:
         assert gov.finalize(proposal.proposal_id) is None
         assert gov.is_pending(proposal.proposal_id) is True
 
-        # ACKNOWLEDGED RESIDUAL VULNERABILITY (paper Sec. VI-B / VII.3):
+        # ACKNOWLEDGED RESIDUAL VULNERABILITY (paper Sec. VI-B / VIII-C):
         # identical transaction is still accepted under the stale rule.
         result_during_latency = validator.validate(make_tx("TX-B", 500_000))
         assert result_during_latency.accepted is True
@@ -111,6 +111,12 @@ class TestThreatClassII_StaleRuleExploitation:
 
         result_after = validator.validate(make_tx("TX-C", 500_000))
         assert result_after.accepted is False
+
+
+def _certified_jurisdiction(env, subject_did, allowed=(1, 2, 3), code=1):
+    """Issuer-certified jurisdiction credential + a ZK proof about it."""
+    bundle = env["issuer"].issue_jurisdiction_credential(subject_did, code)
+    return bundle, bundle.prove_in(list(allowed))
 
 
 # ---------------------------------------------------------------------------
@@ -126,12 +132,13 @@ class TestThreatClassIII_FraudulentCredentialPresentation:
         vc = real_issuer.issue(ids["alice"].did, "AccreditedInvestorCredential", {"accredited": True})
         vc.signature = impostor_kp.sign(b"forged")  # attacker cannot produce the real issuer's signature
 
-        from arca.layer2_identity.zkp_module import commit, prove_membership
         allowed = [1, 2, 3]
-        c, r = commit(1)
-        proof = prove_membership(1, r, c, allowed)
+        bundle, proof = _certified_jurisdiction(env, ids["alice"].did, allowed)
 
-        crr = env["eligibility_agent"].evaluate("TX-FORGE", proof, allowed, vc, require_accreditation=True)
+        crr = env["eligibility_agent"].evaluate(
+            "TX-FORGE", proof, allowed, vc, require_accreditation=True,
+            sender_did=ids["alice"].did, jurisdiction_credential=bundle.credential,
+        )
         assert crr.outcome is False
 
     def test_revoked_credential_fails_eligibility(self):
@@ -142,12 +149,13 @@ class TestThreatClassIII_FraudulentCredentialPresentation:
         vc = real_issuer.issue(ids["alice"].did, "AccreditedInvestorCredential", {"accredited": True})
         env["revocation_registry"].revoke(vc.id)
 
-        from arca.layer2_identity.zkp_module import commit, prove_membership
         allowed = [1, 2, 3]
-        c, r = commit(1)
-        proof = prove_membership(1, r, c, allowed)
+        bundle, proof = _certified_jurisdiction(env, ids["alice"].did, allowed)
 
-        crr = env["eligibility_agent"].evaluate("TX-REVOKED", proof, allowed, vc, require_accreditation=True)
+        crr = env["eligibility_agent"].evaluate(
+            "TX-REVOKED", proof, allowed, vc, require_accreditation=True,
+            sender_did=ids["alice"].did, jurisdiction_credential=bundle.credential,
+        )
         assert crr.outcome is False
 
     def test_tampered_crr_outcome_fails_signature_check_and_is_dropped(self):
@@ -161,12 +169,13 @@ class TestThreatClassIII_FraudulentCredentialPresentation:
         assert _finalize_rule_proposal(env, "add", rule) is True
 
         vc = CredentialIssuer(ids["issuer"]).issue(ids["alice"].did, "AccreditedInvestorCredential", {"accredited": True})
-        from arca.layer2_identity.zkp_module import commit, prove_membership
         allowed = [1, 2, 3]
-        c, r = commit(1)
-        proof = prove_membership(1, r, c, allowed)
+        bundle, proof = _certified_jurisdiction(env, ids["alice"].did, allowed)
 
-        crr = env["eligibility_agent"].evaluate("TX-TAMPER", proof, allowed, vc, require_accreditation=True)
+        crr = env["eligibility_agent"].evaluate(
+            "TX-TAMPER", proof, allowed, vc, require_accreditation=True,
+            sender_did=ids["alice"].did, jurisdiction_credential=bundle.credential,
+        )
         assert crr.outcome is True  # legitimately eligible before tampering
 
         crr.outcome = False  # attacker (or a bug) tampers with the record post-issuance

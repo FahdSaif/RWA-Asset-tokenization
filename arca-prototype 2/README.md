@@ -6,10 +6,11 @@ the conceptual architecture proposed in:
 > Saifuddin, F., Jadidi, Z., Muthukkumarasamy, V. *"AI-Assisted Runtime Compliance
 > Architecture for Tokenized Real-World Assets."* IEEE Access (submitted).
 
-The paper is explicit that ARCA is presented as a conceptual architecture, with
-"empirical prototype implementation left to future work" (Sec. III). This repository
-is that next step: a working, tested implementation of all four layers, built to be
-read alongside the paper rather than instead of it. See
+The paper presents ARCA as a conceptual architecture and reports this repository as a
+preliminary reference implementation and automated test suite (Sec. VII). It is a
+working, tested implementation of all four layers, built to be read alongside the paper
+rather than instead of it, and it establishes feasibility at prototype scale only (see
+"Scope and limitations" below). See
 [`docs/PAPER_TO_CODE_MAPPING.md`](docs/PAPER_TO_CODE_MAPPING.md) for a section-by-section
 index into the code.
 
@@ -60,7 +61,7 @@ data/                      # see data/README.md for full provenance
 notebooks/                 # executed, saved-with-output walkthroughs
 scripts/                   # dataset generation, contract compilation, notebook build
 tests/                     # pytest suite, including tests/test_threat_model.py
-docs/                      # paper-to-code mapping + a Table II consistency check
+docs/                      # paper-to-code mapping + a Table 3 consistency check
 ```
 
 ## Setup
@@ -91,13 +92,22 @@ python scripts/generate_synthetic_transactions.py
 # Run the full cross-layer pipeline demo (Sec. V-G), printed step by step
 python -m arca.pipeline.end_to_end_demo
 
-# Run the test suite (48 tests: unit tests per layer + the threat-model suite)
+# Run the test suite (82 tests: unit tests per layer, the threat-model suite, and the
+# trust-check tests for unauthorized recommendations and false jurisdiction claims)
 pytest tests/ -v
 
 # Just the threat-model tests, mapped 1:1 onto paper Sec. VI-B
 pytest tests/test_threat_model.py -v
 
-# Regenerate the property-mapping (Table II) consistency check
+# Just the trust-check tests (agent authorization, issuer-bound jurisdiction proofs)
+pytest tests/test_trust_checks.py -v
+
+# Reproduce the cost measurements (validation latency, governance cost, EVM gas);
+# needs `npm install && node scripts/compile_contracts.js` first. Writes
+# docs/BENCHMARKS.md and docs/benchmark_results.json (about 10 minutes on one core)
+python scripts/benchmark_costs.py
+
+# Regenerate the property-mapping (Table 3) consistency check
 python docs/property_mapping_check.py
 ```
 
@@ -121,15 +131,17 @@ lifecycle:
    enforceable once a governance quorum signs off, at which point the Rule Registry
    applies it. The agent never writes to the active rule set directly.
 3. **Layer 4**: the asset is registered.
-4. **Layer 2**: an issuer signs a Verifiable Credential; the holder generates a
-   zero-knowledge proof that their jurisdiction is on an allow-list, without revealing
-   which one.
+4. **Layer 2**: an authorized issuer signs a credential carrying a commitment to the
+   holder's jurisdiction; the holder generates a zero-knowledge proof, about that
+   issuer-certified commitment, that the jurisdiction is on an allow-list, without
+   revealing which one.
 5. **Layer 1**: the Eligibility, Risk-Scoring, and Anomaly-Detection agents each evaluate
    the transaction independently and issue a signed Compliance Recommendation Record —
    the risk score comes with a real SHAP-based explanation, not just a number.
-6. **Layer 3**: the Transaction Validation Module retrieves the active rules, verifies
-   every ZK proof and CRR signature, evaluates the combined determination, and produces
-   an accept/reject decision.
+6. **Layer 3**: the Transaction Validation Module retrieves the active rules, checks that
+   each CRR is signed by a governance-registered agent approved for that determination
+   type, verifies that the jurisdiction proof is bound to a credential from an authorized
+   issuer, evaluates the combined determination, and produces an accept/reject decision.
 7. **Layer 3**: the outcome — and every prior step — is written to a hash-chained,
    tamper-evident audit log.
 
@@ -146,10 +158,24 @@ one into a runnable demonstration:
   before quorum is reached, and it really does close once quorum completes.
 - **Threat Class III** (Fraudulent Credential Presentation): a forged issuer signature,
   a revoked credential, and a post-issuance-tampered CRR are each independently caught
-  and rejected.
+  and rejected. `tests/test_trust_checks.py` extends this with two further cases found
+  in review: recommendations signed by a key that is not an approved compliance agent
+  (including an approved agent acting outside its role, and a revoked agent), and false
+  jurisdiction claims (a self-chosen commitment, a proof about a different value than
+  the one the issuer certified, an unauthorized or revoked issuer, and a credential
+  issued to someone else), and recommendations about the wrong participant (an eligibility
+  or anomaly CRR must name the transaction's sender, so one party cannot borrow another's
+  clean result).
 - **Threat Class IV** (Oracle Data Manipulation): a single compromised *authorized*
   provider cannot override a majority consensus, and an unauthorized outsider cannot
   manufacture consensus even by submitting multiple reports.
+
+## Cost measurements
+
+`docs/BENCHMARKS.md` reports per-transaction validation latency by stage and by allow-list
+size, governance-operation cost (computational only), and EVM gas for the prototype's
+contracts against an otherwise identical plain token. They are single-machine prototype
+figures, not throughput claims.
 
 ## Scope and limitations
 
@@ -162,10 +188,26 @@ Read this before using any of this beyond reproducing the paper's results:
 - **The ZK proofs are real but not SNARKs.** `zkp_module.py`'s OR-proof genuinely is a
   zero-knowledge proof — the soundness and (computational) zero-knowledge properties
   hold for the Sigma-protocol construction implemented — but it scales O(n) in allow-list
-  size and, as documented in that module, proves knowledge of a self-chosen value in a
-  set rather than proving a signed credential attribute inside a circuit. The paper's
-  own Sec. V-D describes SNARK circuits as the production approach; this prototype
-  approximates that predicate rather than replacing the engineering work of building one.
+  size (see `docs/BENCHMARKS.md`). The proof itself shows only that a committed value is
+  in the allowed set; the link to an issuer is made outside the proof, by requiring that
+  the committed value equal the commitment an authorized issuer signed for the sender
+  (`layer2_identity/jurisdiction_binding.py`). That gives issuer binding without
+  verifying a signature inside a circuit, which the paper's Sec. V-D describes as the
+  production approach and which this prototype does not implement.
+- **Who may sign is governed, but the governance is still a simulation.** Compliance
+  agents and credential issuers are registered, and revoked, by quorum-signed
+  authorizations (`layer3_runtime/role_registry.py`). The Solidity registry is unchanged
+  and still uses a single owner key; the quorum logic exists only in the Python layer.
+  Eligibility and anomaly CRRs name the participant they evaluated (signed into the
+  record) and are ignored unless that participant is the transaction sender. A
+  risk-score CRR describes the transaction rather than one participant, so the
+  prototype relies on the risk agent computing it from network-observed data; the
+  provenance of the features it is given is not verified here.
+- **The on-chain demo shows interface equivalence, not protocol-level enforcement.** The
+  Solidity token checks compliance inside its transfer function, as token-level standards
+  such as ERC-3643 do, so it demonstrates the same mechanism rather than anything
+  stronger. The Python validator is the sole code path in the prototype; it is not a
+  chain runtime or consensus-level hook.
 - **The ML risk model is trained on synthetic data.** See `data/README.md`. Retrain on
   your own institution's data before drawing any conclusion beyond "the architecture
   can carry a real trained model with real explainability."
@@ -173,12 +215,12 @@ Read this before using any of this beyond reproducing the paper's results:
   `data/README.md`), but you still need to refresh it (or wire up
   `arca/layer4_governance/oracle_network.py` to a live source, per
   `scripts/fetch_regulatory_data.py`) before relying on it for anything current.
-- **Table I's comparative analysis is not re-derived here.** This repo doesn't include
+- **Table 2's comparative analysis is not re-derived here.** This repo doesn't include
   working implementations of the four alternative architectures the paper compares
   ARCA against — see `docs/PAPER_TO_CODE_MAPPING.md`, "What this repo does not claim."
 - **Governance latency is a real, acknowledged residual vulnerability**, not something
   this prototype claims to have solved — see the Threat Class II discussion above and
-  in the paper's Sec. VII.3.
+  in the paper's Sec. VIII-C.
 
 ## License
 
