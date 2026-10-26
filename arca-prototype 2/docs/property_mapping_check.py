@@ -1,11 +1,11 @@
 """
-Regenerates the paper's Table II (Sec. VI-C, "Mapping of Recognized
+Regenerates the paper's Table 3 (Sec. VI-C, "Mapping of Recognized
 Compliance System Properties to ARCA Components") as a consistency
 check: for each property, it imports the exact class/function the paper
 claims provides it and confirms it actually exists and is importable.
 This is not a proof the property genuinely holds (that's what the
 threat-model tests are for) — it's a much weaker but still useful check
-that Table II in the paper and the code in this repo have not drifted
+that Table 3 in the paper and the code in this repo have not drifted
 apart from each other.
 
 Run: python docs/property_mapping_check.py

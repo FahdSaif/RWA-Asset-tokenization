@@ -21,9 +21,16 @@ import dataclasses
 import json
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Sequence
 
 from arca.layer2_identity.did_registry import DIDKeyPair, did_to_verify_key
+from arca.layer2_identity.zkp_module import (
+    ORMembershipProof,
+    PedersenCommitment,
+    commit,
+    point_to_hex,
+    prove_membership,
+)
 from cryptography.exceptions import InvalidSignature
 
 
@@ -112,6 +119,47 @@ class CredentialIssuer:
             expiration_date=expiration_date,
             signature=signature,
         )
+
+    def issue_jurisdiction_credential(
+        self,
+        subject_did: str,
+        jurisdiction_code: int,
+        validity_seconds: Optional[float] = None,
+    ) -> JurisdictionCredentialBundle:
+        """Issue a credential certifying the subject's jurisdiction of
+        residence WITHOUT putting the jurisdiction in the credential: the
+        issuer signs a Pedersen commitment to the encoded code. The
+        subject later proves, in zero knowledge, that the committed value
+        is in an allowed set. Because the issuer signed the commitment,
+        the holder cannot substitute a self-chosen value."""
+        commitment, randomness = commit(jurisdiction_code)
+        vc = self.issue(
+            subject_did,
+            JURISDICTION_CREDENTIAL_TYPE,
+            {"jurisdictionCommitment": point_to_hex(commitment.point)},
+            validity_seconds,
+        )
+        return JurisdictionCredentialBundle(vc, commitment, jurisdiction_code, randomness)
+
+
+JURISDICTION_CREDENTIAL_TYPE = "JurisdictionCredential"
+
+
+@dataclasses.dataclass
+class JurisdictionCredentialBundle:
+    """What the holder keeps in their wallet after issuance: the signed
+    credential (which carries only a hiding commitment to the jurisdiction
+    code) plus the private opening needed to prove statements about it."""
+    credential: VerifiableCredential
+    commitment: PedersenCommitment
+    message: int          # encoded jurisdiction code -- private to holder/issuer
+    randomness: int       # commitment blinding factor -- private to holder/issuer
+
+    def prove_in(self, allowed_values: Sequence[int]) -> ORMembershipProof:
+        """Zero-knowledge proof that the CERTIFIED jurisdiction is in the
+        allowed set. Raises if the certified value is not in the set --
+        a holder cannot prove a false statement about a certified value."""
+        return prove_membership(self.message, self.randomness, self.commitment, list(allowed_values))
 
 
 def verify_credential(

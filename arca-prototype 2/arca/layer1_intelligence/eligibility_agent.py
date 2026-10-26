@@ -28,13 +28,21 @@ from arca.layer2_identity.verifiable_credentials import (
     VerifiableCredential,
     verify_credential,
 )
-from arca.layer2_identity.zkp_module import ORMembershipProof, verify_membership
+from arca.layer2_identity.jurisdiction_binding import verify_jurisdiction_binding
+from arca.layer2_identity.zkp_module import ORMembershipProof
+from arca.layer3_runtime.role_registry import ComplianceRoleRegistry
 
 
 class InvestorEligibilityEvaluationAgent:
-    def __init__(self, keypair: DIDKeyPair, revocation_registry: CredentialRevocationRegistry):
+    def __init__(
+        self,
+        keypair: DIDKeyPair,
+        revocation_registry: CredentialRevocationRegistry,
+        role_registry: ComplianceRoleRegistry,
+    ):
         self.keypair = keypair
         self.revocation_registry = revocation_registry
+        self.role_registry = role_registry
 
     def evaluate(
         self,
@@ -43,20 +51,27 @@ class InvestorEligibilityEvaluationAgent:
         allowed_jurisdictions_encoded: Sequence[int],
         accreditation_credential: Optional[VerifiableCredential],
         require_accreditation: bool,
+        *,
+        sender_did: str,
+        jurisdiction_credential: Optional[VerifiableCredential],
     ) -> ComplianceRecommendationRecord:
         reasoning: List[str] = []
         checks_passed = True
 
-        if jurisdiction_proof is None:
-            reasoning.append("No jurisdiction-allowlist ZK proof was submitted.")
-            checks_passed = False
-        else:
-            jurisdiction_ok = verify_membership(jurisdiction_proof, list(allowed_jurisdictions_encoded))
-            reasoning.append(
-                "Jurisdiction-allowlist ZK proof " + ("verified against the current allow-list." if jurisdiction_ok
-                else "FAILED verification against the current allow-list.")
-            )
-            checks_passed = checks_passed and jurisdiction_ok
+        # Jurisdiction: the proof must be about an issuer-certified commitment
+        # held by THIS sender, not merely a value the prover chose.
+        jurisdiction_ok, jurisdiction_reason = verify_jurisdiction_binding(
+            jurisdiction_proof,
+            jurisdiction_credential,
+            sender_did,
+            list(allowed_jurisdictions_encoded),
+            self.revocation_registry,
+            self.role_registry.is_authorized_issuer,
+        )
+        reasoning.append(
+            "Jurisdiction check " + ("passed: " if jurisdiction_ok else "FAILED: ") + jurisdiction_reason + "."
+        )
+        checks_passed = checks_passed and jurisdiction_ok
 
         if require_accreditation:
             if accreditation_credential is None:
@@ -64,12 +79,15 @@ class InvestorEligibilityEvaluationAgent:
                 checks_passed = False
             else:
                 cred_ok = verify_credential(accreditation_credential, self.revocation_registry)
+                issuer_ok = self.role_registry.is_authorized_issuer(accreditation_credential.issuer_did)
+                subject_ok = accreditation_credential.subject_did == sender_did
                 accredited_claim = bool(accreditation_credential.claims.get("accredited", False))
                 reasoning.append(
                     f"Accreditation credential signature/validity check: {'passed' if cred_ok else 'FAILED'}; "
+                    f"issuer authorized: {issuer_ok}; issued to sender: {subject_ok}; "
                     f"claimed accredited={accredited_claim}."
                 )
-                checks_passed = checks_passed and cred_ok and accredited_claim
+                checks_passed = checks_passed and cred_ok and issuer_ok and subject_ok and accredited_claim
         else:
             reasoning.append("Accreditation not required for this asset class / jurisdiction combination.")
 
@@ -82,6 +100,8 @@ class InvestorEligibilityEvaluationAgent:
             inputs={
                 "require_accreditation": require_accreditation,
                 "jurisdiction_proof_present": jurisdiction_proof is not None,
+                "jurisdiction_credential_present": jurisdiction_credential is not None,
                 "accreditation_credential_present": accreditation_credential is not None,
             },
+            subject_did=sender_did,
         )

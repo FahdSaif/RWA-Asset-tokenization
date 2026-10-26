@@ -34,13 +34,17 @@ from arca.layer2_identity.verifiable_credentials import (
     CredentialIssuer,
     CredentialRevocationRegistry,
 )
-from arca.layer2_identity.zkp_module import commit, prove_membership
 from arca.layer3_runtime.audit_log import HashChainLedger
 from arca.layer3_runtime.models import Rule
+from arca.layer3_runtime.role_registry import ComplianceRoleRegistry
 from arca.layer3_runtime.rule_registry import RuleRegistryModule
 from arca.layer3_runtime.transaction_validator import Transaction, TransactionValidationModule
 from arca.layer4_governance.asset_registry import AssetRegistry
-from arca.layer4_governance.governance import GovernanceModule
+from arca.layer4_governance.governance import (
+    ROLE_COMPLIANCE_AGENT,
+    ROLE_CREDENTIAL_ISSUER,
+    GovernanceModule,
+)
 
 
 def build_arca_environment(quorum_threshold: int = 2):
@@ -68,24 +72,27 @@ def build_arca_environment(quorum_threshold: int = 2):
     gov = GovernanceModule(audit_log=audit_log, quorum_threshold=quorum_threshold)
     for key in ("gov_1", "gov_2", "gov_3"):
         gov.add_member(identities[key].did)
-    gov.authorize_issuer(identities["issuer"].did)
     for key in ("oracle_1", "oracle_2", "oracle_3"):
         gov.authorize_oracle_provider(identities[key].did)
 
     governance_member_dids = {identities[k].did for k in ("gov_1", "gov_2", "gov_3")}
     rule_registry = RuleRegistryModule(audit_log=audit_log, registered_governance_members=governance_member_dids)
-    validator = TransactionValidationModule(rule_registry=rule_registry, audit_log=audit_log)
+    role_registry = ComplianceRoleRegistry(audit_log=audit_log, registered_governance_members=governance_member_dids)
+    revocation_registry = CredentialRevocationRegistry()
+    validator = TransactionValidationModule(
+        rule_registry=rule_registry, audit_log=audit_log,
+        role_registry=role_registry, revocation_registry=revocation_registry,
+    )
     asset_registry = AssetRegistry(audit_log=audit_log)
 
-    revocation_registry = CredentialRevocationRegistry()
     issuer = CredentialIssuer(identities["issuer"])
 
     jurisdiction_agent = JurisdictionalRegulatoryAnalysisAgent(identities["jurisdiction_agent"])
-    eligibility_agent = InvestorEligibilityEvaluationAgent(identities["eligibility_agent"], revocation_registry)
+    eligibility_agent = InvestorEligibilityEvaluationAgent(identities["eligibility_agent"], revocation_registry, role_registry)
     risk_agent = TransactionRiskScoringAgent(identities["risk_agent"])
     anomaly_agent = BehaviouralAnomalyDetectionAgent(identities["anomaly_agent"])
 
-    return {
+    env = {
         "audit_log": audit_log,
         "did_registry": did_registry,
         "identities": identities,
@@ -99,7 +106,34 @@ def build_arca_environment(quorum_threshold: int = 2):
         "eligibility_agent": eligibility_agent,
         "risk_agent": risk_agent,
         "anomaly_agent": anomaly_agent,
+        "role_registry": role_registry,
     }
+
+    # Which identities the runtime layer will trust is itself decided by
+    # governance quorum -- nothing is trusted by default. `mallory` is
+    # deliberately never registered.
+    for key, types in (
+        ("jurisdiction_agent", ("jurisdiction_risk", "rule_update")),
+        ("eligibility_agent", ("eligibility",)),
+        ("risk_agent", ("risk_score",)),
+        ("anomaly_agent", ("anomaly",)),
+    ):
+        _finalize_role_change(env, "register", ROLE_COMPLIANCE_AGENT, identities[key].did, types)
+    _finalize_role_change(env, "register", ROLE_CREDENTIAL_ISSUER, identities["issuer"].did)
+    return env
+
+
+def _finalize_role_change(env: dict, action: str, role: str, subject_did: str, allowed_types=()) -> bool:
+    """Helper: proposes a role change, collects full governance consensus,
+    and applies it to the role registry (happy path; tests exercise
+    partial-quorum and forged-authorization scenarios separately)."""
+    gov = env["governance"]
+    proposer = env["identities"]["gov_1"]
+    proposal = gov.propose_role_change(action, role, subject_did, proposer.did, allowed_types)
+    for key in ("gov_1", "gov_2", "gov_3"):
+        gov.cast_vote(proposal.proposal_id, env["identities"][key])
+    auth = gov.finalize(proposal.proposal_id)
+    return env["role_registry"].apply(auth)
 
 
 def _finalize_rule_proposal(env: dict, action: str, rule: Rule) -> bool:
@@ -160,9 +194,15 @@ def run_demo(verbose: bool = True) -> dict:
         asset_type="real_estate", jurisdiction="*", transaction_class="transfer",
         rule_type="max_risk_score", params={"max_score": 0.6},
     )
+    anomaly_rule = Rule(
+        rule_id="block-anomaly-real_estate-transfer",
+        asset_type="real_estate", jurisdiction="*", transaction_class="transfer",
+        rule_type="block_if_anomaly_flagged", params={},
+    )
     _finalize_rule_proposal(env, "add", eligibility_rule)
     _finalize_rule_proposal(env, "add", risk_rule)
-    log(f"Rules '{eligibility_rule.rule_id}' and '{risk_rule.rule_id}' also applied.")
+    _finalize_rule_proposal(env, "add", anomaly_rule)
+    log(f"Rules '{eligibility_rule.rule_id}', '{risk_rule.rule_id}' and '{anomaly_rule.rule_id}' also applied.")
 
     log()
     log("=" * 78)
@@ -184,10 +224,9 @@ def run_demo(verbose: bool = True) -> dict:
     )
     log(f"Issued VC {accreditation_vc.id} to Alice, signed by issuer {accreditation_vc.issuer_did[:24]}...")
 
-    secret_country_code = _encode_iso2("AU")
-    country_commitment, country_randomness = commit(secret_country_code)
-    jurisdiction_proof = prove_membership(secret_country_code, country_randomness, country_commitment, allowed_encoded)
-    log("Generated ZK proof that Alice's jurisdiction is in the allowed set, without revealing which one.")
+    jurisdiction_bundle = env["issuer"].issue_jurisdiction_credential(ids["alice"].did, _encode_iso2("AU"))
+    jurisdiction_proof = jurisdiction_bundle.prove_in(allowed_encoded)
+    log("Generated ZK proof that the issuer-certified jurisdiction is in the allowed set, without revealing which one.")
 
     log()
     log("=" * 78)
@@ -196,7 +235,8 @@ def run_demo(verbose: bool = True) -> dict:
     tx_id = "TX-DEMO-001"
 
     eligibility_crr = env["eligibility_agent"].evaluate(
-        tx_id, jurisdiction_proof, allowed_encoded, accreditation_vc, require_accreditation=True
+        tx_id, jurisdiction_proof, allowed_encoded, accreditation_vc, require_accreditation=True,
+        sender_did=ids["alice"].did, jurisdiction_credential=jurisdiction_bundle.credential,
     )
     log(f"Eligibility CRR: outcome={eligibility_crr.outcome}")
     for line in eligibility_crr.reasoning_trace:
@@ -216,7 +256,7 @@ def run_demo(verbose: bool = True) -> dict:
     graph.add_transaction(ids["bob"].did, ids["alice"].did, amount=100_000, timestamp=0)
     graph.add_transaction(ids["alice"].did, ids["bob"].did, amount=50_000, timestamp=1)
     env["anomaly_agent"].fit(graph)
-    anomaly_crr = env["anomaly_agent"].evaluate(ids["alice"].did, ids["alice"].did, graph)
+    anomaly_crr = env["anomaly_agent"].evaluate(tx_id, ids["alice"].did, graph)
     log(f"Anomaly-detection CRR: outcome (flagged)={anomaly_crr.outcome}")
     for line in anomaly_crr.reasoning_trace:
         log("   -", line)
@@ -234,6 +274,7 @@ def run_demo(verbose: bool = True) -> dict:
         transaction_class="transfer",
         amount=tx_features["amount"],
         jurisdiction_proof=jurisdiction_proof,
+        jurisdiction_credential=jurisdiction_bundle.credential,
         crrs=[eligibility_crr, risk_crr, anomaly_crr],
     )
     result = env["validator"].validate(tx)

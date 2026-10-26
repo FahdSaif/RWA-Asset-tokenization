@@ -46,6 +46,7 @@ def evaluate_predicate(rule: Rule, evidence: Dict[str, Any]) -> RuleEvaluation:
     Supported evidence keys (populated as available):
       - "amount": float
       - "jurisdiction_membership_proof_valid": bool
+      - "jurisdiction_binding_reason": Optional[str]
       - "eligibility_outcome": Optional[bool]
       - "risk_score": Optional[float]
       - "anomaly_flagged": Optional[bool]
@@ -63,7 +64,11 @@ def evaluate_predicate(rule: Rule, evidence: Dict[str, Any]) -> RuleEvaluation:
 
     if rt == "require_jurisdiction_allowlist_proof":
         ok = bool(evidence.get("jurisdiction_membership_proof_valid", False))
-        return RuleEvaluation(rule.rule_id, rt, ok, "ZK jurisdiction-allowlist proof " + ("valid" if ok else "missing/invalid"))
+        reason = evidence.get("jurisdiction_binding_reason")
+        detail = "ZK jurisdiction-allowlist proof " + ("valid" if ok else "missing/invalid")
+        if reason:
+            detail += f" ({reason})"
+        return RuleEvaluation(rule.rule_id, rt, ok, detail)
 
     if rt == "require_eligibility_crr":
         outcome = evidence.get("eligibility_outcome")
@@ -78,9 +83,13 @@ def evaluate_predicate(rule: Rule, evidence: Dict[str, Any]) -> RuleEvaluation:
         return RuleEvaluation(rule.rule_id, rt, ok, f"risk_score={score} vs max={p['max_score']}")
 
     if rt == "block_if_anomaly_flagged":
-        flagged = bool(evidence.get("anomaly_flagged", False))
-        ok = not flagged
-        return RuleEvaluation(rule.rule_id, rt, ok, f"anomaly_flagged={flagged}")
+        flagged = evidence.get("anomaly_flagged")
+        if flagged is None:
+            # Fail closed: a transaction cannot pass an anomaly screen simply
+            # by omitting the anomaly CRR.
+            return RuleEvaluation(rule.rule_id, rt, False, "no anomaly CRR supplied")
+        ok = not bool(flagged)
+        return RuleEvaluation(rule.rule_id, rt, ok, f"anomaly_flagged={bool(flagged)}")
 
     return RuleEvaluation(rule.rule_id, rt, False, f"unknown rule_type '{rt}'")
 

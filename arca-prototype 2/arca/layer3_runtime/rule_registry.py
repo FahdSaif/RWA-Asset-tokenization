@@ -25,6 +25,7 @@ class RuleRegistryModule:
         self.audit_log = audit_log
         self.registered_governance_members = registered_governance_members
         self._rules: Dict[str, Rule] = {}
+        self._applied_proposals: Set[str] = set()
 
     def apply_update(self, auth: GovernanceAuthorization) -> bool:
         """Returns True iff the update was applied. A GovernanceAuthorization
@@ -35,6 +36,15 @@ class RuleRegistryModule:
             self.audit_log.append(
                 "rule_registry.update_rejected",
                 {"proposal_id": auth.proposal_id, "reason": "governance authorization failed re-verification"},
+            )
+            return False
+
+        if auth.proposal_id in self._applied_proposals:
+            # Replay of an already-applied authorization (e.g. re-adding a
+            # rule that was since retired) must not take effect again.
+            self.audit_log.append(
+                "rule_registry.update_rejected",
+                {"proposal_id": auth.proposal_id, "reason": "authorization already applied (replay)"},
             )
             return False
 
@@ -56,6 +66,7 @@ class RuleRegistryModule:
             )
             return False
 
+        self._applied_proposals.add(auth.proposal_id)
         self.audit_log.append(
             "rule_registry.update_applied",
             {

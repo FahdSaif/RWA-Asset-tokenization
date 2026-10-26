@@ -22,7 +22,7 @@ demonstrate the privacy-preserving verification property end to end. It
 is NOT a production zk-SNARK toolchain (the paper's discussion of SNARK
 circuits and their transparent variants describes a much larger
 engineering effort, explicitly left to future implementation work in
-Sec. VII.5). For a production system, the same predicates should be
+Sec. VIII-E). For a production system, the same predicates should be
 compiled to a circuit (e.g. Circom/snarkjs, or a Halo2 circuit) rather
 than the ad-hoc protocol below.
 """
@@ -99,6 +99,12 @@ _H = hash_to_curve_point(b"ARCA-ZKP-Pedersen-H-v1")
 
 def _point_to_bytes(pt: Point) -> bytes:
     return pt.x.to_bytes(32, "big") + pt.y.to_bytes(32, "big")
+
+
+def point_to_hex(pt: Point) -> str:
+    """Canonical hex encoding of a curve point (used to carry a Pedersen
+    commitment inside an issuer-signed credential)."""
+    return _point_to_bytes(pt).hex()
 
 
 def _hash_challenge(*points_and_ints) -> int:
@@ -187,21 +193,16 @@ def prove_membership(
     branch is *simulated* (its transcript is generated backwards from a
     randomly-chosen response, which is indistinguishable from a real one).
 
-    KNOWN SIMPLIFICATION vs. the paper's threat model (Sec. VI-B, Threat
-    Class III): this proves knowledge of *a self-chosen value* that
-    happens to be in the allowed set — it does not, by itself, prove that
-    value was attested by an authorized credential issuer. The paper's
-    fuller design implies the ZKP is generated FROM a verified credential
-    (proof of "I hold a validly-signed credential asserting attribute X",
-    which requires verifying a signature *inside* the circuit — genuine
-    zk-SNARK territory, e.g. a Circom/Halo2 circuit over the issuer's
-    signature scheme). This prototype instead keeps the two checks
-    separate and explicit: `eligibility_agent.py` verifies the ZK
-    membership proof AND, independently, an issuer-signed Verifiable
-    Credential's signature/revocation status — which is real,
-    working issuer-binding, just not fused into a single circuit. Fusing
-    them is exactly the kind of "empirical prototype implementation"
-    work the paper defers to Sec. VII.
+    SCOPE NOTE (paper Sec. VII-F, Threat Class III): on its own this proves
+    that the committed value is in `allowed_values`; it does not prove that
+    the value was attested by an issuer. That link is made OUTSIDE the proof,
+    in `jurisdiction_binding.verify_jurisdiction_binding`: the proof's
+    commitment must equal the commitment an authorized issuer signed for the
+    sender, so the holder cannot choose the value. This gives issuer binding
+    without verifying a signature inside a circuit. Fusing the two into a
+    single succinct argument (e.g. a Circom/Halo2 circuit over the issuer's
+    signature scheme) is the production approach the paper describes and is
+    future work.
     """
     if message not in allowed_values:
         raise ValueError("message is not in allowed_values — cannot prove a false statement")

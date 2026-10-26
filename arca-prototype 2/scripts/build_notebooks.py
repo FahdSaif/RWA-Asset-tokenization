@@ -282,9 +282,10 @@ nb3_cells = [
         "## The on-chain runtime enforcement layer\n\n"
         "If the Solidity contracts have been compiled (`npm install && node "
         "scripts/compile_contracts.js`), the cell below deploys them to a local, "
-        "in-memory EVM and shows the same 'non-bypassable' property at the contract "
-        "level: a transfer to a non-allow-listed address reverts, regardless of how "
-        "the transaction was constructed."
+        "in-memory EVM and shows transfer-hook enforcement at the contract level, "
+        "the same mechanism token-level standards such as ERC-3643 use: a transfer "
+        "to a non-allow-listed address reverts, whichever way the transaction was "
+        "constructed. This demonstrates the interface, not chain-level enforcement."
     ),
     code(
         "build_path = REPO_ROOT / 'arca' / 'layer3_runtime' / 'contracts' / 'build' / 'contracts.json'\n"
@@ -308,9 +309,10 @@ nb3_cells = [
         "## Threat model\n\n"
         "The four scenarios above (and Threat Classes II–IV, which need a dedicated "
         "setup) are formalized as executable tests in `tests/test_threat_model.py`, "
-        "mapped 1:1 onto paper Sec. VI-B. Run them with:\n\n"
+        "mapped 1:1 onto paper Sec. VI-B, with further trust-check tests in "
+        "`tests/test_trust_checks.py`. Run them with:\n\n"
         "```bash\n"
-        "pytest tests/test_threat_model.py -v\n"
+        "pytest tests/test_threat_model.py tests/test_trust_checks.py -v\n"
         "```"
     ),
 ]
