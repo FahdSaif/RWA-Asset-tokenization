@@ -1,0 +1,28 @@
+name: rwa-threatlab CI
+on:
+  push:
+    paths: ["rwa-threatlab/**", ".github/workflows/rwa-threatlab-ci.yml"]
+  pull_request:
+    paths: ["rwa-threatlab/**", ".github/workflows/rwa-threatlab-ci.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rwa-threatlab
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m pytest -q
+      - name: Run scenarios, rubric, model check and research hypotheses
+        run: python -m rwa_threatlab all --out reports
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reports-py${{ matrix.python-version }}
+          path: rwa-threatlab/reports/
