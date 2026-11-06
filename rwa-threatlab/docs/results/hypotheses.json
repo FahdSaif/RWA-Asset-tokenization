@@ -1,0 +1,467 @@
+{
+ "H1": {
+  "statement": "Hardened build, no anchor capability: no violation outside the documented lag windows.",
+  "status": "CONFIRMED",
+  "evidence": "2400 traces x 40 steps: 0 unexplained, 0 adversary-attributed, 3 inside documented lag windows, 0 crashes/trail failures",
+  "data": {
+   "cells": {
+    "none": {
+     "adversary": "none",
+     "traces": 600,
+     "steps": 40,
+     "traces_with_violation": 0,
+     "violations": {
+      "documented-lag": 0,
+      "adversary": 0,
+      "UNEXPLAINED": 0
+     },
+     "adversary_cap_sets": {},
+     "installs": {},
+     "crashes": 0,
+     "trail_integrity_failures": 0,
+     "examples": []
+    },
+    "minority": {
+     "adversary": "minority",
+     "traces": 600,
+     "steps": 40,
+     "traces_with_violation": 1,
+     "violations": {
+      "documented-lag": 1,
+      "adversary": 0,
+      "UNEXPLAINED": 0
+     },
+     "adversary_cap_sets": {},
+     "installs": {},
+     "crashes": 0,
+     "trail_integrity_failures": 0,
+     "examples": []
+    },
+    "feed": {
+     "adversary": "feed",
+     "traces": 600,
+     "steps": 40,
+     "traces_with_violation": 1,
+     "violations": {
+      "documented-lag": 1,
+      "adversary": 0,
+      "UNEXPLAINED": 0
+     },
+     "adversary_cap_sets": {},
+     "installs": {},
+     "crashes": 0,
+     "trail_integrity_failures": 0,
+     "examples": []
+    },
+    "feeds2": {
+     "adversary": "feeds2",
+     "traces": 600,
+     "steps": 40,
+     "traces_with_violation": 1,
+     "violations": {
+      "documented-lag": 1,
+      "adversary": 0,
+      "UNEXPLAINED": 0
+     },
+     "adversary_cap_sets": {},
+     "installs": {},
+     "crashes": 0,
+     "trail_integrity_failures": 0,
+     "examples": []
+    }
+   },
+   "examples": []
+  }
+ },
+ "H1b": {
+  "statement": "Instrument sensitivity: the same fuzzer finds violations in the baseline build.",
+  "status": "CONFIRMED",
+  "evidence": "instrument sensitivity: the baseline build shows 152 violations over 600 traces with no adversary; a fuzzer that finds nothing there would be vacuous",
+  "data": {
+   "campaign": {
+    "adversary": "none",
+    "traces": 600,
+    "steps": 40,
+    "traces_with_violation": 125,
+    "violations": {
+     "documented-lag": 34,
+     "adversary": 0,
+     "UNEXPLAINED": 118
+    },
+    "adversary_cap_sets": {},
+    "installs": {},
+    "crashes": 0,
+    "trail_integrity_failures": 0,
+    "examples": [
+     {
+      "seed": 30001,
+      "violation": {
+       "step": 7,
+       "tick": 18,
+       "chain": "D",
+       "name": "a2",
+       "kind": "UNEXPLAINED",
+       "caps": [],
+       "lag": 8
+      },
+      "actions": [
+       "sanction(k1)",
+       "transfer(O:treasury->a2,stale)",
+       "transfer(D:a2->a2,none)",
+       "bridge(u->a2,fresh)",
+       "revoke(a2)",
+       "transfer(D:treasury->z,stale)",
+       "delist(k1)",
+       "transfer(D:u->a2,stale)"
+      ]
+     },
+     {
+      "seed": 30024,
+      "violation": {
+       "step": 20,
+       "tick": 34,
+       "chain": "D",
+       "name": "a1",
+       "kind": "UNEXPLAINED",
+       "caps": [],
+       "lag": 7
+      },
+      "actions": [
+       "delist(skip)",
+       "delist(skip)",
+       "transfer(D:u->a2,stale)",
+       "bridge(u->x,fresh)",
+       "revoke(x)",
+       "sanction(u)",
+       "revoke(k1)",
+       "transfer(D:a2->u,none)",
+       "bridge(u->z,none)",
+       "transfer(D:treasury->z,foreign)",
+       "transfer(D:u->u,stale)",
+       "transfer(D:a2->z,fresh)",
+       "transfer(D:a1->z,stale)",
+       "bridge(a1->x,fresh)",
+       "transfer(O:treasury->z,fresh)",
+       "revoke(u)",
+       "revoke(a1)",
+       "bridge(a2->u,fresh)",
+       "bridge(u->u,fresh)",
+       "sanction(a2)",
+       "bridge(u->a1,stale)"
+      ]
+     },
+     {
+      "seed": 30025,
+      "violation": {
+       "step": 29,
+       "tick": 58,
+       "chain": "O",
+       "name": "a1",
+       "kind": "UNEXPLAINED",
+       "caps": [],
+       "lag": 8
+      },
+      "actions": [
+       "bridge(a2->a2,stale)",
+       "sanction(a1)",
+       "transfer(O:treasury->a2,fresh)",
+       "bridge(treasury->x,fresh)",
+       "bridge(treasury->z,fresh)",
+       "transfer(D:treasury->u,none)",
+       "transfer(O:a1->x,stale)",
+       "transfer(O:a2->a1,foreign)",
+       "delist(a1)",
+       "bridge(treasury->u,stale)",
+       "transfer(O:a2->u,stale)",
+       "transfer(O:u->x,fresh)",
+       "transfer(O:a1->a1,fresh)",
+       "revoke(a2)",
+       "transfer(D:a1->z,stale)",
+       "delist(skip)",
+       "transfer(O:u->u,fresh)",
+       "bridge(a1->a2,fresh)",
+       "revoke(z)",
+       "transfer(D:a1->a2,none)",
+       "transfer(O:a1->z,none)",
+       "bridge(a1->a1,fresh)",
+       "transfer(O:treasury->u,fresh)",
+       "transfer(D:u->z,fresh)",
+       "delist(skip)",
+       "transfer(O:treasury->a1,none)",
+       "transfer(D:u->z,foreign)",
+       "revoke(a1)",
+       "transfer(D:u->z,fresh)",
+       "transfer(O:treasury->a1,stale)"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "H2": {
+  "statement": "A colluding quorum without censorship cannot corrupt the rule set.",
+  "status": "CONFIRMED",
+  "evidence": "colluding quorum, no censorship: 336/600 traces violate; every violation goes through an installed backdoored upgrade; harmful relaxations: 0; attributed sets {'upgrade': 1049}",
+  "data": {
+   "campaign": {
+    "adversary": "quorum",
+    "traces": 600,
+    "steps": 40,
+    "traces_with_violation": 336,
+    "violations": {
+     "documented-lag": 1,
+     "adversary": 1049,
+     "UNEXPLAINED": 0
+    },
+    "adversary_cap_sets": {
+     "upgrade": 1049
+    },
+    "installs": {
+     "BackdooredGateway": 561
+    },
+    "crashes": 0,
+    "trail_integrity_failures": 0,
+    "examples": []
+   }
+  }
+ },
+ "H2b": {
+  "statement": "The bounded conformance suite stops blatant faulty upgrades but not trigger-based backdoors.",
+  "status": "CONFIRMED",
+  "evidence": "guarded upgrades: permissive builds installed 0, trigger-based backdoored builds installed 561 (bounded conformance tests catch blatant faults, not triggers)",
+  "data": {
+   "installs": {
+    "BackdooredGateway": 561
+   }
+  }
+ },
+ "H3": {
+  "statement": "Censorship of contestation is what opens branch B1.",
+  "status": "CONFIRMED",
+  "evidence": "rule-set corruption via relaxation: 0 without censorship vs 624 with censorship",
+  "data": {
+   "quorum": {
+    "adversary": "quorum",
+    "traces": 600,
+    "steps": 40,
+    "traces_with_violation": 336,
+    "violations": {
+     "documented-lag": 1,
+     "adversary": 1049,
+     "UNEXPLAINED": 0
+    },
+    "adversary_cap_sets": {
+     "upgrade": 1049
+    },
+    "installs": {
+     "BackdooredGateway": 561
+    },
+    "crashes": 0,
+    "trail_integrity_failures": 0,
+    "examples": []
+   },
+   "quorum_censor": {
+    "adversary": "quorum+censor",
+    "traces": 600,
+    "steps": 40,
+    "traces_with_violation": 396,
+    "violations": {
+     "documented-lag": 0,
+     "adversary": 1183,
+     "UNEXPLAINED": 0
+    },
+    "adversary_cap_sets": {
+     "censor+forced+relax": 65,
+     "censor+forced+relax+upgrade": 75,
+     "censor+relax": 58,
+     "censor+relax+upgrade": 426,
+     "censor+upgrade": 226,
+     "upgrade": 333
+    },
+    "installs": {
+     "BackdooredGateway": 565
+    },
+    "crashes": 0,
+    "trail_integrity_failures": 0,
+    "examples": []
+   }
+  }
+ },
+ "H4": {
+  "statement": "A compromised listed issuer defeats every technical mitigation (trust-anchor floor).",
+  "status": "CONFIRMED",
+  "evidence": "compromised listed issuer vs hardened build: 230/600 traces violate, all attributed to ['issuer'] (trust-anchor floor)",
+  "data": {
+   "campaign": {
+    "adversary": "issuer",
+    "traces": 600,
+    "steps": 40,
+    "traces_with_violation": 230,
+    "violations": {
+     "documented-lag": 1,
+     "adversary": 349,
+     "UNEXPLAINED": 0
+    },
+    "adversary_cap_sets": {
+     "issuer": 349
+    },
+    "installs": {},
+    "crashes": 0,
+    "trail_integrity_failures": 0,
+    "examples": []
+   }
+  }
+ },
+ "H5": {
+  "statement": "Cross-instance violations arise from composition with no adversary capability.",
+  "status": "CONFIRMED",
+  "evidence": "composition without adversary capabilities: model check {'I1': False, 'I2': False, 'I3': True, 'I4': False}; implementation E3 baseline attack True, hardened False",
+  "data": {}
+ },
+ "H6": {
+  "statement": "Batching reduces timing linkage only when enough traffic shares an epoch.",
+  "status": "CONFIRMED",
+  "evidence": "timing linkage falls from 53% (1 event/epoch) to 5% (20/epoch); drops below 25% (CI upper bound) from 5 events per epoch",
+  "data": {
+   "sweep": [
+    {
+     "events_per_epoch": 1,
+     "mean": 0.5271666666666667,
+     "lo": 0.5159366452928232,
+     "hi": 0.5383966880405101
+    },
+    {
+     "events_per_epoch": 2,
+     "mean": 0.36291666666666667,
+     "lo": 0.35258871197330416,
+     "hi": 0.37324462136002917
+    },
+    {
+     "events_per_epoch": 3,
+     "mean": 0.27041666666666664,
+     "lo": 0.2602596821359196,
+     "hi": 0.2805736511974137
+    },
+    {
+     "events_per_epoch": 5,
+     "mean": 0.18591666666666667,
+     "lo": 0.1768339791023874,
+     "hi": 0.19499935423094594
+    },
+    {
+     "events_per_epoch": 8,
+     "mean": 0.12116666666666667,
+     "lo": 0.1128809228257583,
+     "hi": 0.12945241050757506
+    },
+    {
+     "events_per_epoch": 10,
+     "mean": 0.09741666666666668,
+     "lo": 0.09079395432175702,
+     "hi": 0.10403937901157634
+    },
+    {
+     "events_per_epoch": 20,
+     "mean": 0.051000000000000004,
+     "lo": 0.04703557931861018,
+     "hi": 0.054964420681389826
+    }
+   ]
+  }
+ },
+ "H7": {
+  "statement": "Logging the matched sub-rule leaks identity information that rule-class logging does not.",
+  "status": "CONFIRMED",
+  "evidence": "sub-rule logging leaks 2.64 bits (worst-5% anonymity set 19); class-level logging leaks 0.00; rejection codes 3 -> 1",
+  "data": {
+   "baseline": {
+    "bits": 2.6370416784498794,
+    "anonymity_set": 79.965,
+    "p5_anonymity_set": 19,
+    "distinct_error_codes": 3
+   },
+   "hardened": {
+    "bits": 0.0,
+    "anonymity_set": 400.0,
+    "p5_anonymity_set": 400,
+    "distinct_error_codes": 1
+   }
+  }
+ },
+ "H8": {
+  "statement": "Blind issuance defeats the credential-id join but not issuer timing correlation.",
+  "status": "CONFIRMED",
+  "evidence": "blind issuance removes the credential-id join but timing remains: issuer links 76% at 1-tick delay and 7% at 60-tick delay",
+  "data": {
+   "sweep": [
+    {
+     "delay_mean": 1,
+     "mean": 0.75625,
+     "lo": 0.7383314650149239,
+     "hi": 0.7741685349850761
+    },
+    {
+     "delay_mean": 5,
+     "mean": 0.38958333333333334,
+     "lo": 0.3704822125968343,
+     "hi": 0.4086844540698324
+    },
+    {
+     "delay_mean": 20,
+     "mean": 0.15083333333333332,
+     "lo": 0.13744858311296915,
+     "hi": 0.1642180835536975
+    },
+    {
+     "delay_mean": 60,
+     "mean": 0.07041666666666666,
+     "lo": 0.06131983125373791,
+     "hi": 0.0795135020795954
+    },
+    {
+     "delay_mean": 200,
+     "mean": 0.030416666666666668,
+     "lo": 0.026217705494093753,
+     "hi": 0.034615627839239584
+    }
+   ]
+  }
+ },
+ "H9": {
+  "statement": "Immediate tightening trades an integrity attack for a bounded availability attack.",
+  "status": "CONFIRMED",
+  "evidence": "false tightening freezes an honest holder (availability attack succeeds) for 50 ticks and is then undone: honest holder u: REJECTED during freeze, OK after expiry",
+  "data": {
+   "metrics": {
+    "freeze_ticks": 50,
+    "restored": true
+   }
+  }
+ },
+ "H10": {
+  "statement": "Rubric ratings are stable under small perturbations.",
+  "status": "DESCRIPTIVE",
+  "evidence": "rubric robustness (not a test): A1/A2 stays in the lowest band in 71% of perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in 76%; mean band shift 0.64",
+  "data": {
+   "sensitivity": {
+    "floor_changes": [
+     [
+      "B1",
+      "Medium",
+      "Low"
+     ]
+    ],
+    "e2_if_class_X": "Med-High",
+    "perturb_total": 130,
+    "perturb_changed": 67,
+    "perturb_two_bands": 2,
+    "trials": 5000,
+    "a1a2_lowest": 0.7118,
+    "a1a2_le2": 0.8246,
+    "anchors_ge3": 0.7582,
+    "mean_shift": 0.6368571428571429,
+    "share_ge2": 0.0978
+   }
+  }
+ }
+}

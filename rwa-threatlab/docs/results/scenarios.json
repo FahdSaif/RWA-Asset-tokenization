@@ -1,0 +1,307 @@
+{
+ "A1": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "raw path reached the balance primitive",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "no raw path to the balance primitive",
+   "metrics": {}
+  }
+ },
+ "A2": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "gateway decision SYSTEM_ORIGIN",
+   "metrics": {
+    "conformance_failures": 2,
+    "found": [
+     "origin spoofing accepted for memo 'SYS:maintenance'",
+     "origin spoofing accepted for memo 'SYS:'"
+    ]
+   }
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "gateway decision NO_PROOF",
+   "metrics": {
+    "conformance_failures": 0,
+    "found": []
+   }
+  }
+ },
+ "A3a": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "decision unmediated",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "decision SANCTIONED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "decision OK",
+   "metrics": {}
+  }
+ },
+ "A3b": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "PermissiveGateway: installed",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "PermissiveGateway: build is not attested | PermissiveGateway: conformance failures: accepts transfer with no proof; accepts proof with wrong claim; accepts sanctioned recipient; origin spoofing accepted for memo 'SYS:maintenance'; origin spoofing accepted for memo 'SYS:'; origin spoofing accepted for memo 'SYSTEM'; origin spoofing accepted for memo 'sys:x'",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "BackdooredGateway: installed",
+   "metrics": {}
+  }
+ },
+ "B1": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "proposal active, contested=0, transfer OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "proposal rejected, contested=1, transfer REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "proposal active, contested=0, transfer OK",
+   "metrics": {}
+  }
+ },
+ "B2": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "proposal pending, transfer to designated z: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "proposal active, transfer to designated z: REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "honest holder u: REJECTED during freeze, OK after expiry",
+   "metrics": {
+    "freeze_ticks": 50,
+    "restored": true
+   }
+  }
+ },
+ "B3": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "flags=[]; proposal active; transfer OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "flags=[]; no proposal: feed consensus equals the active list; transfer REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "flags=['bulk-delisting']; proposal active; transfer OK",
+   "metrics": {}
+  }
+ },
+ "C1a": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "shady-kyc: OK; bank-kyc: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "shady-kyc: REJECTED; bank-kyc: REJECTED",
+   "metrics": {}
+  }
+ },
+ "C1": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "forged credential from listed issuer: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": true,
+   "detail": "forged credential from listed issuer: OK",
+   "metrics": {}
+  }
+ },
+ "C2": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "status age 10 ticks, bound None: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "status age 10 ticks, bound 3: REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "status age 2 ticks, bound 3: OK",
+   "metrics": {}
+  }
+ },
+ "D1": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "observer links 69% (95% CI 68%-71%) of submissions; {'mean_gap': 10.0, 'epoch': None}",
+   "metrics": {
+    "linkage": 0.6944166666666667,
+    "ci": [
+     0.6819251366474007,
+     0.7069081966859326
+    ]
+   }
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "observer links 10% (95% CI 9%-10%) of submissions; {'mean_gap': 10.0, 'epoch': 100}",
+   "metrics": {
+    "linkage": 0.09741666666666668,
+    "ci": [
+     0.09079395432175702,
+     0.10403937901157634
+    ]
+   }
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "observer links 40% (95% CI 39%-41%) of submissions; {'mean_gap': 50.0, 'epoch': 100}",
+   "metrics": {
+    "linkage": 0.39925,
+    "ci": [
+     0.38751961528162754,
+     0.41098038471837245
+    ]
+   }
+  }
+ },
+ "D2": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "mean anonymity set 80/400, worst-5% 19 (2.64 bits leaked); 3 distinct rejection codes",
+   "metrics": {
+    "bits": 2.6370416784498794,
+    "anonymity_set": 79.965,
+    "p5_anonymity_set": 19,
+    "distinct_error_codes": 3
+   }
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "mean anonymity set 400/400, worst-5% 400 (0.00 bits leaked); 1 distinct rejection codes",
+   "metrics": {
+    "bits": 0.0,
+    "anonymity_set": 400.0,
+    "p5_anonymity_set": 400,
+    "distinct_error_codes": 1
+   }
+  }
+ },
+ "D3": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "issuer links 100% of presentations (blind issuance=False, mean presentation delay 1 ticks)",
+   "metrics": {
+    "linkage": 1.0
+   }
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "issuer links 8% of presentations (blind issuance=True, mean presentation delay 60 ticks)",
+   "metrics": {
+    "linkage": 0.075
+   }
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "issuer links 57% of presentations (blind issuance=True, mean presentation delay 1 ticks)",
+   "metrics": {
+    "linkage": 0.575
+   }
+  }
+ },
+ "E1": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "attack at +3 ticks after origin activation: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "attack at +3 ticks after origin activation: REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "attack at +0 ticks after origin activation: OK",
+   "metrics": {}
+  }
+ },
+ "E2": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "transfer to non-accredited x on D: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "transfer to non-accredited x on D: REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "transfer to non-accredited x on D: OK",
+   "metrics": {}
+  }
+ },
+ "E3": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "bridge status: completed (unmediated)",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "bridge status: rejected_destination_refunded (MISSING_CLAIM)",
+   "metrics": {}
+  }
+ },
+ "E4": {
+  "baseline": {
+   "attack_succeeded": true,
+   "detail": "destination status age 10: OK",
+   "metrics": {}
+  },
+  "hardened": {
+   "attack_succeeded": false,
+   "detail": "destination status age 10: REJECTED",
+   "metrics": {}
+  },
+  "residual": {
+   "attack_succeeded": true,
+   "detail": "destination status age 2: OK",
+   "metrics": {}
+  }
+ }
+}

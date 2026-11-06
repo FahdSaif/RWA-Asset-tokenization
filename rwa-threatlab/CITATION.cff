@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper."
+title: "rwa-threatlab: reference implementation and executable threat model for runtime-enforced RWA compliance"
+version: 1.0.0
+authors:
+  - family-names: Saifuddin
+    given-names: Fahd
+license: MIT
+preferred-citation:
+  type: conference-paper
+  title: "A Threat-Modelling Framework for Runtime-Enforced Compliance in Tokenised Real-World Asset Systems"
+  authors:
+    - family-names: Saifuddin
+      given-names: Fahd
+  collection-title: "Symposium on Distributed Ledger Technology (SDLT)"
+  year: 2026

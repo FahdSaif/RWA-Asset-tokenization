@@ -1,0 +1,183 @@
+{
+ "composition": [
+  {
+   "id": "I1",
+   "name": "Instance O alone, user transactions",
+   "violation": false,
+   "trace": null,
+   "states": 3
+  },
+  {
+   "id": "I2",
+   "name": "Instance D alone, user transactions",
+   "violation": false,
+   "trace": null,
+   "states": 3
+  },
+  {
+   "id": "I3",
+   "name": "O and D joined by a baseline bridge",
+   "violation": true,
+   "trace": [
+    "bridge"
+   ],
+   "states": 6
+  },
+  {
+   "id": "I4",
+   "name": "As I3, destination mediates inbound mints",
+   "violation": false,
+   "trace": null,
+   "states": 5
+  }
+ ],
+ "lag": [
+  {
+   "id": "B2",
+   "name": "One instance, eligibility loss, baseline activation",
+   "violation": true,
+   "trace": [
+    "xfer",
+    "law_change",
+    "xfer"
+   ],
+   "states": 10
+  },
+  {
+   "id": "B2m",
+   "name": "As B2, tightening effective immediately",
+   "violation": false,
+   "trace": null,
+   "states": 6
+  },
+  {
+   "id": "E1",
+   "name": "Two instances, immediate tightening at origin only",
+   "violation": true,
+   "trace": [
+    "bridge",
+    "law_change",
+    "xfer"
+   ],
+   "states": 16
+  },
+  {
+   "id": "E1m",
+   "name": "Two instances, atomic cross-instance activation",
+   "violation": false,
+   "trace": null,
+   "states": 10
+  }
+ ],
+ "ladder": [
+  {
+   "id": "L0",
+   "name": "Runtime mediation of user and bridge-inbound paths only",
+   "cuts": [
+    [
+     "admin_force"
+    ],
+    [
+     "upgrade"
+    ],
+    [
+     "gov_collude"
+    ],
+    [
+     "oracle_poison"
+    ],
+    [
+     "issuer_forge"
+    ],
+    [
+     "issuer_unlisted"
+    ]
+   ]
+  },
+  {
+   "id": "L1",
+   "name": "+ privileged operations routed through the Gateway; guarded upgrades",
+   "cuts": [
+    [
+     "gov_collude"
+    ],
+    [
+     "oracle_poison"
+    ],
+    [
+     "issuer_forge"
+    ],
+    [
+     "issuer_unlisted"
+    ]
+   ]
+  },
+  {
+   "id": "L2",
+   "name": "+ issuer allow-list",
+   "cuts": [
+    [
+     "gov_collude"
+    ],
+    [
+     "oracle_poison"
+    ],
+    [
+     "issuer_forge"
+    ]
+   ]
+  },
+  {
+   "id": "L3",
+   "name": "+ challenge window on relaxations",
+   "cuts": [
+    [
+     "oracle_poison"
+    ],
+    [
+     "issuer_forge"
+    ],
+    [
+     "gov_collude",
+     "suppress_contest"
+    ]
+   ]
+  },
+  {
+   "id": "L4",
+   "name": "+ human review before oracle data is ingested",
+   "cuts": [
+    [
+     "issuer_forge"
+    ],
+    [
+     "gov_collude",
+     "suppress_contest"
+    ],
+    [
+     "gov_collude",
+     "oracle_poison"
+    ]
+   ]
+  },
+  {
+   "id": "L5",
+   "name": "+ multi-source oracle cross-validation",
+   "cuts": [
+    [
+     "issuer_forge"
+    ],
+    [
+     "gov_collude",
+     "suppress_contest"
+    ],
+    [
+     "gov_collude",
+     "oracle_poison",
+     "oracle_second_feed"
+    ]
+   ]
+  }
+ ],
+ "faults_singleton_at_all_levels": true
+}

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rwa-threatlab"
+version = "1.0.0"
+description = "Reference implementation and executable threat model for runtime-enforced compliance in tokenised real-world-asset systems"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Fahd Saifuddin" }]
+keywords = ["blockchain", "RWA", "tokenisation", "compliance", "threat modelling", "STRIDE", "attack trees"]
+dependencies = []          # standard library only
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+rwa-threatlab = "rwa_threatlab.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
