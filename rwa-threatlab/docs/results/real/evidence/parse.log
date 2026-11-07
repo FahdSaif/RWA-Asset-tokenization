@@ -1,0 +1,6 @@
+18563 events, 179 renames -> docs/data/ofac_events.csv
+  docs/data/raw/sdnnew19.txt: date blocks 120, headers {'add': 114, 'change': 37, 'remove': 14, 'resulting': 14}, entries 1911, long entries 0
+  docs/data/raw/sdnnew20.txt: date blocks 161, headers {'change': 70, 'resulting': 25, 'add': 135, 'remove': 23}, entries 2166, long entries 0
+  docs/data/raw/sdnnew21.txt: date blocks 151, headers {'change': 64, 'add': 128, 'resulting': 26, 'remove': 33}, entries 2744, long entries 0
+  docs/data/raw/sdnnew22.txt: date blocks 171, headers {'change': 97, 'add': 176, 'remove': 28, 'resulting': 29}, entries 5657, long entries 47
+  docs/data/raw/sdnnew23.txt: date blocks 223, headers {'add': 198, 'change': 70, 'resulting': 29, 'remove': 42}, entries 6085, long entries 0
