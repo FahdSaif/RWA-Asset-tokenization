@@ -11,14 +11,17 @@ This repository is a **research simulation**, not a production compliance runtim
 * **The conformance suite is bounded testing, not formal verification.** It catches blatant faults and the
   origin-spoofing prefix defect, and scenario `A3b` shows a backdoored build that passes it. The paper's M2 calls for
   formal verification of a real Gateway; that is future work.
-* **The model checker is tiny** (at most 34 reachable states per search). It checks that the paper's trees and
+* **The model checker is tiny** (at most 34 reachable states per search in the original model, and a few hundred in the scaled version). It checks that the paper's trees and
   mitigations are mutually consistent in a stated abstraction; it does not verify this code or any deployment.
   `E2` (misclassification) and the privacy branch are outside its reachability semantics.
-* **All data is synthetic** (see `DATA.md`). The generators are realistic in shape (heavy-tailed gaps, Zipf-concentrated
-  jurisdictions) but are not calibrated to any real system; read the boundaries and trends, not the absolute rates.
+* **Most data is synthetic** (see `DATA.md`). The generators are realistic in shape (heavy-tailed gaps, Zipf-concentrated
+  jurisdictions) but are not calibrated to any real system; read the boundaries and trends, not the absolute rates. Only the
+  real-trace experiments H12, H13 and H16 use real data (OFAC change files, order of events only); H14 and H15 were not run.
 * **The fuzzer explores only the action space its author wrote,** and its oracle of truth is the author's model of legal
   eligibility. Its instrument was corrected three times after seeing results (`FINDINGS.md`, section B).
-* **Risk ratings are ordinal** and were scored by one assessor; see the sensitivity analysis and the paper's
+* **Risk ratings are ordinal.** They were first scored by the authors and then by four assessors (`docs/irr/`; agreement is high
+  for some factors and weak for others, see `docs/results/irr.md`). The scope scores of D1 to D3 were revised post-hoc
+  (`docs/RATINGS_REVISION.md`); the original ratings are retained in `risk.py`. See also the sensitivity analysis and the paper's
   Section 6.3.
 * **P7 (state restore / hard fork) is deliberately not mediated** by the Gateway: it is a governance and social-consensus
   matter outside the runtime (paper Table 1).

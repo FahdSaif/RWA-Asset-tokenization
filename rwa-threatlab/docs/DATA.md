@@ -1,8 +1,10 @@
 # Data statement (datasheet)
 
-**All data in this repository is synthetic.** No real participant, credential, transaction, sanction list or regulatory
-record is used, and nothing here claims to be calibrated to a production system. The generators are designed to be
-*plausible and falsifiable*, not to impersonate real data.
+**The scenario worlds, the fuzzer and the privacy generators use only synthetic data.** No real participant, credential or
+transaction appears in them, and nothing here claims to be calibrated to a production system. The generators are designed to be
+*plausible and falsifiable*, not to impersonate real data. The pre-registered real-trace experiments (section "Real traces"
+below) additionally read OFAC's public sanctions-list change files for 2019 to 2023: only the order of add and remove events is
+used, and the compliance layer remains simulated.
 
 | Where | What is generated | Process and parameters | Why this form |
 |---|---|---|---|
