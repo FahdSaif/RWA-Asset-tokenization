@@ -81,6 +81,34 @@ def cuts() -> str | None:
             + NL + "\n\\midrule\n" + body + "\n\\bottomrule\n\\end{tabular}\n\\end{table}\n")
 
 
+def rerate() -> str | None:
+    p = RES / "ratings_revised.json"
+    if not p.exists():
+        return None
+    d = json.loads(p.read_text())
+    rows = []
+    for c in d["comparison"]:
+        if not c["changed"]:
+            continue
+        b, a = c["before"], c["after"]
+        rows.append([f"{c['id']} {c['name']}", f"{b['L']}/{b['I']}", f"{risk.LV[b['res']]} ({b['P']})", f"{a['L']}/{a['I']}", f"{risk.LV[a['res']]} ({a['P']})"])
+    return table("Ratings of the scenarios whose scope score changed, before and after applying one scope rule to all scenarios "
+                 "(post-hoc, after the inter-rater study). L/I: likelihood and impact levels; residual score in parentheses.",
+                 "tab:rerate", ["Scenario", "L/I before", "Residual before", "L/I after", "Residual after"], rows, "lcccc")
+
+
+def irr_table() -> str | None:
+    p = RES / "irr.json"
+    if not p.exists():
+        return None
+    d = json.loads(p.read_text())
+    names = {"F1": "F1 Access", "F2": "F2 Effort", "F3": "F3 Precedent", "G1": "G1 Scope", "G2": "G2 Persistence", "G3": "G3 Legal exposure"}
+    f = lambda x: "n/a" if x is None else f"{x:.2f}"  # noqa: E731
+    rows = [[names[k], f(v["alpha"]), f(v["exact"]), f(v["within_one"])] for k, v in d["per_factor"].items()]
+    return table(f"Inter-rater reliability of the six rubric factors ({len(d['assessors'])} assessors, {d['scenarios']} scenarios).",
+                 "tab:irr", ["Factor", "Krippendorff alpha (ordinal)", "Exact agreement", "Within one level"], rows, "lrrr")
+
+
 def real() -> str | None:
     p = RES / "real" / "real.json"
     if not p.exists():
@@ -99,7 +127,7 @@ def real() -> str | None:
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     made = []
-    for name, fn in (("tab_scaled", scaled), ("tab_floor", floor), ("tab_cuts", cuts), ("tab_h11", h11), ("tab_real", real)):
+    for name, fn in (("tab_scaled", scaled), ("tab_floor", floor), ("tab_cuts", cuts), ("tab_h11", h11), ("tab_real", real), ("tab_rerate", rerate), ("tab_irr", irr_table)):
         tex = fn()
         if tex:
             (OUT / f"{name}.tex").write_text(tex)

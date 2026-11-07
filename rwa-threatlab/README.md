@@ -109,6 +109,12 @@ in the fuzzer and analyses real on-chain timing and bridge latency. Step-by-step
 Design and criteria: [`docs/PREREGISTRATION.md`](docs/PREREGISTRATION.md) addenda A3-A5. LaTeX tables for the paper:
 `python scripts/make_latex.py`. The scaled composition check is `python -m rwa_threatlab scaled`.
 
+## Inter-rater data and ratings revision
+
+The blank scoring pack, anonymised scores of four assessors and the converter are in [`docs/irr/`](docs/irr/README.md). After the
+inter-rater study the scope factor of D1 to D3 was re-scored under one rule (post-hoc; see [`docs/RATINGS_REVISION.md`](docs/RATINGS_REVISION.md)).
+The original ratings in `risk.py` are unchanged.
+
 ## Risk rubric
 
 | ID | Scenario | Node | Adv | L | I | Inherent | Mit. | L_res | Residual |
