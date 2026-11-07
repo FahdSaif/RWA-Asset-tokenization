@@ -1,0 +1,106 @@
+name: rwa-threatlab official run
+
+# Manual trigger only. Runs the pre-registered real-trace experiments (docs/PREREGISTRATION.md, addenda A3-A5) from a
+# fixed tag on a clean GitHub-hosted runner, downloads the OFAC files from the source, and publishes every output to a
+# new branch `official-run-<run id>` (never to main). The run log, the tag and the commit hash are the audit trail.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Pre-registration tag (or commit) to run"
+        required: true
+        default: "v1.3-prereg-real"
+      sections:
+        description: "Sections to run, space separated: ofac timing bridge"
+        required: true
+        default: "ofac"
+
+permissions:
+  contents: write
+
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rwa-threatlab
+    env:
+      REF: ${{ inputs.ref }}
+      SECTIONS: ${{ inputs.sections }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+
+      - name: Tests and freeze check (the run aborts if either fails)
+        run: |
+          python -m pytest -q
+          python scripts/freeze.py check
+
+      - name: Fetch OFAC change files from the source (a file already committed in docs/data/raw is used as is)
+        if: contains(inputs.sections, 'ofac')
+        run: |
+          mkdir -p docs/data/raw
+          for y in 19 20 21 22 23; do
+            f="docs/data/raw/sdnnew$y.txt"
+            if [ ! -s "$f" ]; then
+              curl -fsSL --retry 3 --retry-delay 5 -A "Mozilla/5.0 (academic replication; GitHub Actions)" \
+                   -o "$f" "https://www.treasury.gov/ofac/downloads/sdnnew$y.txt"
+            fi
+          done
+          ls -l docs/data/raw
+          (cd docs/data/raw && sha256sum sdnnew*.txt | tee "$RUNNER_TEMP/SHA256SUMS.txt")
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > "$RUNNER_TEMP/RETRIEVED_AT_UTC.txt"
+
+      - name: Parse the OFAC files (the run aborts on an unrecognised header or an empty result)
+        if: contains(inputs.sections, 'ofac')
+        run: |
+          python -m rwa_threatlab ofac-parse --inputs docs/data/raw/sdnnew19.txt docs/data/raw/sdnnew20.txt \
+            docs/data/raw/sdnnew21.txt docs/data/raw/sdnnew22.txt docs/data/raw/sdnnew23.txt \
+            --out docs/data/ofac_events.csv | tee "$RUNNER_TEMP/parse.log"
+          if grep -q "UNRECOGNISED" "$RUNNER_TEMP/parse.log"; then echo "::error::unrecognised OFAC header: stop and report (parser fixes must be committed and re-tagged before a run)"; exit 1; fi
+          if grep -q "^0 events" "$RUNNER_TEMP/parse.log"; then echo "::error::no events parsed"; exit 1; fi
+
+      - name: Official run
+        run: python -m rwa_threatlab real --only $SECTIONS --out docs/results/real
+
+      - name: Collect evidence
+        run: |
+          mkdir -p docs/results/real/evidence
+          cp "$RUNNER_TEMP"/SHA256SUMS.txt "$RUNNER_TEMP"/RETRIEVED_AT_UTC.txt "$RUNNER_TEMP"/parse.log docs/results/real/evidence/ 2>/dev/null || true
+          {
+            echo "run:      $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "ref:      $REF"
+            echo "commit:   $(git rev-parse HEAD)"
+            echo "sections: $SECTIONS"
+            echo "python:   $(python --version)"
+            echo "date_utc: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > docs/results/real/evidence/RUN.txt
+          cat docs/results/real/evidence/RUN.txt
+          python scripts/make_latex.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: official-run-${{ github.run_id }}
+          path: |
+            rwa-threatlab/docs/results/real
+            rwa-threatlab/docs/latex
+
+      - name: Publish to a results branch (not main)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B="official-run-${GITHUB_RUN_ID}"
+          git checkout -b "$B"
+          for p in docs/results/real docs/latex docs/data/ofac_events.csv docs/data/raw; do [ -e "$p" ] && git add -f "$p"; done
+          git commit -m "Official run ${GITHUB_RUN_ID} of ${REF} (sections: ${SECTIONS})"
+          git push origin "$B"
+          echo "Results are on branch $B"
