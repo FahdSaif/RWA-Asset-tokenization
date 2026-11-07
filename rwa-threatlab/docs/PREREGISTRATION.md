@@ -111,7 +111,9 @@ freeze is intact; a `--force` run is flagged in the output.
 * Source: OFAC's "Archive of changes to the SDN list", text files `sdnnew19.txt`-`sdnnew23.txt`
   (https://ofac.treasury.gov/specially-designated-nationals-list-sdn-list/archive-of-changes-to-the-sdn-list). Window
   2019-01-01 to 2023-12-31. The files are hashed (SHA-256) at run time. PDF-only years (2024-) are not used.
-* Parsing: the layout was checked on a verbatim excerpt of `sdnnew22.txt` (`tests/fixtures/ofac_real_excerpt_2022.txt`); the
+* Parsing: the layout was inspected by reading the opening part of `sdnnew22.txt` (the preamble and the entries of the first weeks of
+  2022) while the parser was designed; a short verbatim excerpt of it is kept as a test fixture (`tests/fixtures/ofac_real_excerpt_2022.txt`).
+  No analysis of the OFAC data has been run. The pipeline was also exercised end to end on invented format fixtures (not real data) to test the code; its output is not a result. The
   other years are checked by the parser's diagnostics (`ofac-parse` prints unrecognised headers and over-long entries). Parser
   corrections made before any H12 run are allowed and committed; none after.
 * Events: every "added" and "removed" entry (individuals, entities, vessels, aircraft; alias rows count as entries). "Changed"
@@ -157,7 +159,7 @@ workflow** (`.github/workflows/rwa-threatlab-official-run.yml`) from the tag `v1
 5. publish outputs, the raw files and an evidence folder (run URL, commit, hashes, parse log) to a new branch
    `official-run-<run id>`, never to main, and as a workflow artifact.
 
-**Independent replication.** The same command is re-run in a second, separate environment (a separate environment used within the research effort)
+**Replication in a separate environment.** The same command is re-run in a second, separate environment used within the research effort
 from the committed raw files and the same tag, and `real.json` is compared field by field excluding the provenance fields
 (Python build, CI run link, timestamps). Agreement or any difference is reported. The replication does not count as a
 second sample (the computation is deterministic); it checks that the result does not depend on the machine.
@@ -182,7 +184,7 @@ independent third-party replication; a third party re-running the workflow on th
 | Date | Change | Reason | Frozen files touched | Seed range consumed |
 |---|---|---|---|---|
 | (pre-run) | `traces/timing.py`, `traces/bridge.py`, `hypotheses_real.py`: CSV column names configurable via `datasets.json`; naive timestamps read as UTC; provenance records raw-file hashes and the CI run link; official-run workflow added | needed to run without a local environment and to accept explorer exports with their own headers; made before any real data were run | traces/timing.py, traces/bridge.py, hypotheses_real.py, tests/test_real_traces.py | none |
-| (A3-A5) | real-trace code and design fixed before any real data is run | the OFAC archive format was inspected (only a verbatim excerpt of 2022) while designing the parser | none (additive files only) | none |
+| (A3-A5) | real-trace code and design fixed before any real data is run | the opening part of `sdnnew22.txt` (preamble and early-2022 entries) was read while designing the parser; the pipeline was dry-run only on invented format fixtures | none (additive files only) | none |
 | (A2) | H11 refined into H11a/H11b before any run on its reserved seeds | the paper's definition leaves two conventions open (spec section 5); exploratory seeds showed they matter | none (additive files only) | none |
 | (v1.1) | `hypotheses.py` H10 uses 20,000 trials instead of 5,000 | the paper reports 72% from 20,000 trials; the code printed 71% | hypotheses.py, docs/results | none (H10 is descriptive and uses its own seed 2026) |
 
