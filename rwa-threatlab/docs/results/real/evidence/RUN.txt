@@ -1,0 +1,6 @@
+run:      https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42384866284
+ref:      v1.3-prereg-real
+commit:   20dd2d74cf6d38a8b16221916ccaac8af573dc2e
+sections: ofac
+python:   Python 3.12.16
+date_utc: 2026-11-07T15:09:34Z
