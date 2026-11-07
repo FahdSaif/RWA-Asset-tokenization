@@ -82,3 +82,24 @@ def markdown_table(rows=None) -> str:
         out.append(f"| {r['id']} | {r['name']} | {r['node']} | {r['adv']} | {r['L']} | {r['I']} | "
                    f"{LV[r['pre']]} | {r['mit']} | {r['Lr']} | **{LV[r['res']]}** |")
     return "\n".join(out)
+
+
+def ranking(floor: bool = True) -> list[tuple[str, int, int]]:
+    """Scenarios ordered by residual risk: (id, residual band 1-5, residual score L_res x I), highest first.
+    Used to show how much of the paper's ranking depends on the trust-anchor floor (floor=False removes it)."""
+    rows = []
+    for sid, name, node, adv, fadv, F, G, mit in S:
+        r = rate(F, G, mit, fadv, floor=floor)
+        rows.append((sid, r["res"], r["P"]))
+    return sorted(rows, key=lambda x: (-x[1], -x[2], x[0]))
+
+
+def floor_dependence() -> dict:
+    """Which conclusions survive without the trust-anchor floor? Compares both rankings."""
+    with_f, without = ranking(True), ranking(False)
+    pos = lambda rk: {sid: i for i, (sid, _, _) in enumerate(rk)}  # noqa: E731
+    pw, po = pos(with_f), pos(without)
+    return dict(with_floor=with_f, without_floor=without,
+                band_changes=[(a[0], LV[a[1]], LV[b[1]]) for a, b in
+                              zip(sorted(with_f), sorted(without)) if a[1] != b[1]],
+                rank_shift={k: po[k] - pw[k] for k in pw if po[k] != pw[k]})

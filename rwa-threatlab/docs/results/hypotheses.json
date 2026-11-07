@@ -441,7 +441,7 @@
  "H10": {
   "statement": "Rubric ratings are stable under small perturbations.",
   "status": "DESCRIPTIVE",
-  "evidence": "rubric robustness (not a test): A1/A2 stays in the lowest band in 71% of perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in 76%; mean band shift 0.64",
+  "evidence": "rubric robustness (not a test): A1/A2 stays in the lowest band in 72% of perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in 76%; mean band shift 0.64",
   "data": {
    "sensitivity": {
     "floor_changes": [
@@ -455,12 +455,12 @@
     "perturb_total": 130,
     "perturb_changed": 67,
     "perturb_two_bands": 2,
-    "trials": 5000,
-    "a1a2_lowest": 0.7118,
-    "a1a2_le2": 0.8246,
-    "anchors_ge3": 0.7582,
-    "mean_shift": 0.6368571428571429,
-    "share_ge2": 0.0978
+    "trials": 20000,
+    "a1a2_lowest": 0.7152,
+    "a1a2_le2": 0.8279,
+    "anchors_ge3": 0.76465,
+    "mean_shift": 0.6381035714285714,
+    "share_ge2": 0.09943214285714286
    }
   }
  }

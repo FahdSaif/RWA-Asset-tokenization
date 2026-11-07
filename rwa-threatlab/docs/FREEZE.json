@@ -1,0 +1,111 @@
+{
+ "created": "2026-11-07",
+ "files": {
+  "docs/ORACLE_SPEC.md": "172d540fb309813c144599cddf4fce3c6405663e02d42a6a03cb3449e51b1257",
+  "src/rwa_threatlab/attacks.py": "855031ac8e9d084eaf8de258f4c86ef922b75b40ee52fdd4a849998ef599ed6e",
+  "src/rwa_threatlab/bridge.py": "b766700d20e37484ff40a2a569469a7c104fee8b34411788511e6b66ef942120",
+  "src/rwa_threatlab/config.py": "4588eae7670f64f9e778805efa9cc0babf39374d72cee4723e9bfad4f9f4531a",
+  "src/rwa_threatlab/credentials.py": "6c5cbb49de7d252ed4d03828ceca646f37155c93cd452242ee3447126e8e259a",
+  "src/rwa_threatlab/crypto.py": "34c730a7515ab2cd9767bdd5d0a4c2bb18c54e9afe8fd622f00840e0427a2f7e",
+  "src/rwa_threatlab/fuzz.py": "530261fb83bc29273baa22f694a3dd825faa7f79454105154cb4511ae2f02a27",
+  "src/rwa_threatlab/fuzz_observed.py": "7a8ebfd972f910055f219818273b263ae3cd933e4cc5dc9cb3ee63843bef38cc",
+  "src/rwa_threatlab/fuzz_replay.py": "0b59901d0449d5af0782e11a38a7692d059dc7c9d8e2a5a0dac312515419993f",
+  "src/rwa_threatlab/gateway.py": "2d13b20dad4255bedba1b849214e45a6f312620c33d506dc009aeb34bcccbdad",
+  "src/rwa_threatlab/governance.py": "239ca90341f3873dd8d2849782b47c760a597a2564ab907d1609418a48d1db4d",
+  "src/rwa_threatlab/hypotheses.py": "ca2cb4bc1249af94c7d98e678859a801b8ac3cee419fdc4d08b6c5c4b9b1d49d",
+  "src/rwa_threatlab/hypotheses_real.py": "658fedf76ede0be9e2c134a2f90ed3868d6fef80aeb50fc0adf5ad573c32bc6f",
+  "src/rwa_threatlab/hypotheses_v2.py": "0691b9f0ba5c35183c3dcc74c87fc2bcd1906c31c6edb36adff350c62be882a4",
+  "src/rwa_threatlab/irr.py": "5ae0a19b8855d918513cf5c39cb7a6c25fc663fae9f0454e6820ff9eac4c266f",
+  "src/rwa_threatlab/ledger.py": "cfd31b248505d9abb1ce3ecdc5c37edca70556effcc083142aa2edaa54778276",
+  "src/rwa_threatlab/modelcheck.py": "ee75157a8190c50edf628c861d3b7796f29d9e2bceecb3311e68a7ccf3ff3f06",
+  "src/rwa_threatlab/modelcheck_scaled.py": "53e8d2548d990bb7f0c8bd31b05ae0b76fc34ff42d2adfb9204d0910accd5ad2",
+  "src/rwa_threatlab/oracle.py": "be60fcaa67225992623ea80e2c5065afcaa630469e862e8376e67c9811b583c6",
+  "src/rwa_threatlab/oracle_independent.py": "14d4b4ccf015b8275142ea22cb0ee3beb57a1b85634ee682ac6c597dfd4581e4",
+  "src/rwa_threatlab/risk.py": "df919a92859dd23739de579ac282f6726ad54baf506d63b46f320e58dbaf74d4",
+  "src/rwa_threatlab/rules.py": "f2845be4411490b2d004d23d832de28ebd015851897df1f63602df34dcea2f58",
+  "src/rwa_threatlab/scenarios/__init__.py": "8eee98bc274a89f34b45e8c32624e270a8a50f9d3798be903aa0077cfd04d902",
+  "src/rwa_threatlab/scenarios/base.py": "2e05283dcac688dedb42a919864e207146080134da9fb3a11e4b382f0eabb9f2",
+  "src/rwa_threatlab/scenarios/branch_a.py": "2e7df37a439bcf4c49f877edb691e596745c0850e6104f48a6e6966da60aba5b",
+  "src/rwa_threatlab/scenarios/branch_b.py": "4f02f4d52a661113c4f714af091569a788b25a11fac11f812eb0643339cd4337",
+  "src/rwa_threatlab/scenarios/branch_c.py": "e5961c4d98497c227deb7843c1e0174d7e4403ceee5d792e343e4adb78f64146",
+  "src/rwa_threatlab/scenarios/branch_d.py": "19faa9b1a156a1bc7f460622a14d2cdeb72e2e3b0139ae4ea885d7dee392f53c",
+  "src/rwa_threatlab/scenarios/branch_e.py": "c2e339011d02932208e4c4be148154a9f1df445b7856a13ae60ae4dd6c184545",
+  "src/rwa_threatlab/scenarios/privacy.py": "a6a7d314f4d2e0e68e434ae506504beae1094512b4e53b0544e9ecfb233f50d7",
+  "src/rwa_threatlab/system.py": "153c1a61e276f5fbe593e90d36403ce507777a6305e0e394cfc47ecf1f4cf99a",
+  "src/rwa_threatlab/traces/__init__.py": "2bf403a1685b5cc4fd2407767ea0d252ddb3c75a4c049c6cb5354ec0a5708bfc",
+  "src/rwa_threatlab/traces/bridge.py": "1f6f5b2565de164d44dd0ee02c2205d03b079b01d489a2a436580d8984b44e3b",
+  "src/rwa_threatlab/traces/ofac.py": "50d6911503aedb03b53cc7fdc5d0b694d1427cfc75c3ad0010fc016213f1f3c6",
+  "src/rwa_threatlab/traces/timing.py": "3bf8d1dc006b0340f74cd15936397aeef707419ae7bf2ffe2d9c93a393855387",
+  "src/rwa_threatlab/trail.py": "252761f076294e04604ffcc7b1f698cdf82a01c48b612dbe9819785151586129",
+  "src/rwa_threatlab/verifier.py": "dd876e942cd0535a130369ead223679de8c2f37d6d2128749692564de791ae74",
+  "tests/fixtures/ofac_format_fixture.txt": "a249d03622d8025123b23afc868855f7b3acfbee2c1c8b9e7b2a591f5cc7b93f",
+  "tests/fixtures/ofac_real_excerpt_2022.txt": "831f83e16659b9e32a77d8df01f2760e870c7bec86c348bc7e06d0d2ba512223",
+  "tests/test_components.py": "7d264c38788cd537fbea07eea055f8157fbfdc6119464de5bc4d58277eff87cf",
+  "tests/test_instruments.py": "a976af3e06caf6b0c35b909931bd4637c9d60fb0b29a39b65ce757f9768e3785",
+  "tests/test_irr_and_floor.py": "e40fbca0fd7c2d03d3c36e0bc3de8b0ad4a833ceb9a488732b477d92da06139f",
+  "tests/test_modelcheck_scaled.py": "e1d7df4683150d4288d535247bea9f04c3badef38ab7b4c1468db90abc4ee2fe",
+  "tests/test_oracle_independent.py": "f7b78a4a3ddb38ffd946a46adeb96e68af2553d6362f8a4ea01959e9ce655727",
+  "tests/test_real_traces.py": "ff42b47543ebf52b2fc93034fc7f981e1f798cf2b8c8485d8bb42dec6a6e14cf",
+  "tests/test_risk_and_model.py": "8ce9bb203bb3e2d217cca83f49dce112d528abb5c965d11aad0c9095830caff0",
+  "tests/test_scenarios.py": "e5abb48093a95891162b3c936343a7adfac25d772344ccc9ce446e46a2bfb1da"
+ },
+ "history": [
+  {
+   "changed_files": [
+    "docs/ORACLE_SPEC.md",
+    "src/rwa_threatlab/fuzz_observed.py",
+    "src/rwa_threatlab/hypotheses_v2.py",
+    "src/rwa_threatlab/oracle_independent.py",
+    "tests/test_oracle_independent.py"
+   ],
+   "date": "2026-11-07",
+   "superseded_because": "Step 2 (A2): add independent oracle, observer, H11 runner, spec and tests to the frozen set (additive; no existing file changed)",
+   "tree_digest": "ba75c771fe6d77a0983a9e4901329736eb8b8e965a659f868d7b61827392941b"
+  },
+  {
+   "changed_files": [
+    "src/rwa_threatlab/fuzz_replay.py",
+    "src/rwa_threatlab/hypotheses_real.py",
+    "src/rwa_threatlab/traces/__init__.py",
+    "src/rwa_threatlab/traces/bridge.py",
+    "src/rwa_threatlab/traces/ofac.py",
+    "src/rwa_threatlab/traces/timing.py",
+    "tests/fixtures/ofac_format_fixture.txt",
+    "tests/fixtures/ofac_real_excerpt_2022.txt",
+    "tests/test_real_traces.py"
+   ],
+   "date": "2026-11-07",
+   "superseded_because": "Steps 3-5: add real-trace modules (traces/, fuzz_replay, hypotheses_real), fixtures and tests to the frozen set; additive, no existing frozen file changed",
+   "tree_digest": "7447770477d9f191dd7722856eab52f4f68469131c41d0492018860d2d8b50ec"
+  },
+  {
+   "changed_files": [
+    "src/rwa_threatlab/hypotheses_real.py",
+    "src/rwa_threatlab/traces/bridge.py",
+    "src/rwa_threatlab/traces/timing.py",
+    "tests/test_real_traces.py"
+   ],
+   "date": "2026-11-07",
+   "superseded_because": "pre-run: configurable CSV columns, UTC for naive timestamps, provenance (raw hashes, CI run link); logged in PREREGISTRATION section 6; no real data run yet",
+   "tree_digest": "280e277016138b7053cd181e45d8655df4a3d45e85ca2877830d2c990aeccab9"
+  },
+  {
+   "changed_files": [
+    "tests/test_real_traces.py"
+   ],
+   "date": "2026-11-07",
+   "superseded_because": "pre-run: add compare_runs test to test_real_traces.py (frozen test file); no real data run yet",
+   "tree_digest": "ae2a58f986176abef14fe90141dfdbafe51dee50b4ce67d24b3aed5b8c68261e"
+  }
+ ],
+ "python": "3.12.3",
+ "reason": "pre-run: add compare_runs test to test_real_traces.py (frozen test file); no real data run yet",
+ "reference_outputs": {
+  "docs/results/hypotheses.json": "8147bb2716758cfadf3cd1a19619c6ed0979e7d9105eae18edfe84c63c5f467d",
+  "docs/results/modelcheck.json": "dc30bdf4c69eba7a410af765e6e4af9ce00499c13ca45526ad78067d31e145c1",
+  "docs/results/risk.md": "6e0f1b872097e115b365b9723c96109cb9d882c1c22e617cfb80ec518a136881",
+  "docs/results/scenarios.json": "7876158dba02b7ba49f1cd97215f4a90800d907893c55f86aec27ab30ba34e64",
+  "docs/results/sensitivity.json": "5b968e14a7558441fb263576911b145f9457e50ce0147a0635bc8f9cd7093c6c"
+ },
+ "tree_digest": "1165be04d0c1043a3d99010959ffdf268214dc9c9e7f9a5b26e57dbbebc07f39"
+}

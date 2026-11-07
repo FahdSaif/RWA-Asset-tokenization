@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering\small
+\caption{H11a: independent oracle versus the fuzzer's oracle on the reserved seeds.}
+\label{tab:h11}
+\begin{tabular}{lrrr}
+\toprule
+Cell & Traces & Violations compared & Disagreements \\
+\midrule
+baseline/none & 600 & 186 & 0 \\
+hardened/none & 600 & 5 & 0 \\
+hardened/minority & 600 & 1 & 0 \\
+hardened/feed & 600 & 1 & 0 \\
+hardened/feeds2 & 600 & 1 & 0 \\
+hardened/quorum & 600 & 1070 & 0 \\
+hardened/quorum+censor & 600 & 1181 & 0 \\
+hardened/issuer & 600 & 379 & 0 \\
+total &  & 2824 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering\small
+\caption{H11b: sensitivity of the lag classification to the two readings of the definition (measurement tick/age origin).}
+\label{tab:h11b}
+\begin{tabular}{lrrrr}
+\toprule
+Convention & Within lag & Flip to within & Flip to beyond & H1 unexplained \\
+\midrule
+end/earliest & 84/2824 & 0 & 0 & 0 \\
+end/continuous & 84/2824 & 0 & 0 & 0 \\
+action/earliest & 115/2824 & 31 & 0 & 0 \\
+action/continuous & 115/2824 & 31 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}

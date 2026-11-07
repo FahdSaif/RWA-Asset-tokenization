@@ -30,3 +30,18 @@ checked against published government lists. If you run real data, report it as a
 with the synthetic results.
 
 **Personal data.** None. Participant names are labels (`u`, `x`, `z`, `p17`).
+
+## Real traces (journal extension)
+
+Pre-registered in `docs/PREREGISTRATION.md` (addenda A3-A5) and run with `docs/REAL_DATA_RUNBOOK.md`. Real data enter in three
+places only; the compliance layer stays simulated.
+
+| Experiment | Real input | What is used | What stays synthetic |
+|---|---|---|---|
+| H12-H13, H16 | OFAC `sdnnew19.txt`-`sdnnew23.txt` (public US Government text) | order and add/remove/re-add structure of real list entries | time gaps (compressed), revocations, participants, credentials |
+| H14 | one on-chain activity series (declared in `datasets.json`) | inter-arrival shape (burstiness), rescaled to mean 10 ticks | reaction delay, batching rule, the off-chain event pairing |
+| H15 | one bridge route (declared) | latency distribution (descriptive) | nothing is simulated |
+
+No personal data are used or inferred; entries are keyed by name only to track add/remove history, and only aggregate counts
+are reported. Check each source's terms before redistributing a dataset. Test fixtures (`tests/fixtures/`) are format
+fixtures: one is invented, one is a short verbatim excerpt of the 2022 OFAC change file; neither produces a reported result.

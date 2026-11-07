@@ -155,7 +155,7 @@ def h9() -> Result:
 
 
 def h10() -> Result:
-    s = risk.sensitivity(trials=5000)
+    s = risk.sensitivity(trials=20000)   # same trial count as the paper's Section 4.4 so the figures agree
     return Result("DESCRIPTIVE",
                   f"rubric robustness (not a test): A1/A2 stays in the lowest band in {s['a1a2_lowest']:.0%} of "
                   f"perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in {s['anchors_ge3']:.0%}; mean band "

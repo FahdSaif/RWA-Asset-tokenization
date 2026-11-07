@@ -1,0 +1,43 @@
+{
+  "_README": "Declare every real dataset BEFORE running `python -m rwa_threatlab real`. The runner refuses to run while any value is 'TODO'. Commit this file first (it is the pre-registered record, addenda A3-A5). For timing and bridge, set the *_column fields to the exact CSV header names of your export.",
+  "ofac": {
+    "description": "OFAC SDN change archive, text format, sdnnew19.txt .. sdnnew23.txt, parsed with `python -m rwa_threatlab ofac-parse`",
+    "source_page": "https://ofac.treasury.gov/specially-designated-nationals-list-sdn-list/archive-of-changes-to-the-sdn-list",
+    "files": [
+      "https://www.treasury.gov/ofac/downloads/sdnnew19.txt",
+      "https://www.treasury.gov/ofac/downloads/sdnnew20.txt",
+      "https://www.treasury.gov/ofac/downloads/sdnnew21.txt",
+      "https://www.treasury.gov/ofac/downloads/sdnnew22.txt",
+      "https://www.treasury.gov/ofac/downloads/sdnnew23.txt"
+    ],
+    "window_start": "2019-01-01",
+    "window_end": "2023-12-31",
+    "retrieved_on": "by the official-run workflow at run time: UTC time in docs/data/raw/RETRIEVED_AT_UTC.txt, SHA-256 of every file in docs/data/raw/SHA256SUMS.txt and in real.json",
+    "events_csv": "docs/data/ofac_events.csv",
+    "raw_dir": "docs/data/raw"
+  },
+  "timing": {
+    "description": "TODO: one on-chain activity series (e.g. transfers of one token), at least 1,000 timestamps over at least 90 days",
+    "source": "TODO (explorer, BigQuery table or API, with the query or export settings)",
+    "chain": "TODO",
+    "contract_or_filter": "TODO",
+    "window_start": "TODO",
+    "window_end": "TODO",
+    "retrieved_on": "TODO",
+    "csv": "docs/data/timing.csv",
+    "timestamp_column": "timestamp"
+  },
+  "bridge": {
+    "description": "TODO: completed bridge transfers with source and destination timestamps, at least 100 rows",
+    "source": "TODO (bridge explorer or API and how the pairs were obtained)",
+    "bridge_name": "TODO",
+    "route": "TODO",
+    "window_start": "TODO",
+    "window_end": "TODO",
+    "retrieved_on": "TODO",
+    "csv": "docs/data/bridge.csv",
+    "src_column": "src_timestamp",
+    "dst_column": "dst_timestamp",
+    "latency_column": "latency_seconds"
+  }
+}

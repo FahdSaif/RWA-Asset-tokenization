@@ -1,0 +1,90 @@
+{
+ "H11a": {
+  "status": "CONFIRMED",
+  "evidence": "independent oracle vs fuzzer oracle, 8 cells x 600 traces (seeds 40000-40599): 2824 violations compared, 0 disagreements"
+ },
+ "H11b": {
+  "status": "CONFIRMED",
+  "evidence": "measuring the lag at the action tick never turns a within-lag violation into a beyond-lag one: True; H1 cells show 0 unexplained under all four conventions: True. end/earliest: 84/2824 within lag, 0 flip to within, 0 to beyond; end/continuous: 84/2824 within lag, 0 flip to within, 0 to beyond; action/earliest: 115/2824 within lag, 31 flip to within, 0 to beyond; action/continuous: 115/2824 within lag, 31 flip to within, 0 to beyond"
+ },
+ "data": {
+  "cells": {
+   "baseline/none": {
+    "traces": 600,
+    "violations": 186,
+    "disagreements": 0
+   },
+   "hardened/none": {
+    "traces": 600,
+    "violations": 5,
+    "disagreements": 0
+   },
+   "hardened/minority": {
+    "traces": 600,
+    "violations": 1,
+    "disagreements": 0
+   },
+   "hardened/feed": {
+    "traces": 600,
+    "violations": 1,
+    "disagreements": 0
+   },
+   "hardened/feeds2": {
+    "traces": 600,
+    "violations": 1,
+    "disagreements": 0
+   },
+   "hardened/quorum": {
+    "traces": 600,
+    "violations": 1070,
+    "disagreements": 0
+   },
+   "hardened/quorum+censor": {
+    "traces": 600,
+    "violations": 1181,
+    "disagreements": 0
+   },
+   "hardened/issuer": {
+    "traces": 600,
+    "violations": 379,
+    "disagreements": 0
+   }
+  },
+  "totals": {
+   "violations": 2824,
+   "disagreements": 0
+  },
+  "sensitivity": {
+   "end/earliest": {
+    "violations": 2824,
+    "within": 84,
+    "to_within": 0,
+    "to_beyond": 0,
+    "h1_unexplained": 0
+   },
+   "end/continuous": {
+    "violations": 2824,
+    "within": 84,
+    "to_within": 0,
+    "to_beyond": 0,
+    "h1_unexplained": 0
+   },
+   "action/earliest": {
+    "violations": 2824,
+    "within": 115,
+    "to_within": 31,
+    "to_beyond": 0,
+    "h1_unexplained": 0
+   },
+   "action/continuous": {
+    "violations": 2824,
+    "within": 115,
+    "to_within": 31,
+    "to_beyond": 0,
+    "h1_unexplained": 0
+   }
+  },
+  "examples": [],
+  "seeds": "40000-40599"
+ }
+}

@@ -84,11 +84,30 @@ Held-out seeds from 30000; 600 traces x 40 steps per fuzz cell.
 | H7 | Logging the matched sub-rule leaks identity information that rule-class logging does not. | > 1 bit vs 0 bits | **CONFIRMED** | sub-rule logging leaks 2.64 bits (worst-5% anonymity set 19); class-level logging leaks 0.00; rejection codes 3 -> 1 |
 | H8 | Blind issuance defeats the credential-id join but not issuer timing correlation. | >= 50% linked at 1-tick delay, < 10% at 60-tick delay | **CONFIRMED** | blind issuance removes the credential-id join but timing remains: issuer links 76% at 1-tick delay and 7% at 60-tick delay |
 | H9 | Immediate tightening trades an integrity attack for a bounded availability attack. | freeze succeeds, then expires | **CONFIRMED** | false tightening freezes an honest holder (availability attack succeeds) for 50 ticks and is then undone: honest holder u: REJECTED during freeze, OK after expiry |
-| H10 | Rubric ratings are stable under small perturbations. | descriptive only | **DESCRIPTIVE** | rubric robustness (not a test): A1/A2 stays in the lowest band in 71% of perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in 76%; mean band shift 0.64 |
+| H10 | Rubric ratings are stable under small perturbations. | descriptive only | **DESCRIPTIVE** | rubric robustness (not a test): A1/A2 stays in the lowest band in 72% of perturbed assessments; >=3 of 4 trust-anchor rows stay >= Medium in 76%; mean band shift 0.64 |
 
 
 **Read [`docs/FINDINGS.md`](docs/FINDINGS.md) alongside this table.** These outcomes follow three defect fixes and three
 corrections to the fuzzing instrument, each prompted by a failed expectation and each disclosed with the seeds it consumed.
+
+## Freeze and pre-registration
+
+The measuring instrument is frozen (`docs/FREEZE.json`, checked by `tests/test_freeze.py` and `python scripts/freeze.py check`).
+New hypotheses H11-H16, their seed ranges and pass/fail criteria are fixed in
+[`docs/PREREGISTRATION.md`](docs/PREREGISTRATION.md) before the corresponding experiments are run.
+
+**Journal-extension results (pre-registered, seeds 40,000-40,599).** H11a CONFIRMED: an oracle implemented separately from
+[`docs/ORACLE_SPEC.md`](docs/ORACLE_SPEC.md) agrees with the fuzzer's oracle on all 2,824 violations in 8 cells (0 disagreements);
+a test plants four faults in the fuzzer's oracle and the comparison catches each. H11b CONFIRMED: the fuzzer's end-of-step lag
+measurement is conservative (31 of 2,824 violations would count as within-lag if measured at the transfer tick; none the other way).
+See `docs/PREREGISTRATION.md` addendum A2 and section 7 for what this does not check.
+
+## Real-trace experiments (H12-H16)
+
+`python -m rwa_threatlab ofac-parse ...` turns OFAC's change archive into events; `python -m rwa_threatlab real` replays them
+in the fuzzer and analyses real on-chain timing and bridge latency. Step-by-step: [`docs/REAL_DATA_RUNBOOK.md`](docs/REAL_DATA_RUNBOOK.md).
+Design and criteria: [`docs/PREREGISTRATION.md`](docs/PREREGISTRATION.md) addenda A3-A5. LaTeX tables for the paper:
+`python scripts/make_latex.py`. The scaled composition check is `python -m rwa_threatlab scaled`.
 
 ## Risk rubric
 
@@ -129,8 +148,15 @@ examples/ scripts/
 ## Scope and honesty
 
 A research simulation. HMAC stands in for signatures, there are no zero-knowledge proofs and no real chain, the upgrade
-conformance suite is bounded testing, the model checker is tiny, and the fuzzer explores only the actions its author wrote.
+conformance suite is bounded testing, the model checker is tiny, and the fuzzer explores only the actions its authors wrote.
 See [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md). Do not use this code to protect real assets.
+
+## Authorship, responsibility and AI assistance
+
+The research design (reference architecture, mediation surface, adversary model, rating method, hypotheses and the
+pre-registered protocol) is the authors' work, and the authors are responsible for the code, experiments and conclusions.
+The use of an AI assistant in producing parts of the software and documentation is stated, with its scope, in
+[`docs/DISCLOSURE.md`](docs/DISCLOSURE.md), which matches the declaration in the manuscript.
 
 ## Citation and licence
 

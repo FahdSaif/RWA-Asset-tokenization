@@ -1,0 +1,1245 @@
+{
+ "rows": [
+  {
+   "chains": 2,
+   "participants": 4,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 4
+    },
+    "bridge_baseline": {
+     "violating": 22,
+     "max_states": 8
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 8
+    },
+    "lag_single_instance": {
+     "violating": 24,
+     "max_states": 18
+    },
+    "lag_origin_only": {
+     "violating": 22,
+     "max_states": 25
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 16
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 3
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 6,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 5,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 14,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 16,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 10,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 2,
+   "participants": 6,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 5
+    },
+    "bridge_baseline": {
+     "violating": 25,
+     "max_states": 12
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 9
+    },
+    "lag_single_instance": {
+     "violating": 24,
+     "max_states": 22
+    },
+    "lag_origin_only": {
+     "violating": 25,
+     "max_states": 28
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 18
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 4
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 10,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 7,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 18,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 22,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 14,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 2,
+   "participants": 8,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 7
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 16
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 12
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 30
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 37
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 24
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 5
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 14,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 10,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 22,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 31,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 20,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 2,
+   "participants": 12,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 11
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 24
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 18
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 46
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 55
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 36
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 8
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 22,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 15,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 34,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 46,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 30,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 3,
+   "participants": 4,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 4
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 12
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 10
+    },
+    "lag_single_instance": {
+     "violating": 23,
+     "max_states": 24
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 43
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 20
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 3
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 9,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 7,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 19,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 31,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 14,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 3,
+   "participants": 6,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 6
+    },
+    "bridge_baseline": {
+     "violating": 25,
+     "max_states": 18
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 16
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 34
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 67
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 32
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 4
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 15,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 10,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 24,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 43,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 20,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 3,
+   "participants": 8,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 7
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 24
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 17
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 34
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 71
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 34
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 5
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 21,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 14,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 29,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 59,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 28,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 3,
+   "participants": 12,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 10
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 36
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 25
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 54
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 101
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 50
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 8
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 33,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 21,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 44,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 87,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 42,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 4,
+   "participants": 4,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 4
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 16
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 12
+    },
+    "lag_single_instance": {
+     "violating": 21,
+     "max_states": 31
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 66
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 24
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 3
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 12,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 9,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 25,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 51,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 18,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 4,
+   "participants": 6,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 6
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 24
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 17
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 43
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 83
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 34
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 4
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 20,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 13,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 31,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 71,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 26,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 4,
+   "participants": 8,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 7
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 32
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 24
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 49
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 126
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 48
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 5
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 28,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 18,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 37,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 96,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 36,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 4,
+   "participants": 12,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 10
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 48
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 31
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 55
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 156
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 62
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 8
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 44,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 28,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 55,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 146,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 56,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 5,
+   "participants": 4,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 4
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 20
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 16
+    },
+    "lag_single_instance": {
+     "violating": 23,
+     "max_states": 39
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 106
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 32
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 3
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 15,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 11,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 32,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 76,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 22,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 5,
+   "participants": 6,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 6
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 30
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 23
+    },
+    "lag_single_instance": {
+     "violating": 25,
+     "max_states": 53
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 148
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 46
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 4
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 25,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 17,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 39,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 112,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 34,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 5,
+   "participants": 8,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 7
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 40
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 29
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 53
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 172
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 58
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 5
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 35,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 23,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 46,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 148,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 46,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 5,
+   "participants": 12,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 10
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 60
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 42
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 81
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 242
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 84
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 8
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 55,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 35,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 67,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 220,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 70,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 6,
+   "participants": 4,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 4
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 24
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 22
+    },
+    "lag_single_instance": {
+     "violating": 22,
+     "max_states": 65
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 169
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 44
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 3
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 18,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 13,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 40,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 106,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 26,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 6,
+   "participants": 6,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 6
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 36
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 26
+    },
+    "lag_single_instance": {
+     "violating": 23,
+     "max_states": 65
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 197
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 52
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 4
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 30,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 20,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 48,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 155,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 40,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 6,
+   "participants": 8,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 7
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 48
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 32
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 64
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 239
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 64
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 5
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 42,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 27,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 56,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 204,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 54,
+     "trace_len": null
+    }
+   }
+  },
+  {
+   "chains": 6,
+   "participants": 12,
+   "instances": 26,
+   "checks": {
+    "alone": {
+     "violating": 0,
+     "max_states": 10
+    },
+    "bridge_baseline": {
+     "violating": 26,
+     "max_states": 72
+    },
+    "bridge_dest_mediated": {
+     "violating": 0,
+     "max_states": 48
+    },
+    "lag_single_instance": {
+     "violating": 26,
+     "max_states": 96
+    },
+    "lag_origin_only": {
+     "violating": 26,
+     "max_states": 336
+    },
+    "lag_atomic": {
+     "violating": 0,
+     "max_states": 96
+    }
+   },
+   "paper_pattern": {
+    "alone": {
+     "violation": false,
+     "states": 8
+    },
+    "bridge_baseline": {
+     "violation": true,
+     "states": 66,
+     "trace_len": 1
+    },
+    "bridge_dest_mediated": {
+     "violation": false,
+     "states": 42,
+     "trace_len": null
+    },
+    "lag_single_instance": {
+     "violation": true,
+     "states": 80,
+     "trace_len": 3
+    },
+    "lag_origin_only": {
+     "violation": true,
+     "states": 309,
+     "trace_len": 3
+    },
+    "lag_atomic": {
+     "violation": false,
+     "states": 84,
+     "trace_len": null
+    }
+   }
+  }
+ ],
+ "seed": 7
+}

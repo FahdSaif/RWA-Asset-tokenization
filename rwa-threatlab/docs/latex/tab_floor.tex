@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering\small
+\caption{Residual ranking with the trust-anchor floor and, in the last column, the band without it (only B1 changes). Score is $L_{res}\times I$.}
+\label{tab:floor}
+\begin{tabular}{llrrl}
+\toprule
+ID & Scenario & Residual band & Score & Band without floor \\
+\midrule
+D1 & Timing and value correlation & Medium & 12 & Medium \\
+E1 & Cross-chain rule-propagation lag & Medium & 12 & Medium \\
+E2 & Jurisdictional misclassification & Medium & 12 & Medium \\
+A3 & Privileged path (upgrade, admin, recovery) & Medium & 10 & Medium \\
+B1 & Quorum collusion & Medium & 10 & Low \\
+B3 & Regulatory-oracle poisoning & Medium & 10 & Medium \\
+C1 & Compromised or forged issuer & Medium & 10 & Medium \\
+B2 & Rule-activation latency window & Low-Med & 9 & Low-Med \\
+C2 & Revoked credential in lag window & Low-Med & 9 & Low-Med \\
+D2 & Trail-granularity leakage & Low-Med & 9 & Low-Med \\
+E4 & Cross-chain revocation lag & Low-Med & 9 & Low-Med \\
+D3 & Issuer-linkage deanonymisation & Low-Med & 6 & Low-Med \\
+E3 & Bridge identity discontinuity & Low-Med & 6 & Low-Med \\
+A1/A2 & Unmediated path or Gateway defect & Low & 5 & Low \\
+\bottomrule
+\end{tabular}
+\end{table}

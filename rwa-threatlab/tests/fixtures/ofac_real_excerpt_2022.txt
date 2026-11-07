@@ -1,0 +1,82 @@
+EXCERPT of OFAC's "sdnnew22.txt" (a U.S. Government publication), copied verbatim for parser tests only.
+Source: https://www.treasury.gov/ofac/downloads/sdnnew22.txt  (blocks shortened; text unchanged)
+The following changes have occurred with respect to the Office of Foreign Assets Control Listing of
+Specially Designated Nationals and Blocked Persons since January 1,
+2022:
+
+01/05/22:
+
+The following [BALKANS-EO14033] [BALKANS] entries have been
+changed: 
+
+DODIK, Milorad, Republika Srpska, Bosnia and Herzegovina; DOB 12
+Mar 1959; Gender Male (individual) [BALKANS]. -to- DODIK, Milorad,
+Republika Srpska, Bosnia and Herzegovina; DOB 12 Mar 1959; POB
+Banja Luka, Bosnia and Herzegovina; nationality Bosnia and
+Herzegovina; Gender Male (individual) [BALKANS] [BALKANS-EO14033].
+
+The following [BALKANS-EO14033] entries have been added to OFAC's
+SDN List: 
+
+ALTERNATIVNA TELEVIZIJA D.O.O. BANJA LUKA (a.k.a. ALTERNATIVNA
+TELEVIZIJA DRUSTVO ZA INFORMISANJE D.O.O. BANJA LUKA; a.k.a.
+ALTERNATIVNE TELEVIZIJE; a.k.a. "ALTERNATIVE TV"; a.k.a. "ATV"),
+Ulica Gunduliceva 33, Banja Luka 78000, Bosnia and Herzegovina;
+Organization Established Date 1997; Tax ID No. 4400946870008
+(Bosnia and Herzegovina); Registration Number 1-9857-00 (Bosnia and
+Herzegovina) [BALKANS-EO14033] (Linked To: DODIK, Milorad).
+"ATV" (a.k.a. ALTERNATIVNA TELEVIZIJA D.O.O. BANJA LUKA; a.k.a.
+ALTERNATIVNA TELEVIZIJA DRUSTVO ZA INFORMISANJE D.O.O. BANJA LUKA;
+a.k.a. ALTERNATIVNE TELEVIZIJE; a.k.a. "ALTERNATIVE TV"), Ulica
+Gunduliceva 33, Banja Luka 78000, Bosnia and Herzegovina;
+Organization Established Date 1997; Tax ID No. 4400946870008
+(Bosnia and Herzegovina); Registration Number 1-9857-00 (Bosnia and
+Herzegovina) [BALKANS-EO14033] (Linked To: DODIK, Milorad).
+
+01/10/22:
+
+The following [NICARAGUA] entries have been added to OFAC's SDN
+List: 
+
+BARAHONA CASTRO, Rosa Adelina (a.k.a. BARAHONA DE RIVAS, Rosa
+Adelina), Zona Central, Matagalpa, Nicaragua; DOB 10 May 1957; POB
+Murra, Nueva Segovia, Nicaragua; nationality Nicaragua; Gender
+Female; National ID No. 4901005570000R (Nicaragua) (individual)
+[NICARAGUA].
+BARAHONA DE RIVAS, Rosa Adelina (a.k.a. BARAHONA CASTRO, Rosa
+Adelina), Zona Central, Matagalpa, Nicaragua; DOB 10 May 1957; POB
+Murra, Nueva Segovia, Nicaragua; nationality Nicaragua; Gender
+Female; National ID No. 4901005570000R (Nicaragua) (individual)
+[NICARAGUA].
+CALDERON VINDELL, Ramon Humberto, Kilometro Doce y Medio, Carretera
+Sur, Managua, Nicaragua; DOB 17 Oct 1959; POB San Juan de Limay,
+Esteli, Nicaragua; nationality Nicaragua; Gender Male; National ID
+No. 1641710590000J (Nicaragua) (individual) [NICARAGUA].
+
+01/31/22:
+
+The following [SDGT] entries have been removed: 
+
+OMAN PRIDE Crude Oil Tanker; Additional Sanctions Information -
+Subject to Secondary Sanctions; Vessel Registration Identification
+IMO 9153525 (vessel) [SDGT] (Linked To: BRAVERY MARITIME
+CORPORATION).
+
+02/22/22:
+
+The following [RUSSIA-EO14024] [UKRAINE-EO13661] entries have been
+changed: 
+
+KIRIYENKO, Sergei Vladilenovich, Moscow, Russia; DOB 26 Jul 1962;
+POB Sukhumi, Georgia; nationality Russia; Gender Male (individual)
+[UKRAINE-EO13661]. -to- KIRIYENKO, Sergei Vladilenovich (a.k.a.
+KIRIYENKO, Sergei), Moscow, Russia; DOB 26 Jul 1962; POB Sukhumi,
+Georgia; nationality Russia; Gender Male (individual) [UKRAINE-
+EO13661] [RUSSIA-EO14024].
+
+resulting in the following new [RUSSIA-EO14024] [UKRAINE-EO13661]
+entries:
+
+KIRIYENKO, Sergei (a.k.a. KIRIYENKO, Sergei Vladilenovich), Moscow,
+Russia; DOB 26 Jul 1962; POB Sukhumi, Georgia; nationality Russia;
+Gender Male (individual) [UKRAINE-EO13661] [RUSSIA-EO14024].

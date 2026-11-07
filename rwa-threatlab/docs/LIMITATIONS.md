@@ -24,3 +24,13 @@ This repository is a **research simulation**, not a production compliance runtim
   matter outside the runtime (paper Table 1).
 
 Do not use this code to protect real assets.
+* **Real-trace experiments are partial.** OFAC entry identity is a heuristic (the archive has no stable id; alias rows count as
+  separate entries). The replay keeps the real order of events but not their real time gaps, so lag windows are tested in
+  compressed time. Revocations, participants and credentials remain synthetic. The timing experiment replaces only the
+  inter-arrival process; the off-chain event pairing is still assumed. One bridge route and one token series are single
+  samples, not a survey.
+* **Oracle independence is limited.** The second oracle (`oracle_independent.py`) is separate code written from
+  `docs/ORACLE_SPEC.md`, but by the same team that wrote the fuzzer, and it reads sanction/delist/revoke events from the
+  fuzzer's own action log. A third implementation by someone who has not read the fuzzer is recommended.
+* **The scaled model check is still small** (at most a few hundred states: one asset unit, one exogenous event). A real model
+  checker with several assets and concurrent events is future work.

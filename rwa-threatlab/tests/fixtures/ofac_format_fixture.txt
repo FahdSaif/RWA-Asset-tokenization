@@ -1,0 +1,85 @@
+FORMAT FIXTURE FOR TESTS. ALL NAMES ARE INVENTED. THIS IS NOT OFAC DATA.
+It imitates only the layout of OFAC's sdnnewYY.txt change files so the parser can be tested offline.
+The following changes have occurred with respect to the Office of Foreign Assets Control Listing of
+Specially Designated Nationals and Blocked Persons since January 1, 2021:
+
+01/05/21:
+
+The following [TESTPROG-A] entries have been added to OFAC's SDN
+List: 
+
+ZORLAND, Quentin (a.k.a. ZORLAND, Q.), Nowhere City, Testland; DOB 01
+Jan 1970; Gender Male (individual) [TESTPROG-A].
+BELMONT TRADING LLC (a.k.a. BELMONT TRADING COMPANY), 1 Example Road,
+Testville, Testland; Registration Number 12345 (Testland) [TESTPROG-A]
+(Linked To: ZORLAND, Quentin).
+QUILLFEATHER, Ottoline, 2 Sample Street, Testville, Testland; DOB 02 Feb
+1980; Gender Female (individual) [TESTPROG-A].
+"RAVEN HOLDINGS" (a.k.a. RAVEN HOLDINGS LTD), 3 Placeholder Ave,
+Testland; Tax ID No. 555 (Testland) [TESTPROG-A] (Linked To: BELMONT
+TRADING LLC).
+
+02/10/21:
+
+The following [TESTPROG-A] entries have been removed: 
+
+BELMONT TRADING LLC (a.k.a. BELMONT TRADING COMPANY), 1 Example Road,
+Testville, Testland; Registration Number 12345 (Testland) [TESTPROG-A]
+(Linked To: ZORLAND, Quentin).
+
+03/15/21:
+
+The following [TESTPROG-B] entries have been added to OFAC's SDN List: 
+
+NIGHTINGALE, Percival (a.k.a. NIGHTINGALE, P.), Faketown, Testland; DOB
+03 Mar 1965; Gender Male (individual) [TESTPROG-B].
+SILVERLEAF SHIPPING (a.k.a. SILVERLEAF LINES), 9 Dock Road, Faketown,
+Testland; Target Type Entity [TESTPROG-B] [TESTPROG-
+C].
+
+03/15/21:
+
+The following [TESTPROG-A] entries have been changed: 
+
+ZORLAND, Quentin (a.k.a. ZORLAND, Q.), Nowhere City, Testland; DOB 01
+Jan 1970; Gender Male (individual) [TESTPROG-A]. -to- ZORLAND, Quentin
+Alexander (a.k.a. ZORLAND, Q.), Nowhere City, Testland; DOB 01 Jan 1970;
+Gender Male (individual) [TESTPROG-A] [TESTPROG-B].
+
+resulting in the following new [TESTPROG-A] entries:
+
+ZORLAND, Q. (a.k.a. ZORLAND, Quentin Alexander), Nowhere City, Testland;
+DOB 01 Jan 1970; Gender Male (individual) [TESTPROG-A] [TESTPROG-B].
+
+06/01/21:
+
+The following [TESTPROG-A] entries have been removed: 
+
+QUILLFEATHER, Ottoline, 2 Sample Street, Testville, Testland; DOB 02 Feb
+1980; Gender Female (individual) [TESTPROG-A].
+ZORLAND, Quentin Alexander (a.k.a. ZORLAND, Q.), Nowhere City, Testland;
+DOB 01 Jan 1970; Gender Male (individual) [TESTPROG-A] [TESTPROG-B].
+
+09/20/21:
+
+The following [TESTPROG-A] entries have been added to OFAC's SDN List: 
+
+BELMONT TRADING LLC (a.k.a. BELMONT TRADING COMPANY), 1 Example Road,
+Testville, Testland; Registration Number 12345 (Testland) [TESTPROG-A]
+(Linked To: NIGHTINGALE, Percival).
+
+11/02/21:
+
+The following [TESTPROG-B] entries have been removed: 
+
+NIGHTINGALE, Percival (a.k.a. NIGHTINGALE, P.), Faketown, Testland; DOB
+03 Mar 1965; Gender Male (individual) [TESTPROG-B].
+SILVERLEAF SHIPPING (a.k.a. SILVERLEAF LINES), 9 Dock Road, Faketown,
+Testland; Target Type Entity [TESTPROG-B] [TESTPROG-C].
+
+12/01/21:
+
+The following [TESTPROG-B] entries have been added to OFAC's SDN List: 
+
+NIGHTINGALE, Percival (a.k.a. NIGHTINGALE, P.), Faketown, Testland; DOB
+03 Mar 1965; Gender Male (individual) [TESTPROG-B].

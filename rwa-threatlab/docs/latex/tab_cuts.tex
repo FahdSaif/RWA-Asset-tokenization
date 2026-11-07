@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering\small
+\caption{Minimal adversary capability sets that reach a violation as mitigations are added (implementation faults A1, A2 omitted).}
+\label{tab:cuts}
+\begin{tabular}{lp{4.6cm}p{6.8cm}}
+\toprule
+Level & Added & Minimal attack sets \\
+\midrule
+L0 & Runtime mediation of user and bridge-inbound paths only & \{admin\_force\}; \{upgrade\}; \{gov\_collude\}; \{oracle\_poison\}; \{issuer\_forge\}; \{issuer\_unlisted\} \\
+L1 & + privileged operations routed through the Gateway; guarded upgrades & \{gov\_collude\}; \{oracle\_poison\}; \{issuer\_forge\}; \{issuer\_unlisted\} \\
+L2 & + issuer allow-list & \{gov\_collude\}; \{oracle\_poison\}; \{issuer\_forge\} \\
+L3 & + challenge window on relaxations & \{oracle\_poison\}; \{issuer\_forge\}; \{gov\_collude, suppress\_contest\} \\
+L4 & + human review before oracle data is ingested & \{issuer\_forge\}; \{gov\_collude, suppress\_contest\}; \{gov\_collude, oracle\_poison\} \\
+L5 & + multi-source oracle cross-validation & \{issuer\_forge\}; \{gov\_collude, suppress\_contest\}; \{gov\_collude, oracle\_poison, oracle\_second\_feed\} \\
+\bottomrule
+\end{tabular}
+\end{table}
