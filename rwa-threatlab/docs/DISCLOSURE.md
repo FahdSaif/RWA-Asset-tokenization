@@ -17,10 +17,8 @@ An AI assistant (Claude, Anthropic) was used to support software development and
 journal-extension components: the scaled composition check, the floor-dependence and inter-rater tooling, the freeze and
 pre-registration tooling, the second oracle and its observer, the real-trace loaders, the replay hook and the runner, the
 test suite and continuous-integration workflows for these, the LaTeX table generator, and the accompanying documentation.
-[[Authors to confirm before submission: whether, and to what extent, earlier components of the repository (the original
-simulator, scenarios, fuzzer and their tests) were produced with AI assistance, and the dates and model versions used.]]
-AI tools are not authors and bear no responsibility for the content. The outputs were reviewed and tested by the authors
-[[confirm]].
+AI tools are not authors and bear no responsibility for the content. Further details (earlier components of the repository,
+review and testing, tool versions and dates) will be added before journal submission.
 
 ## Consequences for the evidence
 
