@@ -13,7 +13,7 @@ experimental results and the conclusions of the publication.
 
 ## Use of AI assistance
 
-An AI assistant (Claude, Anthropic) was used to support software development and documentation. Its use covered the
+AI assistance for helping with code. Its use covered the
 journal-extension components: the scaled composition check, the floor-dependence and inter-rater tooling, the freeze and
 pre-registration tooling, the second oracle and its observer, the real-trace loaders, the replay hook and the runner, the
 test suite and continuous-integration workflows for these, the LaTeX table generator, and the accompanying documentation.
