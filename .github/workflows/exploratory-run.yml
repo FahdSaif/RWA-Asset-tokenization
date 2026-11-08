@@ -1,0 +1,72 @@
+name: rwa-threatlab exploratory run
+
+# Manual trigger only. Runs ONE exploratory analysis (docs/EXPLORATORY_PLAN.md) from a fixed tag on a clean runner and publishes the
+# result to its own folder, docs/results/exploratory/<experiment>, on a new branch (never to main), so no earlier result is overwritten.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Tag (or commit) to run, for example v1.6-exploratory-data"
+        required: true
+        default: "v1.6-exploratory-data"
+      experiment:
+        description: "Experiment: kanon or latency"
+        required: true
+        default: "kanon"
+
+permissions:
+  contents: write
+
+jobs:
+  exploratory:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rwa-threatlab
+    env:
+      REF: ${{ inputs.ref }}
+      EXPERIMENT: ${{ inputs.experiment }}
+    steps:
+      - name: Check the experiment name
+        run: |
+          case "$EXPERIMENT" in kanon|latency) ;; *) echo "::error::experiment must be kanon or latency"; exit 1;; esac
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Tests and freeze check (the run aborts if either fails)
+        run: |
+          python -m pytest -q
+          python scripts/freeze.py check
+      - name: Run the analysis
+        run: python -m rwa_threatlab.exploratory.run "$EXPERIMENT" --out "docs/results/exploratory/$EXPERIMENT"
+      - name: Evidence
+        run: |
+          {
+            echo "run:        $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "ref:        $REF"
+            echo "commit:     $(git rev-parse HEAD)"
+            echo "experiment: $EXPERIMENT"
+            echo "python:     $(python --version)"
+            echo "date_utc:   $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > "docs/results/exploratory/$EXPERIMENT/RUN.txt"
+          cat "docs/results/exploratory/$EXPERIMENT/RUN.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exploratory-${{ inputs.experiment }}-${{ github.run_id }}
+          path: rwa-threatlab/docs/results/exploratory/${{ inputs.experiment }}
+      - name: Publish to a results branch (not main)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          B="exploratory-${EXPERIMENT}-${GITHUB_RUN_ID}"
+          git checkout -b "$B"
+          git add -f "docs/results/exploratory/$EXPERIMENT"
+          git commit -m "Exploratory run ${GITHUB_RUN_ID} of ${REF}: ${EXPERIMENT}"
+          git push origin "$B"
+          echo "Results are on branch $B"
