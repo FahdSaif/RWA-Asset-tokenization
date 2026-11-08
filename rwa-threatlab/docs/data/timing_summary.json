@@ -1,0 +1,30 @@
+{
+ "contract": "0x96F6eF951840721AdBF46Ac996b59E0235CB985C",
+ "chainid": 1,
+ "pages_per_window": 10,
+ "offset": 1000,
+ "files": 10,
+ "retrieved_utc": "2026-11-08T01:37:48Z",
+ "events": 10000,
+ "distinct_transactions": 4996,
+ "first_utc": "2026-06-29T13:22:47Z",
+ "last_utc": "2026-11-08T00:46:35Z",
+ "span_days": 131.47,
+ "first_block": 25423594,
+ "last_block": 26366656,
+ "meets_preregistered_minimums": true,
+ "rule": "latest events in whole windows of 10 pages until >=1,000 timestamps span >=90 days; one timestamp per distinct transaction hash; no other filter",
+ "sha256": {
+  "timing.csv": "0af876338fb8dd0c6adfa0d71f32643aa3d9aa24f511fa562e41ed3e94d86a51",
+  "usdy_w1_p1.json": "17bebef9de53c2f8508d7208f560b1097b3e81d467f025d9cdcb9114f6daa4db",
+  "usdy_w1_p10.json": "e2501591bc9cc68869d91b275b6abdc09bbd0e4013b5996e7fa47e4e25b5e504",
+  "usdy_w1_p2.json": "ee75af9d6c4f1e54e21e27537328c38f49ab08c7e34a6f8d94a0aab602e1b8b4",
+  "usdy_w1_p3.json": "15d6605b2df06386b16be6d095db40f87a8390b8c2c75eb43f6953d091fd3b00",
+  "usdy_w1_p4.json": "a2e3871bff0c7f8e0ce9266682ab22bfb879287d5652dd9db7a23b522205314e",
+  "usdy_w1_p5.json": "905b5a69f93e1255b5775457888e3f355e3c4b2b6918ec7cc36a39e3c5e4e72b",
+  "usdy_w1_p6.json": "09293a3247c08a81387f95eb8114be9d88412cff98edbee62056fc125fea8675",
+  "usdy_w1_p7.json": "5705159c240f1bec77ed1ab7c6d8201d57fcae83a487df7d13ffad702bce2d47",
+  "usdy_w1_p8.json": "b1bc22bf4d187c3a7be98116a04cc0b12e1993851c4a7bc80a314e93f7c03d22",
+  "usdy_w1_p9.json": "b09bf5ab986aacf5224a6e02669e1d0fcea6169e8a23165ff28783192f79a3fd"
+ }
+}

@@ -17,15 +17,16 @@
     "raw_dir": "docs/data/raw"
   },
   "timing": {
-    "description": "TODO: one on-chain activity series (e.g. transfers of one token), at least 1,000 timestamps over at least 90 days",
-    "source": "TODO (explorer, BigQuery table or API, with the query or export settings)",
-    "chain": "TODO",
-    "contract_or_filter": "TODO",
-    "window_start": "TODO",
-    "window_end": "TODO",
-    "retrieved_on": "TODO",
+    "description": "Transfer events of one tokenised real-world asset, Ondo U.S. Dollar Yield (USDY), reduced to one timestamp per distinct transaction hash: 4,996 timestamps over 131.47 days",
+    "source": "Etherscan API V2, module account, action tokentx, free tier (https://docs.etherscan.io); fetched with docs/data/H14_fetch_usdy.ipynb; raw pages are held by the authors and their SHA-256 digests are in docs/data/timing_summary.json",
+    "chain": "Ethereum mainnet (chainid 1)",
+    "contract_or_filter": "Contract 0x96F6eF951840721AdBF46Ac996b59E0235CB985C. Rule fixed in advance: latest transfer events in whole windows of 10 pages of 1,000 until the distinct-transaction series has at least 1,000 timestamps spanning at least 90 days; one timestamp per distinct transaction hash; no other filter. One window (10,000 events) was enough.",
+    "window_start": "2026-06-29T13:22:47Z",
+    "window_end": "2026-11-08T00:46:35Z",
+    "retrieved_on": "2026-11-08T01:37:48Z",
     "csv": "docs/data/timing.csv",
-    "timestamp_column": "timestamp"
+    "timestamp_column": "timestamp",
+    "notes": "Selection and first attempt are documented in docs/data/H14_DATA_NOTES.md. No H14 result had been computed when the data were fixed."
   },
   "bridge": {
     "description": "TODO: completed bridge transfers with source and destination timestamps, at least 100 rows",
