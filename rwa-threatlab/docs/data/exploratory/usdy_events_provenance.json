@@ -1,0 +1,6 @@
+{
+ "source": "docs/data/timing_summary.json raw pages (Etherscan API V2 tokentx, USDY, retrieved 2026-11-08T01:37:48Z)",
+ "rule": "all 10,000 events of the H14 download; value = raw value / 10^tokenDecimal; no filtering",
+ "rows": 10000,
+ "sha256_usdy_events_csv": "fdad35aabc4380d352d2724d7b5f8709afd0de6e1821303a084512f59239cfbd"
+}
