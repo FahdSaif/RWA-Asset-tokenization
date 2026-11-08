@@ -1,0 +1,29 @@
+# Experiment C sample, fixed BEFORE any census data were fetched (docs/EXPLORATORY_PLAN.md section C and docs/EXPLORATORY_PLAN_C_ADDENDUM.md).
+# Source: https://etherscan.io/tokens/label/real-world-assets?subcatid=0&size=50&start=0&col=3&order=desc
+# Seen on 2026-11-08 (Etherscan "Token Tracker: Real World Assets", 841 records, page 1 of 17, sorted by Market Cap descending).
+# Rule: the first 25 rows in the order displayed, no exclusions. Columns: address, rank, name and symbol as shown, market cap shown (USD).
+0x96f6ef951840721adbf46ac996b59e0235cb985c  1  Ondo U.S. Do... (USDY)  2,388,027,199
+0x0990b149e915cb08e2143a5c6f669c907eddc8b0  2  Spiko Amundi... (eurSAF...)  1,919,662,592
+0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041  3  BlackRock US... (BUIDL-...)  1,775,584,680
+0x5a0f93d040de44e78f251b03c43be9cf317dcf64  4  Janus Hender... (JAAA)  578,038,713
+0x5086bf358635b81d8c47c66d1c8b9e567db70c72  5  Re Protocol ... (reUSD)  377,403,810
+0xcbade7d9bdee88411cb6cbcbb29952b742036992  6  Spiko Amundi... (SAFO)  243,682,577
+0x1aad217b8f78dba5e6693460e8470f8b1a3977f3  7  Strategy PP ... (STRCx)  133,311,544
+0xae2f842ef90c0d5213259ab82639d5bbf649b08e  8  MicroStrateg... (MSTRx)  126,535,718
+0x5fa487bca6158c64046b2813623e20755091da0b  9  Theo Short D... (thBILL)  117,196,001
+0xfebded1b0986a8ee107f5ab1a1c5a813491deceb  10  Circle xStoc... (CRCLx)  115,916,350
+0x119dd7daff816f29d7ee47596ae5e4bdc4299165  11  Nest BlackOp... (nOPAL)  112,413,381
+0x4c1746a800d224393fe2470c70a35717ed4ea5f1  12  Plume (PLUME)  87,394,210
+0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a  13  Goldfish (GGBR)  82,532,958
+0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48  14  SP500 xStock (SPYx)  73,147,889
+0xa753a7395cae905cd615da0b82a53e0560f250af  15  Nasdaq xStoc... (QQQx)  70,201,271
+0xace8e719899f6e91831b18ae746c9a965c2119f1  16  Ondo U.S. Do... (USDon)  68,559,998
+0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0  17  Tesla xStock (TSLAx)  65,962,224
+0xe92f673ca36c5e2efd2de7628f815f84807e803f  18  Alphabet xSt... (GOOGLx)  65,878,845
+0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0  19  Spiko Amundi... (gbpSAF...)  58,550,494
+0x62ca254a363dc3c748e7e955c20447ab5bf06ff7  20  iShares Core... (IVVon)  58,128,067
+0x2255718832bc9fd3be1caf75084f4803da14ff01  21  VanEck Treas... (VBILL)  55,394,842
+0xc845b2894dbddd03858fd2d643b4ef725fe0849d  22  NVIDIA xStoc... (NVDAx)  52,165,919
+0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf  23  Precious Met... (pmUSD)  50,771,802
+0xe820c06321e60d36257c666643fa5436643445e3  24  USDKG (USDKG)  50,055,177
+0x8c213ee79581ff4984583c6a801e5263418c4b86  25  Janus Hender... (JTRSY)  47,203,188

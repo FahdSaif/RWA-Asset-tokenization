@@ -1,4 +1,4 @@
-"""Runner for the exploratory analyses: python -m rwa_threatlab.exploratory.run {kanon,latency} [--out DIR] [--force]
+"""Runner for the exploratory analyses: python -m rwa_threatlab.exploratory.run {kanon,latency,census} [--out DIR] [--force]
 
 Refuses to run if tracked files are uncommitted or the frozen instrument changed (same guard as the pre-registered runs), unless --force
 (which is recorded). Each experiment writes to its own folder, so results are never overwritten.
@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 from .. import hypotheses_real as hr
-from . import kanon, latency, ofac_addresses
+from . import census, kanon, latency, ofac_addresses
 
 ROOT = Path(__file__).resolve().parents[3]
 DATA = "docs/data/exploratory"
@@ -31,6 +31,12 @@ def run(exp: str, root: Path = ROOT, guard: bool = True, force: bool = False) ->
         as_of = json.loads(files["summary"].read_text())["retrieved_utc"][:10]
         res = latency.analyse(ofac, latency.load_events(files["blacklist_events"]), as_of)
         md = latency.markdown(res)
+    elif exp == "census":
+        files = {"census_raw": root / DATA / "census_raw.json", "tokens": root / DATA / "census_tokens.txt"}
+        prov = hr.provenance(root, files, guard, force)
+        raw = json.loads(files["census_raw"].read_text())
+        res = census.analyse(raw["tokens"] if isinstance(raw, dict) else raw)
+        md = census.markdown(res)
     else:
         raise SystemExit(f"unknown experiment {exp!r}")
     return dict(experiment=exp, label="exploratory; plan: docs/EXPLORATORY_PLAN.md", provenance=prov, result=res, markdown=md)
@@ -38,7 +44,7 @@ def run(exp: str, root: Path = ROOT, guard: bool = True, force: bool = False) ->
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("exp", choices=["kanon", "latency"])
+    ap.add_argument("exp", choices=["kanon", "latency", "census"])
     ap.add_argument("--out", type=Path)
     ap.add_argument("--force", action="store_true")
     a = ap.parse_args(argv)
