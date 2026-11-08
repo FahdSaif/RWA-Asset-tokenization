@@ -16,7 +16,8 @@ This repository is a **research simulation**, not a production compliance runtim
   `E2` (misclassification) and the privacy branch are outside its reachability semantics.
 * **Most data is synthetic** (see `DATA.md`). The generators are realistic in shape (heavy-tailed gaps, Zipf-concentrated
   jurisdictions) but are not calibrated to any real system; read the boundaries and trends, not the absolute rates. Only the
-  real-trace experiments H12, H13 and H16 use real data (OFAC change files, order of events only); H14 and H15 were not run.
+  real-trace experiments use real data: H12, H13 and H16 (OFAC change files, order of events only) and H14 (the inter-arrival times of
+  one token's transactions, one window; the off-chain events an attacker would correlate with remain simulated). H15 was not run.
 * **The fuzzer explores only the action space its author wrote,** and its oracle of truth is the author's model of legal
   eligibility. Its instrument was corrected three times after seeing results (`FINDINGS.md`, section B).
 * **Risk ratings are ordinal.** They were first scored by the authors and then by four assessors (`docs/irr/`; agreement is high

@@ -140,9 +140,10 @@ The original ratings in `risk.py` are unchanged.
 **Synthetic data and real traces.** The scenario worlds, the fuzzer and the privacy experiments (H1-H10) use synthetic generators,
 realistic in shape (heavy-tailed event gaps, Zipf-concentrated jurisdictions, memoryless delays), with 95 % intervals over many
 seeds; they are not calibrated to any production system. The pre-registered real-trace experiments (H12, H13, H16) replay the order of
-add and remove events of OFAC's public SDN change files (2019 to 2023) in the fuzzer; the compliance layer is always simulated.
-H14 and H15 (on-chain timing, bridge latency) are pre-registered but were not run. See [`docs/DATA.md`](docs/DATA.md) and
-[`docs/results/real/`](docs/results/real/).
+add and remove events of OFAC's public SDN change files (2019 to 2023) in the fuzzer, and H14 uses the real transaction timing of one
+tokenised asset (Ondo USDY, 4,996 transactions over 131.5 days; confirmed); the compliance layer is always simulated.
+H15 (bridge latency) is pre-registered but was not run. See [`docs/DATA.md`](docs/DATA.md), [`docs/results/real/`](docs/results/real/) (OFAC run)
+and [`docs/results/real_timing/`](docs/results/real_timing/) (H14 run).
 
 ## Layout
 

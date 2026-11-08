@@ -1,0 +1,132 @@
+{
+ "provenance": {
+  "python": "3.12.16",
+  "git_commit": "90408d000adec1720ccb14275965baf6b284628a",
+  "files": {
+   "timing": {
+    "path": "docs/data/timing.csv",
+    "sha256": "0af876338fb8dd0c6adfa0d71f32643aa3d9aa24f511fa562e41ed3e94d86a51"
+   }
+  },
+  "git_clean": true,
+  "freeze_intact": true,
+  "freeze_info": "1165be04d0c1",
+  "forced": false,
+  "ci_run": "https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42436108204",
+  "ci_ref": "refs/heads/main"
+ },
+ "datasets": {
+  "timing": {
+   "description": "Transfer events of one tokenised real-world asset, Ondo U.S. Dollar Yield (USDY), reduced to one timestamp per distinct transaction hash: 4,996 timestamps over 131.47 days",
+   "source": "Etherscan API V2, module account, action tokentx, free tier (https://docs.etherscan.io); fetched with docs/data/H14_fetch_usdy.ipynb; raw pages are held by the authors and their SHA-256 digests are in docs/data/timing_summary.json",
+   "chain": "Ethereum mainnet (chainid 1)",
+   "contract_or_filter": "Contract 0x96F6eF951840721AdBF46Ac996b59E0235CB985C. Rule fixed in advance: latest transfer events in whole windows of 10 pages of 1,000 until the distinct-transaction series has at least 1,000 timestamps spanning at least 90 days; one timestamp per distinct transaction hash; no other filter. One window (10,000 events) was enough.",
+   "window_start": "2026-06-29T13:22:47Z",
+   "window_end": "2026-11-08T00:46:35Z",
+   "retrieved_on": "2026-11-08T01:37:48Z",
+   "csv": "docs/data/timing.csv",
+   "timestamp_column": "timestamp",
+   "notes": "Selection and first attempt are documented in docs/data/H14_DATA_NOTES.md. No H14 result had been computed when the data were fixed."
+  }
+ },
+ "label": "real traces, simulated compliance layer",
+ "timing": {
+  "burstiness": {
+   "n_gaps": 4995,
+   "mean_ticks": 10.288688688688689,
+   "cv": 1.9456102759801115
+  },
+  "real": [
+   {
+    "events_per_epoch": 1,
+    "mean": 0.34991666666666665,
+    "lo": 0.31324283753327997,
+    "hi": 0.38659049580005334
+   },
+   {
+    "events_per_epoch": 2,
+    "mean": 0.26291666666666663,
+    "lo": 0.22994719509741707,
+    "hi": 0.2958861382359162
+   },
+   {
+    "events_per_epoch": 3,
+    "mean": 0.21333333333333332,
+    "lo": 0.1851808454237617,
+    "hi": 0.24148582124290494
+   },
+   {
+    "events_per_epoch": 5,
+    "mean": 0.16058333333333336,
+    "lo": 0.1371028183404614,
+    "hi": 0.18406384832620531
+   },
+   {
+    "events_per_epoch": 8,
+    "mean": 0.10800000000000001,
+    "lo": 0.09253789575102188,
+    "hi": 0.12346210424897815
+   },
+   {
+    "events_per_epoch": 10,
+    "mean": 0.09166666666666666,
+    "lo": 0.07769921161680877,
+    "hi": 0.10563412171652455
+   },
+   {
+    "events_per_epoch": 20,
+    "mean": 0.049166666666666664,
+    "lo": 0.04143013071031071,
+    "hi": 0.05690320262302262
+   }
+  ],
+  "synthetic": [
+   {
+    "events_per_epoch": 1,
+    "mean": 0.5271666666666667,
+    "lo": 0.5159366452928232,
+    "hi": 0.5383966880405101
+   },
+   {
+    "events_per_epoch": 2,
+    "mean": 0.36291666666666667,
+    "lo": 0.35258871197330416,
+    "hi": 0.37324462136002917
+   },
+   {
+    "events_per_epoch": 3,
+    "mean": 0.27041666666666664,
+    "lo": 0.2602596821359196,
+    "hi": 0.2805736511974137
+   },
+   {
+    "events_per_epoch": 5,
+    "mean": 0.18591666666666667,
+    "lo": 0.1768339791023874,
+    "hi": 0.19499935423094594
+   },
+   {
+    "events_per_epoch": 8,
+    "mean": 0.12116666666666667,
+    "lo": 0.1128809228257583,
+    "hi": 0.12945241050757506
+   },
+   {
+    "events_per_epoch": 10,
+    "mean": 0.09741666666666668,
+    "lo": 0.09079395432175702,
+    "hi": 0.10403937901157634
+   },
+   {
+    "events_per_epoch": 20,
+    "mean": 0.051000000000000004,
+    "lo": 0.04703557931861018,
+    "hi": 0.054964420681389826
+   }
+  ],
+  "status": [
+   "CONFIRMED",
+   "real timing: linkage 35% at 1 event/epoch, 5% (upper CI 6%) at 20; smallest ratio with upper CI < 25%: 3"
+  ]
+ }
+}

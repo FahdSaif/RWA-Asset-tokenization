@@ -1,0 +1,6 @@
+run:      https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42436108204
+ref:      v1.3-prereg-timing
+commit:   90408d000adec1720ccb14275965baf6b284628a
+sections: timing
+python:   Python 3.12.16
+date_utc: 2026-11-08T01:53:13Z
