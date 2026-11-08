@@ -1,0 +1,165 @@
+{
+ "experiment": "latency",
+ "label": "exploratory; plan: docs/EXPLORATORY_PLAN.md",
+ "provenance": {
+  "python": "3.12.16",
+  "git_commit": "b9d444b8782b76c2b12d8950d43f905a7c072cbf",
+  "files": {
+   "blacklist_events": {
+    "path": "docs/data/exploratory/blacklist_events_ofac_subset.csv",
+    "sha256": "f97ff67ccae97b201ba2d521535858429f53d7f11adf67caf5e5c21e1f4f668e"
+   },
+   "summary": {
+    "path": "docs/data/exploratory/blacklist_summary.json",
+    "sha256": "dc3407a16808b02546b42ab912dae07c8ae5318108a1bec2d2434544425cf5e6"
+   }
+  },
+  "git_clean": true,
+  "freeze_intact": true,
+  "freeze_info": "1165be04d0c1",
+  "forced": false,
+  "ci_run": "https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42441805299",
+  "ci_ref": "refs/heads/main",
+  "ofac_raw_sources": {
+   "sdnnew19.txt": "f46f03f1da6eb36579a8aec32aa0f522da2f5284ff7ff059305744ec2c06e683",
+   "sdnnew20.txt": "dedb8a27dc0954786d6fdc10afd87fa84019e8c1fa223cbe36ef0714f4352a11",
+   "sdnnew21.txt": "0507c64fe686d93261b462e12345bf0bdaa2c650632c311de1d7cfb1ffdbe175",
+   "sdnnew22.txt": "a237c9605eafac0b9fed82f52b352cc22e2aec7c3b2e5a5deebe54bc99eb5b9c",
+   "sdnnew23.txt": "92f04e19c0082a1fdae778f88960180ca1e4ff037af40773b49ce56fd5f35920"
+  }
+ },
+ "result": {
+  "as_of": "2026-11-08",
+  "ofac_addresses": 141,
+  "listing_dates": 17,
+  "USDC": {
+   "addresses": 141,
+   "blacklisted": 141,
+   "share_blacklisted": 1.0,
+   "median_days": 1.0,
+   "p25": 0.0,
+   "p75": 2.0,
+   "p90": 2.0,
+   "within_1d": 0.524822695035461,
+   "within_7d": 0.9645390070921985,
+   "within_30d": 0.9645390070921985,
+   "before_listing": 0.0
+  },
+  "USDT": {
+   "addresses": 141,
+   "blacklisted": 141,
+   "share_blacklisted": 1.0,
+   "median_days": 396.0,
+   "p25": 396.0,
+   "p75": 488.0,
+   "p90": 761.0,
+   "within_1d": 0.0070921985815602835,
+   "within_7d": 0.0070921985815602835,
+   "within_30d": 0.0070921985815602835,
+   "before_listing": 0.0070921985815602835
+  },
+  "either": {
+   "addresses": 141,
+   "blacklisted": 141,
+   "share_blacklisted": 1.0,
+   "median_days": 1.0,
+   "p25": 0.0,
+   "p75": 2.0,
+   "p90": 2.0,
+   "within_1d": 0.524822695035461,
+   "within_7d": 0.9645390070921985,
+   "within_30d": 0.9645390070921985,
+   "before_listing": 0.0070921985815602835
+  },
+  "by_listing_date": {
+   "2020-09-10": {
+    "addresses": 2,
+    "blacklisted": 2,
+    "median_days": 565.0
+   },
+   "2020-09-16": {
+    "addresses": 2,
+    "blacklisted": 2,
+    "median_days": 217.0
+   },
+   "2021-04-15": {
+    "addresses": 5,
+    "blacklisted": 5,
+    "median_days": 6.0
+   },
+   "2021-09-21": {
+    "addresses": 4,
+    "blacklisted": 4,
+    "median_days": 2.0
+   },
+   "2021-11-08": {
+    "addresses": 7,
+    "blacklisted": 7,
+    "median_days": 1.0
+   },
+   "2022-04-05": {
+    "addresses": 1,
+    "blacklisted": 1,
+    "median_days": 1.0
+   },
+   "2022-08-08": {
+    "addresses": 38,
+    "blacklisted": 38,
+    "median_days": 0.0
+   },
+   "2022-09-15": {
+    "addresses": 2,
+    "blacklisted": 2,
+    "median_days": 0.0
+   },
+   "2022-11-08": {
+    "addresses": 53,
+    "blacklisted": 53,
+    "median_days": 2.0
+   },
+   "2022-11-09": {
+    "addresses": 9,
+    "blacklisted": 9,
+    "median_days": 1.0
+   },
+   "2023-02-01": {
+    "addresses": 1,
+    "blacklisted": 1,
+    "median_days": 0.0
+   },
+   "2023-04-24": {
+    "addresses": 1,
+    "blacklisted": 1,
+    "median_days": -52.0
+   },
+   "2023-05-19": {
+    "addresses": 1,
+    "blacklisted": 1,
+    "median_days": 0.0
+   },
+   "2023-05-23": {
+    "addresses": 2,
+    "blacklisted": 2,
+    "median_days": 0.0
+   },
+   "2023-08-23": {
+    "addresses": 8,
+    "blacklisted": 8,
+    "median_days": 1.0
+   },
+   "2023-09-26": {
+    "addresses": 1,
+    "blacklisted": 1,
+    "median_days": 1.0
+   },
+   "2023-10-03": {
+    "addresses": 4,
+    "blacklisted": 4,
+    "median_days": 1.0
+   }
+  },
+  "median_of_date_medians": 1.0,
+  "dates_with_any_blacklisting": 17
+ },
+ "markdown": "| Issuer | OFAC addresses | Blacklisted | Share | Median days | p90 days | Within 1 d | Within 7 d | Within 30 d |\n|---|---|---|---|---|---|---|---|---|\n| USDC | 141 | 141 | 100% | 1 | 2 | 52% | 96% | 96% |\n| USDT | 141 | 141 | 100% | 396 | 761 | 1% | 1% | 1% |\n| either | 141 | 141 | 100% | 1 | 2 | 52% | 96% | 96% |\n\nOFAC listing dates: 17; dates with at least one blacklisting: 17; median of per-date medians: 1 days."
+}
