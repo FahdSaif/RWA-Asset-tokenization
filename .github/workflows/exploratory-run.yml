@@ -10,7 +10,7 @@ on:
         required: true
         default: "v1.6-exploratory-data"
       experiment:
-        description: "Experiment: kanon or latency"
+        description: "Experiment: kanon, latency or census"
         required: true
         default: "kanon"
 
@@ -30,7 +30,7 @@ jobs:
       - name: Check the experiment name
         working-directory: .
         run: |
-          case "$EXPERIMENT" in kanon|latency) ;; *) echo "::error::experiment must be kanon or latency"; exit 1;; esac
+          case "$EXPERIMENT" in kanon|latency|census) ;; *) echo "::error::experiment must be kanon, latency or census"; exit 1;; esac
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
