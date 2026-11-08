@@ -1,0 +1,33 @@
+{
+ "plan_tag": "v1.6-exploratory-plan",
+ "repo_commit": "93629f87d6337e65bd8f24dbd77a26037ce1bda2",
+ "retrieved_utc": "2026-11-08T02:47:21Z",
+ "start_block": 6900000,
+ "tokens": {
+  "USDC": {
+   "contract": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+   "topic0": "0xffa4e6181777692565cf28528fc88fd1516ea86b56da075235fa575af6a4b855",
+   "events_total": 949,
+   "first_event": "2020-06-16",
+   "last_event": "2026-11-06",
+   "events_for_ofac_addresses": 142,
+   "ofac_addresses_blacklisted": 141
+  },
+  "USDT": {
+   "contract": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+   "topic0": "0x42e160154868087d6bfdc0ca23d96a1c1cfa32f1b72ba9ba27b69b98a0d819dc",
+   "events_total": 3206,
+   "first_event": "2018-12-28",
+   "last_event": "2026-11-06",
+   "events_for_ofac_addresses": 142,
+   "ofac_addresses_blacklisted": 141
+  }
+ },
+ "ofac_addresses": 141,
+ "subset_rows": 284,
+ "sha256": {
+  "blacklist_events_ofac_subset.csv": "f97ff67ccae97b201ba2d521535858429f53d7f11adf67caf5e5c21e1f4f668e",
+  "raw_USDC.json": "63d97eb2e8fe17c5e2a5ca2bd20bb2b99bddd6e9ff384607517fb1a5ac19566a",
+  "raw_USDT.json": "daa97e9473052f11efc3061f8bac48ccfbb0c428ebd304a955cc960ea347793f"
+ }
+}
