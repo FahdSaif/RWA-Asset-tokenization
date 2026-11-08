@@ -62,12 +62,18 @@ jobs:
           name: exploratory-${{ inputs.experiment }}-${{ github.run_id }}
           path: rwa-threatlab/docs/results/exploratory/${{ inputs.experiment }}
       - name: Publish to a results branch (not main)
+        working-directory: .
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           B="exploratory-${EXPERIMENT}-${GITHUB_RUN_ID}"
-          git checkout -b "$B"
-          git add -f "docs/results/exploratory/$EXPERIMENT"
-          git commit -m "Exploratory run ${GITHUB_RUN_ID} of ${REF}: ${EXPERIMENT}"
+          RES="rwa-threatlab/docs/results/exploratory/$EXPERIMENT"
+          # publish ONLY the results, as a branch without history and without workflow files (a workflow token may not push those)
+          rm -rf "$RUNNER_TEMP/res" && mkdir -p "$RUNNER_TEMP/res" && cp -r "$RES/." "$RUNNER_TEMP/res/"
+          git checkout --orphan "$B"
+          git rm -rf --quiet .
+          mkdir -p "$RES" && cp -r "$RUNNER_TEMP/res/." "$RES/"
+          git add -f "$RES"
+          git commit -m "Exploratory run ${GITHUB_RUN_ID} of ${REF}: ${EXPERIMENT} (results only; code and data are at ${REF})"
           git push origin "$B"
           echo "Results are on branch $B"
