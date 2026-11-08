@@ -1,0 +1,231 @@
+{
+ "experiment": "kanon",
+ "label": "exploratory; plan: docs/EXPLORATORY_PLAN.md",
+ "provenance": {
+  "python": "3.12.16",
+  "git_commit": "b9d444b8782b76c2b12d8950d43f905a7c072cbf",
+  "files": {
+   "events": {
+    "path": "docs/data/exploratory/usdy_events.csv",
+    "sha256": "fdad35aabc4380d352d2724d7b5f8709afd0de6e1821303a084512f59239cfbd"
+   }
+  },
+  "git_clean": true,
+  "freeze_intact": true,
+  "freeze_info": "1165be04d0c1",
+  "forced": false,
+  "ci_run": "https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42441479233",
+  "ci_ref": "refs/heads/main"
+ },
+ "result": {
+  "n_events": 10000,
+  "n_transactions": 4996,
+  "t_first": 1782739367,
+  "t_last": 1794098795,
+  "grid": {
+   "1 min": {
+    "exact": {
+     "unique": 0.9091,
+     "median_k": 1.0,
+     "ge5": 0.0178,
+     "ge20": 0.0061
+    },
+    "1%": {
+     "unique": 0.7578,
+     "median_k": 1.0,
+     "ge5": 0.1963,
+     "ge20": 0.1528
+    },
+    "5%": {
+     "unique": 0.7505,
+     "median_k": 1.0,
+     "ge5": 0.1997,
+     "ge20": 0.1623
+    },
+    "10%": {
+     "unique": 0.7484,
+     "median_k": 1.0,
+     "ge5": 0.1983,
+     "ge20": 0.1562
+    },
+    "25%": {
+     "unique": 0.7442,
+     "median_k": 1.0,
+     "ge5": 0.1997,
+     "ge20": 0.1645
+    }
+   },
+   "10 min": {
+    "exact": {
+     "unique": 0.8035,
+     "median_k": 1.0,
+     "ge5": 0.0178,
+     "ge20": 0.0121
+    },
+    "1%": {
+     "unique": 0.5891,
+     "median_k": 1.0,
+     "ge5": 0.2233,
+     "ge20": 0.1887
+    },
+    "5%": {
+     "unique": 0.5741,
+     "median_k": 1.0,
+     "ge5": 0.2354,
+     "ge20": 0.1959
+    },
+    "10%": {
+     "unique": 0.5676,
+     "median_k": 1.0,
+     "ge5": 0.2342,
+     "ge20": 0.1913
+    },
+    "25%": {
+     "unique": 0.5566,
+     "median_k": 1.0,
+     "ge5": 0.242,
+     "ge20": 0.1981
+    }
+   },
+   "1 hour": {
+    "exact": {
+     "unique": 0.7564,
+     "median_k": 1.0,
+     "ge5": 0.0201,
+     "ge20": 0.0121
+    },
+    "1%": {
+     "unique": 0.5203,
+     "median_k": 1.0,
+     "ge5": 0.2664,
+     "ge20": 0.2202
+    },
+    "5%": {
+     "unique": 0.5012,
+     "median_k": 1.0,
+     "ge5": 0.2789,
+     "ge20": 0.2306
+    },
+    "10%": {
+     "unique": 0.4877,
+     "median_k": 2.0,
+     "ge5": 0.2811,
+     "ge20": 0.2301
+    },
+    "25%": {
+     "unique": 0.4663,
+     "median_k": 2.0,
+     "ge5": 0.2875,
+     "ge20": 0.2395
+    }
+   },
+   "6 hours": {
+    "exact": {
+     "unique": 0.7179,
+     "median_k": 1.0,
+     "ge5": 0.026,
+     "ge20": 0.0121
+    },
+    "1%": {
+     "unique": 0.4701,
+     "median_k": 2.0,
+     "ge5": 0.293,
+     "ge20": 0.2412
+    },
+    "5%": {
+     "unique": 0.4399,
+     "median_k": 2.0,
+     "ge5": 0.3114,
+     "ge20": 0.2551
+    },
+    "10%": {
+     "unique": 0.4184,
+     "median_k": 2.0,
+     "ge5": 0.3161,
+     "ge20": 0.2558
+    },
+    "25%": {
+     "unique": 0.3753,
+     "median_k": 2.0,
+     "ge5": 0.3378,
+     "ge20": 0.2584
+    }
+   },
+   "1 day": {
+    "exact": {
+     "unique": 0.6988,
+     "median_k": 1.0,
+     "ge5": 0.0332,
+     "ge20": 0.0121
+    },
+    "1%": {
+     "unique": 0.434,
+     "median_k": 2.0,
+     "ge5": 0.31,
+     "ge20": 0.2472
+    },
+    "5%": {
+     "unique": 0.3827,
+     "median_k": 2.0,
+     "ge5": 0.3341,
+     "ge20": 0.2583
+    },
+    "10%": {
+     "unique": 0.3491,
+     "median_k": 2.0,
+     "ge5": 0.3536,
+     "ge20": 0.2591
+    },
+    "25%": {
+     "unique": 0.2751,
+     "median_k": 3.0,
+     "ge5": 0.4002,
+     "ge20": 0.2643
+    }
+   },
+   "whole window": {
+    "exact": {
+     "unique": 0.6324,
+     "median_k": 1.0,
+     "ge5": 0.0853,
+     "ge20": 0.0474
+    },
+    "1%": {
+     "unique": 0.0821,
+     "median_k": 10.0,
+     "ge5": 0.6723,
+     "ge20": 0.3972
+    },
+    "5%": {
+     "unique": 0.01,
+     "median_k": 26.0,
+     "ge5": 0.9396,
+     "ge20": 0.5946
+    },
+    "10%": {
+     "unique": 0.0052,
+     "median_k": 42.0,
+     "ge5": 0.9786,
+     "ge20": 0.7969
+    },
+    "25%": {
+     "unique": 0.0031,
+     "median_k": 83.0,
+     "ge5": 0.9934,
+     "ge20": 0.9483
+    }
+   }
+  },
+  "first_bucket_below_5pct_unique": {
+   "1 min": null,
+   "10 min": null,
+   "1 hour": null,
+   "6 hours": null,
+   "1 day": null,
+   "whole window": "5%"
+  },
+  "a1_exact_1h_unique": 0.7564,
+  "a2_10pct_1day_unique": 0.3491
+ },
+ "markdown": "Share of events that are unique (median anonymity set k in transactions), by epoch (rows) and value bucket width (columns):\n\n| Epoch | exact | 1% | 5% | 10% | 25% |\n|---|---|---|---|---|---|\n| 1 min | 90.9% (k~1) | 75.8% (k~1) | 75.0% (k~1) | 74.8% (k~1) | 74.4% (k~1) |\n| 10 min | 80.3% (k~1) | 58.9% (k~1) | 57.4% (k~1) | 56.8% (k~1) | 55.7% (k~1) |\n| 1 hour | 75.6% (k~1) | 52.0% (k~1) | 50.1% (k~1) | 48.8% (k~2) | 46.6% (k~2) |\n| 6 hours | 71.8% (k~1) | 47.0% (k~2) | 44.0% (k~2) | 41.8% (k~2) | 37.5% (k~2) |\n| 1 day | 69.9% (k~1) | 43.4% (k~2) | 38.3% (k~2) | 34.9% (k~2) | 27.5% (k~3) |\n| whole window | 63.2% (k~1) | 8.2% (k~10) | 1.0% (k~26) | 0.5% (k~42) | 0.3% (k~83) |"
+}
