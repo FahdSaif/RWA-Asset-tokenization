@@ -1,0 +1,12 @@
+{
+ "plan_tag": "v1.6-census-plan",
+ "repo_commit": "7af15face1dad4cc7df0aa6b78118cf731ead434",
+ "retrieved_utc": "2026-11-08T09:45:15Z",
+ "tokens": 25,
+ "with_errors": 0,
+ "source_verified": 25,
+ "proxies": 21,
+ "sha256": {
+  "census_raw.json": "9f10f6f4ea36867b88fc628a7c11d487bae8f516b76d0128f5c3cf626df507c4"
+ }
+}
