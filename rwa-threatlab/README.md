@@ -5,8 +5,8 @@
 [![CI](https://github.com/FahdSaif/RWA-Asset-tokenization/actions/workflows/rwa-threatlab-ci.yml/badge.svg)](https://github.com/FahdSaif/RWA-Asset-tokenization/actions)
 ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![deps](https://img.shields.io/badge/dependencies-none-green) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
-Companion code for the forthcoming paper *"A Threat-Modelling Framework for Runtime-Enforced Compliance in Tokenised Real-World Asset Systems"*
-(SDLT 2026; Fahd Saifuddin). The paper builds a STRIDE-based threat model, attack trees and a risk assessment for
+Companion code for the paper *"A Threat-Modelling Framework for Runtime-Enforced Compliance in Tokenised Real-World Asset Systems"*
+(conference version: SDLT 2026; a journal extension with pre-registered real-data experiments is in preparation; Fahd Saifuddin). The paper builds a STRIDE-based threat model, attack trees and a risk assessment for
 architectures that enforce compliance in the protocol runtime. This repository makes the analysis **runnable and
 falsifiable**:
 
@@ -24,7 +24,7 @@ Standard library only.
 
 ## Two kinds of checks, deliberately separate
 
-| | Software tests (`pytest`, 84) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
+| | Software tests (`pytest`, 96) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
 |---|---|---|
 | Question | Does the code do what it says? | Do the paper's claims hold? |
 | May fail? | No. A failure is a bug. | **Yes.** Reported as CONFIRMED / REFUTED / INCONCLUSIVE. |
@@ -102,6 +102,19 @@ a test plants four faults in the fuzzer's oracle and the comparison catches each
 measurement is conservative (31 of 2,824 violations would count as within-lag if measured at the transfer tick; none the other way).
 See `docs/PREREGISTRATION.md` addendum A2 and section 7 for what this does not check.
 
+## Where the evidence is (start here)
+
+| What | Where |
+|---|---|
+| Pre-registration (OSF, 7 Nov 2026) | https://osf.io/64atb; `docs/PREREGISTRATION.md`; tag `v1.3-prereg-real` |
+| Real OFAC replay (H12, H13, H16), official run and replication | `docs/results/real/`; tag `v1.3-real-results` |
+| Real transaction timing (H14), official run and replication | `docs/results/real_timing/`; data and selection notes in `docs/data/` (`H14_DATA_NOTES.md`); tag `v1.3-prereg-timing` |
+| Assessor study and post-hoc scope revision | `docs/irr/`, `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
+| Exploratory measurements on real Ethereum data (A anonymity sets, B OFAC-to-blacklist delay, C census of privileged control) | plan `docs/EXPLORATORY_PLAN.md` and `docs/EXPLORATORY_PLAN_C_ADDENDUM.md` (fixed before the data were analysed; tags `v1.6-exploratory-plan`, `v1.6-census-plan`); results `docs/results/exploratory/` (tags `v1.6-exploratory-data`, `v1.6-census-data`) |
+| Final state cited by the paper | tag `v1.5-paper` (a later tag will be added with the exploratory evidence) |
+
+Every result folder was produced by a manually triggered GitHub Actions run from a fixed tag and was re-run independently with an identical result. The exploratory analyses are **not** part of the OSF registration; their plans were committed and tagged before the data were analysed.
+
 ## Real-trace experiments (H12-H16)
 
 `python -m rwa_threatlab ofac-parse ...` turns OFAC's change archive into events; `python -m rwa_threatlab real` replays them
@@ -142,8 +155,8 @@ realistic in shape (heavy-tailed event gaps, Zipf-concentrated jurisdictions, me
 seeds; they are not calibrated to any production system. The pre-registered real-trace experiments (H12, H13, H16) replay the order of
 add and remove events of OFAC's public SDN change files (2019 to 2023) in the fuzzer, and H14 uses the real transaction timing of one
 tokenised asset (Ondo USDY, 4,996 transactions over 131.5 days; confirmed); the compliance layer is always simulated.
-H15 (bridge latency) is pre-registered but was not run. See [`docs/DATA.md`](docs/DATA.md), [`docs/results/real/`](docs/results/real/) (OFAC run)
-and [`docs/results/real_timing/`](docs/results/real_timing/) (H14 run).
+H15 (bridge latency) is pre-registered but was not run. The exploratory analyses add real Ethereum data: the 10,000 USDY transfer events of H14 (A), the on-chain blacklist events of USDC and USDT for the OFAC-listed addresses (B), and on-chain observations of 25 tokenised-asset contracts (C). See [`docs/DATA.md`](docs/DATA.md), [`docs/results/real/`](docs/results/real/) (OFAC run),
+[`docs/results/real_timing/`](docs/results/real_timing/) (H14 run) and [`docs/results/exploratory/`](docs/results/exploratory/) (exploratory runs).
 
 ## Layout
 
