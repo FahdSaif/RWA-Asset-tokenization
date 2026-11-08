@@ -1,0 +1,6 @@
+run:        https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42468964853
+ref:        v1.6-census-data
+commit:     fda11eded662ca5f676152382e683167a7d84979
+experiment: census
+python:     Python 3.12.16
+date_utc:   2026-11-08T09:52:34Z
