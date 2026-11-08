@@ -28,6 +28,7 @@ jobs:
       EXPERIMENT: ${{ inputs.experiment }}
     steps:
       - name: Check the experiment name
+        working-directory: .
         run: |
           case "$EXPERIMENT" in kanon|latency) ;; *) echo "::error::experiment must be kanon or latency"; exit 1;; esac
       - uses: actions/checkout@v4
