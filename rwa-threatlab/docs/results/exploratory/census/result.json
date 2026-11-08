@@ -1,0 +1,527 @@
+{
+ "experiment": "census",
+ "label": "exploratory; plan: docs/EXPLORATORY_PLAN.md",
+ "provenance": {
+  "python": "3.12.16",
+  "git_commit": "fda11eded662ca5f676152382e683167a7d84979",
+  "files": {
+   "census_raw": {
+    "path": "docs/data/exploratory/census_raw.json",
+    "sha256": "9f10f6f4ea36867b88fc628a7c11d487bae8f516b76d0128f5c3cf626df507c4"
+   },
+   "tokens": {
+    "path": "docs/data/exploratory/census_tokens.txt",
+    "sha256": "dbacd0d498394c0b8eb3fffc6addea6e67959349c6ad462ba116103d9153ceb9"
+   }
+  },
+  "git_clean": true,
+  "freeze_intact": true,
+  "freeze_info": "1165be04d0c1",
+  "forced": false,
+  "ci_run": "https://github.com/FahdSaif/RWA-Asset-tokenization/actions/runs/42468964853",
+  "ci_ref": "refs/heads/main"
+ },
+ "result": {
+  "n_tokens": 25,
+  "source_verified": 25,
+  "proxies": 21,
+  "upgrade_control_among_proxies": {
+   "multisig": 10,
+   "not_readable": 10,
+   "timelock": 1
+  },
+  "owner_control": {
+   "no_owner_or_default_admin": 10,
+   "none": 3,
+   "eoa": 2,
+   "multisig": 9,
+   "timelock": 1
+  },
+  "categories": {
+   "pause": 20,
+   "freeze_blacklist": 11,
+   "forced_transfer_recovery": 3,
+   "upgrade": 20,
+   "mint_burn": 23
+  },
+  "with_errors": 0,
+  "tokens": [
+   {
+    "rank": 1,
+    "address": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+    "name": "TokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 4-of-7 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 2,
+    "address": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "none",
+    "owner_type": "none",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 3,
+    "address": "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "eoa",
+    "owner_type": "eoa",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": true,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 4,
+    "address": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+    "name": "Tranche",
+    "source_verified": true,
+    "is_proxy": false,
+    "upgrade_control": "no_proxy_detected",
+    "upgrade_type": "no_proxy_detected",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": false,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": false,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 5,
+    "address": "0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": false,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 6,
+    "address": "0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "none",
+    "owner_type": "none",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 7,
+    "address": "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 8,
+    "address": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 9,
+    "address": "0x5fa487bca6158c64046b2813623e20755091da0b",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 10,
+    "address": "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 11,
+    "address": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+    "name": "BoringVault",
+    "source_verified": true,
+    "is_proxy": false,
+    "upgrade_control": "no_proxy_detected",
+    "upgrade_type": "no_proxy_detected",
+    "owner_control": "timelock (172800 s)",
+    "owner_type": "timelock",
+    "categories": {
+     "pause": false,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": false,
+     "mint_burn": false
+    },
+    "errors": 0
+   },
+   {
+    "rank": 12,
+    "address": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+    "name": "PProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 13,
+    "address": "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": true,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 14,
+    "address": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 15,
+    "address": "0xa753a7395cae905cd615da0b82a53e0560f250af",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 16,
+    "address": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+    "name": "TokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "timelock (7200 s) via contract",
+    "upgrade_type": "timelock",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 17,
+    "address": "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 18,
+    "address": "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 19,
+    "address": "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "none",
+    "owner_type": "none",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 20,
+    "address": "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+    "name": "BeaconProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": false,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 21,
+    "address": "0x2255718832bc9fd3be1caf75084f4803da14ff01",
+    "name": "ERC1967Proxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "not_readable",
+    "upgrade_type": "not_readable",
+    "owner_control": "eoa",
+    "owner_type": "eoa",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": true,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 22,
+    "address": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+    "name": "BackedTokenProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "multisig 2-of-3",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 23,
+    "address": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+    "name": "TransparentUpgradeableProxy",
+    "source_verified": true,
+    "is_proxy": true,
+    "upgrade_control": "multisig 2-of-3 via contract",
+    "upgrade_type": "multisig",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": false,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": true,
+     "mint_burn": true
+    },
+    "errors": 0
+   },
+   {
+    "rank": 24,
+    "address": "0xe820c06321e60d36257c666643fa5436643445e3",
+    "name": "USDKG",
+    "source_verified": true,
+    "is_proxy": false,
+    "upgrade_control": "no_proxy_detected",
+    "upgrade_type": "no_proxy_detected",
+    "owner_control": "multisig 3-of-7",
+    "owner_type": "multisig",
+    "categories": {
+     "pause": true,
+     "freeze_blacklist": true,
+     "forced_transfer_recovery": false,
+     "upgrade": false,
+     "mint_burn": false
+    },
+    "errors": 0
+   },
+   {
+    "rank": 25,
+    "address": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+    "name": "Tranche",
+    "source_verified": true,
+    "is_proxy": false,
+    "upgrade_control": "no_proxy_detected",
+    "upgrade_type": "no_proxy_detected",
+    "owner_control": "no_owner_or_default_admin",
+    "owner_type": "no_owner_or_default_admin",
+    "categories": {
+     "pause": false,
+     "freeze_blacklist": false,
+     "forced_transfer_recovery": false,
+     "upgrade": false,
+     "mint_burn": true
+    },
+    "errors": 0
+   }
+  ]
+ },
+ "markdown": "25 contracts: source verified 25; proxies 21; with at least one read error 0.\n\n**Upgrade control among proxies**\n\n| Type | Count |\n|---|---|\n| multisig | 10 |\n| not_readable | 10 |\n| timelock | 1 |\n\n**Owner control (owner() or defaultAdmin())**\n\n| Type | Count |\n|---|---|\n| no_owner_or_default_admin | 10 |\n| multisig | 9 |\n| none | 3 |\n| eoa | 2 |\n| timelock | 1 |\n\n**Function-name categories present (count of contracts)**\n\n| Category | Count |\n|---|---|\n| pause | 20 |\n| freeze_blacklist | 11 |\n| forced_transfer_recovery | 3 |\n| upgrade | 20 |\n| mint_burn | 23 |\n\n| # | Name | Verified | Proxy | Upgrade control | Owner control | pause | freeze/blacklist | forced transfer/recovery | mint/burn | upgrade |\n|---|---|---|---|---|---|---|---|---|---|---|\n| 1 | TokenProxy | yes | yes | multisig 4-of-7 via contract | no_owner_or_default_admin | x | x |  | x | x |\n| 2 | ERC1967Proxy | yes | yes | not_readable | none | x |  |  | x | x |\n| 3 | ERC1967Proxy | yes | yes | not_readable | eoa | x |  | x | x | x |\n| 4 | Tranche | yes | no | no_proxy_detected | no_owner_or_default_admin |  |  |  | x |  |\n| 5 | ERC1967Proxy | yes | yes | not_readable | no_owner_or_default_admin |  |  |  | x | x |\n| 6 | ERC1967Proxy | yes | yes | not_readable | none | x |  |  | x | x |\n| 7 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 8 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 9 | ERC1967Proxy | yes | yes | not_readable | no_owner_or_default_admin | x |  |  | x | x |\n| 10 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 11 | BoringVault | yes | no | no_proxy_detected | timelock (172800 s) |  |  |  |  |  |\n| 12 | PProxy | yes | yes | not_readable | no_owner_or_default_admin | x |  |  | x | x |\n| 13 | ERC1967Proxy | yes | yes | not_readable | no_owner_or_default_admin | x | x | x | x | x |\n| 14 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 15 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 16 | TokenProxy | yes | yes | timelock (7200 s) via contract | no_owner_or_default_admin | x |  |  | x | x |\n| 17 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 18 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 19 | ERC1967Proxy | yes | yes | not_readable | none | x |  |  | x | x |\n| 20 | BeaconProxy | yes | yes | not_readable | no_owner_or_default_admin | x |  |  | x |  |\n| 21 | ERC1967Proxy | yes | yes | not_readable | eoa | x |  | x | x | x |\n| 22 | BackedTokenProxy | yes | yes | multisig 2-of-3 via contract | multisig 2-of-3 | x | x |  | x | x |\n| 23 | TransparentUpgradeableProxy | yes | yes | multisig 2-of-3 via contract | no_owner_or_default_admin |  |  |  | x | x |\n| 24 | USDKG | yes | no | no_proxy_detected | multisig 3-of-7 | x | x |  |  |  |\n| 25 | Tranche | yes | no | no_proxy_detected | no_owner_or_default_admin |  |  |  | x |  |"
+}
