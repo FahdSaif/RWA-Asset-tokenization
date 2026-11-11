@@ -20,7 +20,7 @@ falsifiable**:
 * the paper's **risk rubric**, sensitivity analysis and an explicit-state **model checker**;
 * **realistic synthetic data generators** with a datasheet ([`docs/DATA.md`](docs/DATA.md)) and loaders for real traces.
 
-Standard library only.
+The code itself uses only the Python standard library. Three optional packages (`pytest`, `pycryptodome`, `openpyxl`, installed by the `dev` extra) are needed only to run all 96 software tests.
 
 ## Two kinds of checks, deliberately separate
 
@@ -111,9 +111,29 @@ See `docs/PREREGISTRATION.md` addendum A2 and section 7 for what this does not c
 | Real transaction timing (H14), official run and replication | `docs/results/real_timing/`; data and selection notes in `docs/data/` (`H14_DATA_NOTES.md`); tag `v1.3-prereg-timing` |
 | Assessor study and post-hoc scope revision | `docs/irr/`, `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
 | Exploratory measurements on real Ethereum data (A anonymity sets, B OFAC-to-blacklist delay, C census of privileged control) | plan `docs/EXPLORATORY_PLAN.md` and `docs/EXPLORATORY_PLAN_C_ADDENDUM.md` (fixed before the data were analysed; tags `v1.6-exploratory-plan`, `v1.6-census-plan`); results `docs/results/exploratory/` (tags `v1.6-exploratory-data`, `v1.6-census-data`) |
-| Final state cited by the paper | tag `v1.5-paper` (a later tag will be added with the exploratory evidence) |
+| Final state cited by the paper | tag `v1.7-paper` |
 
 Every result folder was produced by a manually triggered GitHub Actions run from a fixed tag and was re-run independently with an identical result. The exploratory analyses are **not** part of the OSF registration; their plans were committed and tagged before the data were analysed.
+
+## Reproduce the paper's results
+
+Each row gives the claim, the command that regenerates it and the folder that holds the stored evidence. Pass `--out` with a new folder so stored results are not overwritten (the converter `scripts/make_revision_outputs.py` writes into `docs/results/`; `git checkout -- docs/results` restores it). Runs refuse to start if tracked files are uncommitted or the frozen instrument changed (`--force` overrides and is logged).
+
+| Claim in the paper | Command (from `rwa-threatlab/`) | Stored evidence |
+|---|---|---|
+| 17 attack scenarios: baseline, hardened, residual | `python -m rwa_threatlab scenarios` † | `docs/results/scenarios.md` |
+| Risk rubric, sensitivity, trust-anchor floor | `python -m rwa_threatlab risk` † | `docs/results/risk.md`, `floor_dependence.json` |
+| Model check, and scaled check (up to 6 chains, 12 participants) | `python -m rwa_threatlab modelcheck` †; `python -m rwa_threatlab scaled` † | `docs/results/modelcheck_scaled.md` |
+| Hypotheses H1 to H10 (held-out seeds) | `python -m rwa_threatlab hypotheses` † | `docs/results/hypotheses.md` |
+| H11: second oracle (2,824 violations, 0 disagreements) | `python -m rwa_threatlab h11` † | `docs/results/h11.md` |
+| H12, H13, H16: replay of real OFAC histories | `python -m rwa_threatlab real --only ofac` † (see `docs/REAL_DATA_RUNBOOK.md`) | `docs/results/real/` |
+| H14: real USDY transaction timing | `python -m rwa_threatlab real --only timing` † | `docs/results/real_timing/` |
+| Inter-rater study and ratings revision | `python scripts/make_revision_outputs.py` † | `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
+| Exploratory A: anonymity sets of USDY transfers | `python -m rwa_threatlab.exploratory.run kanon` † | `docs/results/exploratory/kanon/` |
+| Exploratory B: OFAC listing to USDC/USDT blacklisting | `python -m rwa_threatlab.exploratory.run latency` † | `docs/results/exploratory/latency/` |
+| Exploratory C: census of 25 tokenised-asset contracts | `python -m rwa_threatlab.exploratory.run census` † | `docs/results/exploratory/census/` |
+
+† Re-run from a clean clone of `main` on 11 November 2026: the result content was identical to the stored files (only provenance fields such as commit hash, date and Python version differ). The real-data and exploratory results were also produced by the manually triggered GitHub Actions workflows (run links in the results folders) and re-run independently with identical results. H15 (bridge latency) was not run. The real-data inputs are committed in `docs/data/`; the Etherscan data of the exploratory analyses were retrieved on 8 November 2026 and are stored there, so these commands need neither network access nor an API key.
 
 ## Real-trace experiments (H12-H16)
 
