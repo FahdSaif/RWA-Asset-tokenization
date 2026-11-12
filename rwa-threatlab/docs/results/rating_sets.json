@@ -1,0 +1,386 @@
+{
+ "status": "post-hoc robustness check; original ratings (risk.py) remain the primary table; no rating changed",
+ "assessors": [
+  "R1",
+  "R2",
+  "R3",
+  "R4"
+ ],
+ "rounding_rule_note": "median rounding rule chosen after the scores were seen; both roundings reported",
+ "rows": [
+  {
+   "id": "A1/A2",
+   "name": "Unmediated path or Gateway defect",
+   "bands": {
+    "original": "Low",
+    "revised": "Low",
+    "median_down": "Low",
+    "median_up": "Low"
+   },
+   "levels": {
+    "original": 1,
+    "revised": 1,
+    "median_down": 1,
+    "median_up": 1
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Low",
+   "highest": "Low"
+  },
+  {
+   "id": "A3",
+   "name": "Privileged path (upgrade, admin, recovery)",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Low-Med",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 2,
+    "median_up": 3
+   },
+   "half_median_factors": [
+    "G1"
+   ],
+   "same_in_all_sets": false,
+   "depends_on_rounding": true,
+   "lowest": "Low-Med",
+   "highest": "Medium"
+  },
+  {
+   "id": "B1",
+   "name": "Quorum collusion",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Medium",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 3,
+    "median_up": 3
+   },
+   "half_median_factors": [
+    "F3"
+   ],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Medium",
+   "highest": "Medium"
+  },
+  {
+   "id": "B2",
+   "name": "Rule-activation latency window",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Low-Med",
+    "median_down": "Low-Med",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 2,
+    "median_down": 2,
+    "median_up": 3
+   },
+   "half_median_factors": [
+    "F2",
+    "F3"
+   ],
+   "same_in_all_sets": false,
+   "depends_on_rounding": true,
+   "lowest": "Low-Med",
+   "highest": "Medium"
+  },
+  {
+   "id": "B3",
+   "name": "Regulatory-oracle poisoning",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Medium",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 3,
+    "median_up": 3
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Medium",
+   "highest": "Medium"
+  },
+  {
+   "id": "C1",
+   "name": "Compromised or forged issuer",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Low-Med",
+    "median_up": "Low-Med"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 2,
+    "median_up": 2
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "Medium"
+  },
+  {
+   "id": "C2",
+   "name": "Revoked credential in lag window",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Low-Med",
+    "median_down": "Low-Med",
+    "median_up": "Low-Med"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 2,
+    "median_down": 2,
+    "median_up": 2
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "Low-Med"
+  },
+  {
+   "id": "D1",
+   "name": "Timing and value correlation",
+   "bands": {
+    "original": "Medium",
+    "revised": "High",
+    "median_down": "Low-Med",
+    "median_up": "Low-Med"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 5,
+    "median_down": 2,
+    "median_up": 2
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "High"
+  },
+  {
+   "id": "D2",
+   "name": "Trail-granularity leakage",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Med-High",
+    "median_down": "High",
+    "median_up": "High"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 4,
+    "median_down": 5,
+    "median_up": 5
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "High"
+  },
+  {
+   "id": "D3",
+   "name": "Issuer-linkage deanonymisation",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Low-Med",
+    "median_down": "Low",
+    "median_up": "Low"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 2,
+    "median_down": 1,
+    "median_up": 1
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low",
+   "highest": "Low-Med"
+  },
+  {
+   "id": "E1",
+   "name": "Cross-chain rule-propagation lag",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Medium",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 3,
+    "median_up": 3
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Medium",
+   "highest": "Medium"
+  },
+  {
+   "id": "E2",
+   "name": "Jurisdictional misclassification",
+   "bands": {
+    "original": "Medium",
+    "revised": "Medium",
+    "median_down": "Low-Med",
+    "median_up": "Low-Med"
+   },
+   "levels": {
+    "original": 3,
+    "revised": 3,
+    "median_down": 2,
+    "median_up": 2
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "Medium"
+  },
+  {
+   "id": "E3",
+   "name": "Bridge identity discontinuity",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Low-Med",
+    "median_down": "Low-Med",
+    "median_up": "Low-Med"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 2,
+    "median_down": 2,
+    "median_up": 2
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": true,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "Low-Med"
+  },
+  {
+   "id": "E4",
+   "name": "Cross-chain revocation lag",
+   "bands": {
+    "original": "Low-Med",
+    "revised": "Low-Med",
+    "median_down": "Medium",
+    "median_up": "Medium"
+   },
+   "levels": {
+    "original": 2,
+    "revised": 2,
+    "median_down": 3,
+    "median_up": 3
+   },
+   "half_median_factors": [],
+   "same_in_all_sets": false,
+   "depends_on_rounding": false,
+   "lowest": "Low-Med",
+   "highest": "Medium"
+  }
+ ],
+ "same_in_all_sets": [
+  [
+   "A1/A2",
+   "Low"
+  ],
+  [
+   "B1",
+   "Medium"
+  ],
+  [
+   "B3",
+   "Medium"
+  ],
+  [
+   "C2",
+   "Low-Med"
+  ],
+  [
+   "E1",
+   "Medium"
+  ],
+  [
+   "E3",
+   "Low-Med"
+  ]
+ ],
+ "depends_on_rating_set": [
+  "C1",
+  "D1",
+  "D2",
+  "D3",
+  "E2",
+  "E4"
+ ],
+ "depends_on_rounding": [
+  "A3",
+  "B2"
+ ],
+ "scope_revision_check": {
+  "D1": {
+   "original": 1,
+   "revised": 3,
+   "assessors": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "assessors_support_revision": false
+  },
+  "D2": {
+   "original": 1,
+   "revised": 3,
+   "assessors": [
+    3,
+    2,
+    3,
+    3
+   ],
+   "assessors_support_revision": true
+  },
+  "D3": {
+   "original": 1,
+   "revised": 2,
+   "assessors": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "assessors_support_revision": false
+  }
+ }
+}
