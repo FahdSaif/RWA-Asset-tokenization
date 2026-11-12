@@ -20,11 +20,11 @@ falsifiable**:
 * the paper's **risk rubric**, sensitivity analysis and an explicit-state **model checker**;
 * **realistic synthetic data generators** with a datasheet ([`docs/DATA.md`](docs/DATA.md)) and loaders for real traces.
 
-The code itself uses only the Python standard library. Three optional packages (`pytest`, `pycryptodome`, `openpyxl`, installed by the `dev` extra) are needed only to run all 96 software tests.
+The code itself uses only the Python standard library. Three optional packages (`pytest`, `pycryptodome`, `openpyxl`, installed by the `dev` extra) are needed only to run all 100 software tests.
 
 ## Two kinds of checks, deliberately separate
 
-| | Software tests (`pytest`, 96) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
+| | Software tests (`pytest`, 100) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
 |---|---|---|
 | Question | Does the code do what it says? | Do the paper's claims hold? |
 | May fail? | No. A failure is a bug. | **Yes.** Reported as CONFIRMED / REFUTED / INCONCLUSIVE. |
@@ -129,6 +129,7 @@ Each row gives the claim, the command that regenerates it and the folder that ho
 | H12, H13, H16: replay of real OFAC histories | `python -m rwa_threatlab real --only ofac` † (see `docs/REAL_DATA_RUNBOOK.md`) | `docs/results/real/` |
 | H14: real USDY transaction timing | `python -m rwa_threatlab real --only timing` † | `docs/results/real_timing/` |
 | Inter-rater study and ratings revision | `python scripts/make_revision_outputs.py` † | `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
+| Residual bands under three rating sets (original, revised, assessors' median) | `python scripts/make_rating_sets.py --out FOLDER` | `docs/results/rating_sets.md` |
 | Exploratory A: anonymity sets of USDY transfers | `python -m rwa_threatlab.exploratory.run kanon` † | `docs/results/exploratory/kanon/` |
 | Exploratory B: OFAC listing to USDC/USDT blacklisting | `python -m rwa_threatlab.exploratory.run latency` † | `docs/results/exploratory/latency/` |
 | Exploratory C: census of 25 tokenised-asset contracts | `python -m rwa_threatlab.exploratory.run census` † | `docs/results/exploratory/census/` |
@@ -146,7 +147,8 @@ Design and criteria: [`docs/PREREGISTRATION.md`](docs/PREREGISTRATION.md) addend
 
 The blank scoring pack, anonymised scores of four assessors and the converter are in [`docs/irr/`](docs/irr/README.md). After the
 inter-rater study the scope factor of D1 to D3 was re-scored under one rule (post-hoc; see [`docs/RATINGS_REVISION.md`](docs/RATINGS_REVISION.md)).
-The original ratings in `risk.py` are unchanged.
+The original ratings in `risk.py` are unchanged and are the paper's primary table; the revision is one of three rating sets in a
+robustness check (`python scripts/make_rating_sets.py`; results in `docs/results/rating_sets.md`).
 
 ## Risk rubric
 
