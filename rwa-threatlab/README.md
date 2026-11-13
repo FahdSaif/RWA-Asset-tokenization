@@ -20,11 +20,11 @@ falsifiable**:
 * the paper's **risk rubric**, sensitivity analysis and an explicit-state **model checker**;
 * **realistic synthetic data generators** with a datasheet ([`docs/DATA.md`](docs/DATA.md)) and loaders for real traces.
 
-The code itself uses only the Python standard library. Three optional packages (`pytest`, `pycryptodome`, `openpyxl`, installed by the `dev` extra) are needed only to run all 100 software tests.
+The code itself uses only the Python standard library. Three optional packages (`pytest`, `pycryptodome`, `openpyxl`, installed by the `dev` extra) are needed only to run all 102 software tests.
 
 ## Two kinds of checks, deliberately separate
 
-| | Software tests (`pytest`, 100) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
+| | Software tests (`pytest`, 102) | Research hypotheses (`rwa_threatlab hypotheses`, H1-H10; pre-registered H11-H16 in `docs/PREREGISTRATION.md`) |
 |---|---|---|
 | Question | Does the code do what it says? | Do the paper's claims hold? |
 | May fail? | No. A failure is a bug. | **Yes.** Reported as CONFIRMED / REFUTED / INCONCLUSIVE. |
@@ -111,7 +111,7 @@ See `docs/PREREGISTRATION.md` addendum A2 and section 7 for what this does not c
 | Real transaction timing (H14), official run and replication | `docs/results/real_timing/`; data and selection notes in `docs/data/` (`H14_DATA_NOTES.md`); tag `v1.3-prereg-timing` |
 | Assessor study and post-hoc scope revision | `docs/irr/`, `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
 | Exploratory measurements on real Ethereum data (A anonymity sets, B OFAC-to-blacklist delay, C census of privileged control) | plan `docs/EXPLORATORY_PLAN.md` and `docs/EXPLORATORY_PLAN_C_ADDENDUM.md` (fixed before the data were analysed; tags `v1.6-exploratory-plan`, `v1.6-census-plan`); results `docs/results/exploratory/` (tags `v1.6-exploratory-data`, `v1.6-census-data`) |
-| Final state cited by the paper | tag `v1.7-paper` |
+| Final state cited by the paper | tag `v1.8-paper` (earlier draft: `v1.7-paper`) |
 
 Every result folder was produced by a manually triggered GitHub Actions run from a fixed tag and was re-run independently with an identical result. The exploratory analyses are **not** part of the OSF registration; their plans were committed and tagged before the data were analysed.
 
@@ -130,6 +130,7 @@ Each row gives the claim, the command that regenerates it and the folder that ho
 | H14: real USDY transaction timing | `python -m rwa_threatlab real --only timing` † | `docs/results/real_timing/` |
 | Inter-rater study and ratings revision | `python scripts/make_revision_outputs.py` † | `docs/results/irr.md`, `docs/RATINGS_REVISION.md` |
 | Residual bands under three rating sets (original, revised, assessors' median) | `python scripts/make_rating_sets.py --out FOLDER` | `docs/results/rating_sets.md` |
+| Data behind the paper's two result figures (H14 linkage; OFAC-to-blacklist delays) | `python scripts/make_figure_data.py --out FOLDER` | `docs/results/figures/` |
 | Exploratory A: anonymity sets of USDY transfers | `python -m rwa_threatlab.exploratory.run kanon` † | `docs/results/exploratory/kanon/` |
 | Exploratory B: OFAC listing to USDC/USDT blacklisting | `python -m rwa_threatlab.exploratory.run latency` † | `docs/results/exploratory/latency/` |
 | Exploratory C: census of 25 tokenised-asset contracts | `python -m rwa_threatlab.exploratory.run census` † | `docs/results/exploratory/census/` |
