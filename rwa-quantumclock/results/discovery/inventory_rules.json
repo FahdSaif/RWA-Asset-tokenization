@@ -1,0 +1,1122 @@
+[
+ {
+  "token": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+  "surface": "enumerable_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:enumerable_roles"
+  ],
+  "classifier": "rules",
+  "note": "role members are readable on-chain"
+ },
+ {
+  "token": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x0990b149e915cb08e2143a5c6f669c907eddc8b0:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "message signers",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x0990b149e915cb08e2143a5c6f669c907eddc8b0:eip712_domain"
+  ],
+  "classifier": "rules",
+  "note": "EIP-712 typed-data signatures"
+ },
+ {
+  "token": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction signers via a trusted forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x0990b149e915cb08e2143a5c6f669c907eddc8b0:erc2771_forwarder"
+  ],
+  "classifier": "rules",
+  "note": "ERC-2771: the token trusts the forwarder's claim about the sender"
+ },
+ {
+  "token": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x0990b149e915cb08e2143a5c6f669c907eddc8b0:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+  "surface": "external_compliance_module",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "compliance-module administrators",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041:external_compliance_module"
+  ],
+  "classifier": "rules",
+  "note": "external compliance or identity module decides transfers"
+ },
+ {
+  "token": "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x5086bf358635b81d8c47c66d1c8b9e567db70c72:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x5086bf358635b81d8c47c66d1c8b9e567db70c72:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xcbade7d9bdee88411cb6cbcbb29952b742036992:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "message signers",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xcbade7d9bdee88411cb6cbcbb29952b742036992:eip712_domain"
+  ],
+  "classifier": "rules",
+  "note": "EIP-712 typed-data signatures"
+ },
+ {
+  "token": "0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction signers via a trusted forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xcbade7d9bdee88411cb6cbcbb29952b742036992:erc2771_forwarder"
+  ],
+  "classifier": "rules",
+  "note": "ERC-2771: the token trusts the forwarder's claim about the sender"
+ },
+ {
+  "token": "0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xcbade7d9bdee88411cb6cbcbb29952b742036992:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x1aad217b8f78dba5e6693460e8470f8b1a3977f3:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x1aad217b8f78dba5e6693460e8470f8b1a3977f3:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x1aad217b8f78dba5e6693460e8470f8b1a3977f3:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xae2f842ef90c0d5213259ab82639d5bbf649b08e:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xae2f842ef90c0d5213259ab82639d5bbf649b08e:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xae2f842ef90c0d5213259ab82639d5bbf649b08e:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x5fa487bca6158c64046b2813623e20755091da0b",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x5fa487bca6158c64046b2813623e20755091da0b:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x5fa487bca6158c64046b2813623e20755091da0b",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x5fa487bca6158c64046b2813623e20755091da0b:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xfebded1b0986a8ee107f5ab1a1c5a813491deceb:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xfebded1b0986a8ee107f5ab1a1c5a813491deceb:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xfebded1b0986a8ee107f5ab1a1c5a813491deceb:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x4c1746a800d224393fe2470c70a35717ed4ea5f1:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "message signers",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x4c1746a800d224393fe2470c70a35717ed4ea5f1:eip712_domain"
+  ],
+  "classifier": "rules",
+  "note": "EIP-712 typed-data signatures"
+ },
+ {
+  "token": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x4c1746a800d224393fe2470c70a35717ed4ea5f1:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x4c1746a800d224393fe2470c70a35717ed4ea5f1:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xa753a7395cae905cd615da0b82a53e0560f250af",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xa753a7395cae905cd615da0b82a53e0560f250af:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xa753a7395cae905cd615da0b82a53e0560f250af",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xa753a7395cae905cd615da0b82a53e0560f250af:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0xa753a7395cae905cd615da0b82a53e0560f250af",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xa753a7395cae905cd615da0b82a53e0560f250af:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xace8e719899f6e91831b18ae746c9a965c2119f1:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+  "surface": "enumerable_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xace8e719899f6e91831b18ae746c9a965c2119f1:enumerable_roles"
+  ],
+  "classifier": "rules",
+  "note": "role members are readable on-chain"
+ },
+ {
+  "token": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+  "surface": "external_compliance_module",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "compliance-module administrators",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xace8e719899f6e91831b18ae746c9a965c2119f1:external_compliance_module"
+  ],
+  "classifier": "rules",
+  "note": "external compliance or identity module decides transfers"
+ },
+ {
+  "token": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xace8e719899f6e91831b18ae746c9a965c2119f1:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xe92f673ca36c5e2efd2de7628f815f84807e803f:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xe92f673ca36c5e2efd2de7628f815f84807e803f:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xe92f673ca36c5e2efd2de7628f815f84807e803f:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "message signers",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0:eip712_domain"
+  ],
+  "classifier": "rules",
+  "note": "EIP-712 typed-data signatures"
+ },
+ {
+  "token": "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction signers via a trusted forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0:erc2771_forwarder"
+  ],
+  "classifier": "rules",
+  "note": "ERC-2771: the token trusts the forwarder's claim about the sender"
+ },
+ {
+  "token": "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+  "surface": "access_control_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders (EOAs or multisigs)",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x62ca254a363dc3c748e7e955c20447ab5bf06ff7:access_control_roles"
+  ],
+  "classifier": "rules",
+  "note": "role-based administration (mint, burn, freeze, pause, compliance roles)"
+ },
+ {
+  "token": "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+  "surface": "enumerable_roles",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "role holders",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x62ca254a363dc3c748e7e955c20447ab5bf06ff7:enumerable_roles"
+  ],
+  "classifier": "rules",
+  "note": "role members are readable on-chain"
+ },
+ {
+  "token": "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+  "surface": "external_compliance_module",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "compliance-module administrators",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x62ca254a363dc3c748e7e955c20447ab5bf06ff7:external_compliance_module"
+  ],
+  "classifier": "rules",
+  "note": "external compliance or identity module decides transfers"
+ },
+ {
+  "token": "0x2255718832bc9fd3be1caf75084f4803da14ff01",
+  "surface": "external_compliance_module",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "compliance-module administrators",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x2255718832bc9fd3be1caf75084f4803da14ff01:external_compliance_module"
+  ],
+  "classifier": "rules",
+  "note": "external compliance or identity module decides transfers"
+ },
+ {
+  "token": "0x2255718832bc9fd3be1caf75084f4803da14ff01",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x2255718832bc9fd3be1caf75084f4803da14ff01:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0xc845b2894dbddd03858fd2d643b4ef725fe0849d:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+  "surface": "signed_parameter_update",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "parameter updater",
+  "anchor_role": "oracle",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc845b2894dbddd03858fd2d643b4ef725fe0849d:signed_parameter_update"
+  ],
+  "classifier": "rules",
+  "note": "nonce-protected parameter update"
+ },
+ {
+  "token": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc845b2894dbddd03858fd2d643b4ef725fe0849d:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+  "surface": "upgradeable_proxy",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade administrator",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:upgradeable_proxy"
+  ],
+  "classifier": "rules",
+  "note": "code can be replaced"
+ },
+ {
+  "token": "0xe820c06321e60d36257c666643fa5436643445e3",
+  "surface": "external_compliance_module",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "compliance-module administrators",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xe820c06321e60d36257c666643fa5436643445e3:external_compliance_module"
+  ],
+  "classifier": "rules",
+  "note": "external compliance or identity module decides transfers"
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holders",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x8c213ee79581ff4984583c6a801e5263418c4b86:eip2612_permit"
+  ],
+  "classifier": "rules",
+  "note": "EIP-2612 permit: holder signatures approve allowances"
+ },
+ {
+  "token": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x96f6ef951840721adbf46ac996b59e0235cb985c:0x1a694a09494e214a3be3652e4b343b7b81a73ad7"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+  "surface": "controller_eoa",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "one externally owned account",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041:0xe01605f6b6dc593b7d2917f4a0940db2a625b09e"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x1aad217b8f78dba5e6693460e8470f8b1a3977f3:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xae2f842ef90c0d5213259ab82639d5bbf649b08e:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xfebded1b0986a8ee107f5ab1a1c5a813491deceb:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xa753a7395cae905cd615da0b82a53e0560f250af",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xa753a7395cae905cd615da0b82a53e0560f250af:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xe92f673ca36c5e2efd2de7628f815f84807e803f:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xc845b2894dbddd03858fd2d643b4ef725fe0849d:0x49754062e35f7591b93cc4f9915965be89643a65"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "controller_timelock",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "timelock proposers",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:0x34e8bb9e0fa50d63bfca1d8e83ddba0d9fd5c062"
+  ],
+  "classifier": "rules",
+  "note": "observed controller; proposer keys not read"
+ },
+ {
+  "token": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+  "surface": "controller_timelock",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "timelock proposers",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xace8e719899f6e91831b18ae746c9a965c2119f1:0x3715b2154d2ff4c5b027c7a1f734b53f27bc34f1"
+  ],
+  "classifier": "rules",
+  "note": "observed controller; proposer keys not read"
+ },
+ {
+  "token": "0x2255718832bc9fd3be1caf75084f4803da14ff01",
+  "surface": "controller_eoa",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "one externally owned account",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x2255718832bc9fd3be1caf75084f4803da14ff01:0x59c1eacec450c57dcb9b8725d0f96635c2b676ee"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:0xca3144aad1f75557e68b16c8c7e893112418f13c"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ },
+ {
+  "token": "0xe820c06321e60d36257c666643fa5436643445e3",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig owners (threshold)",
+  "anchor_role": "admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xe820c06321e60d36257c666643fa5436643445e3:0xcf355ad32abf378f067fa93a28d96a767feb7377"
+  ],
+  "classifier": "rules",
+  "note": "observed controller"
+ }
+]

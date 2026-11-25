@@ -1,0 +1,1657 @@
+{
+ "summary": {
+  "tokens": 25,
+  "anchors": 42,
+  "by_role": {
+   "upgrade_admin": 14,
+   "role_holder": 24,
+   "owner_admin": 4
+  },
+  "by_controller": {
+   "multisig": 4,
+   "unobserved_role": 24,
+   "not_readable": 10,
+   "eoa": 2,
+   "timelock": 2
+  },
+  "shared_anchors": 1,
+  "value_usd_total": 8773719449.0,
+  "groups": 14
+ },
+ "anchors": [
+  {
+   "anchor_id": "ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7",
+   "role": "upgrade_admin",
+   "controller_type": "multisig",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 4,
+   "key_exposed": null,
+   "controller_address": "0x1a694a09494e214a3be3652e4b343b7b81a73ad7",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x96f6ef951840721adbf46ac996b59e0235cb985c"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 2388027199.0,
+   "signs_records": true,
+   "issuer_group": "Ondo",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x96f6ef951840721adbf46ac996b59e0235cb985c",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x96f6ef951840721adbf46ac996b59e0235cb985c"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 2388027199.0,
+   "signs_records": true,
+   "issuer_group": "Ondo",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x0990b149e915cb08e2143a5c6f669c907eddc8b0"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 1919662592.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x0990b149e915cb08e2143a5c6f669c907eddc8b0"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 1919662592.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 1775584680.0,
+   "signs_records": true,
+   "issuer_group": "BlackRock",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0xe01605f6b6dc593b7d2917f4a0940db2a625b09e",
+   "role": "owner_admin",
+   "controller_type": "eoa",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": "0xe01605f6b6dc593b7d2917f4a0940db2a625b09e",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 1775584680.0,
+   "signs_records": true,
+   "issuer_group": "BlackRock",
+   "calendar": {
+    "period": 4,
+    "phase": 1,
+    "source": "assumed"
+   },
+   "migration_quarters": 1,
+   "migration_cost": 1.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "mint_burn"
+   ],
+   "value_usd": 1775584680.0,
+   "signs_records": true,
+   "issuer_group": "BlackRock",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x5a0f93d040de44e78f251b03c43be9cf317dcf64"
+   ],
+   "capabilities": [
+    "mint_burn"
+   ],
+   "value_usd": 578038713.0,
+   "signs_records": false,
+   "issuer_group": "Janus",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x5086bf358635b81d8c47c66d1c8b9e567db70c72"
+   ],
+   "capabilities": [
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 377403810.0,
+   "signs_records": false,
+   "issuer_group": "Re",
+   "calendar": {
+    "period": 4,
+    "phase": 1,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x5086bf358635b81d8c47c66d1c8b9e567db70c72"
+   ],
+   "capabilities": [
+    "mint_burn"
+   ],
+   "value_usd": 377403810.0,
+   "signs_records": false,
+   "issuer_group": "Re",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xcbade7d9bdee88411cb6cbcbb29952b742036992"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 243682577.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xcbade7d9bdee88411cb6cbcbb29952b742036992",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xcbade7d9bdee88411cb6cbcbb29952b742036992"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 243682577.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0x49754062e35f7591b93cc4f9915965be89643a65",
+   "role": "upgrade_admin",
+   "controller_type": "multisig",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 2,
+   "key_exposed": null,
+   "controller_address": "0x49754062e35f7591b93cc4f9915965be89643a65",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+    "0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+    "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+    "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+    "0xa753a7395cae905cd615da0b82a53e0560f250af",
+    "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+    "0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+    "0xc845b2894dbddd03858fd2d643b4ef725fe0849d"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 703119760.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 1.5,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed",
+    "roles": [
+     "upgrade_admin",
+     "owner_admin"
+    ]
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x1aad217b8f78dba5e6693460e8470f8b1a3977f3",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x1aad217b8f78dba5e6693460e8470f8b1a3977f3"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 133311544.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xae2f842ef90c0d5213259ab82639d5bbf649b08e",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xae2f842ef90c0d5213259ab82639d5bbf649b08e"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 126535718.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x5fa487bca6158c64046b2813623e20755091da0b",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x5fa487bca6158c64046b2813623e20755091da0b"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 117196001.0,
+   "signs_records": true,
+   "issuer_group": "Theo",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x5fa487bca6158c64046b2813623e20755091da0b",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x5fa487bca6158c64046b2813623e20755091da0b"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 117196001.0,
+   "signs_records": true,
+   "issuer_group": "Theo",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xfebded1b0986a8ee107f5ab1a1c5a813491deceb",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xfebded1b0986a8ee107f5ab1a1c5a813491deceb"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 115916350.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0x34e8bb9e0fa50d63bfca1d8e83ddba0d9fd5c062",
+   "role": "owner_admin",
+   "controller_type": "timelock",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": "0x34e8bb9e0fa50d63bfca1d8e83ddba0d9fd5c062",
+   "timelock_quarters": 1,
+   "tokens": [
+    "0x119dd7daff816f29d7ee47596ae5e4bdc4299165"
+   ],
+   "capabilities": [],
+   "value_usd": 112413381.0,
+   "signs_records": false,
+   "issuer_group": "Nest",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 1.5,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x4c1746a800d224393fe2470c70a35717ed4ea5f1"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 87394210.0,
+   "signs_records": true,
+   "issuer_group": "Plume",
+   "calendar": {
+    "period": 4,
+    "phase": 1,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x4c1746a800d224393fe2470c70a35717ed4ea5f1"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 87394210.0,
+   "signs_records": true,
+   "issuer_group": "Plume",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "forced_transfer_recovery",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 82532958.0,
+   "signs_records": true,
+   "issuer_group": "Goldfish",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "forced_transfer_recovery",
+    "mint_burn"
+   ],
+   "value_usd": 82532958.0,
+   "signs_records": true,
+   "issuer_group": "Goldfish",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x90a2a4c76b5d8c0bc892a69ea28aa775a8f2dd48"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 73147889.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xa753a7395cae905cd615da0b82a53e0560f250af",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xa753a7395cae905cd615da0b82a53e0560f250af"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 70201271.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0x3715b2154d2ff4c5b027c7a1f734b53f27bc34f1",
+   "role": "upgrade_admin",
+   "controller_type": "timelock",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": "0x3715b2154d2ff4c5b027c7a1f734b53f27bc34f1",
+   "timelock_quarters": 1,
+   "tokens": [
+    "0xace8e719899f6e91831b18ae746c9a965c2119f1"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 68559998.0,
+   "signs_records": true,
+   "issuer_group": "Ondo",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 1.5,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xace8e719899f6e91831b18ae746c9a965c2119f1",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xace8e719899f6e91831b18ae746c9a965c2119f1"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 68559998.0,
+   "signs_records": true,
+   "issuer_group": "Ondo",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x8ad3c73f833d3f9a523ab01476625f269aeb7cf0"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 65962224.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xe92f673ca36c5e2efd2de7628f815f84807e803f",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xe92f673ca36c5e2efd2de7628f815f84807e803f"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 65878845.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0"
+   ],
+   "capabilities": [
+    "pause",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 58550494.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xc273986a91e4bfc543610a5cb5860b7cfefb6cc0"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 58550494.0,
+   "signs_records": true,
+   "issuer_group": "Spiko",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 58128067.0,
+   "signs_records": true,
+   "issuer_group": "iShares",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7"
+   ],
+   "capabilities": [
+    "pause",
+    "mint_burn"
+   ],
+   "value_usd": 58128067.0,
+   "signs_records": true,
+   "issuer_group": "iShares",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "upgrade_admin:0x2255718832bc9fd3be1caf75084f4803da14ff01",
+   "role": "upgrade_admin",
+   "controller_type": "not_readable",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x2255718832bc9fd3be1caf75084f4803da14ff01"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 55394842.0,
+   "signs_records": true,
+   "issuer_group": "VanEck",
+   "calendar": {
+    "period": 4,
+    "phase": 1,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed: not readable",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0x59c1eacec450c57dcb9b8725d0f96635c2b676ee",
+   "role": "owner_admin",
+   "controller_type": "eoa",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": "0x59c1eacec450c57dcb9b8725d0f96635c2b676ee",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x2255718832bc9fd3be1caf75084f4803da14ff01"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 55394842.0,
+   "signs_records": true,
+   "issuer_group": "VanEck",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 1,
+   "migration_cost": 1.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x2255718832bc9fd3be1caf75084f4803da14ff01",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x2255718832bc9fd3be1caf75084f4803da14ff01"
+   ],
+   "capabilities": [
+    "pause",
+    "forced_transfer_recovery",
+    "mint_burn"
+   ],
+   "value_usd": 55394842.0,
+   "signs_records": true,
+   "issuer_group": "VanEck",
+   "calendar": {
+    "period": 4,
+    "phase": 1,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xc845b2894dbddd03858fd2d643b4ef725fe0849d"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist",
+    "mint_burn"
+   ],
+   "value_usd": 52165919.0,
+   "signs_records": true,
+   "issuer_group": "Backed",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0xca3144aad1f75557e68b16c8c7e893112418f13c",
+   "role": "upgrade_admin",
+   "controller_type": "multisig",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 2,
+   "key_exposed": null,
+   "controller_address": "0xca3144aad1f75557e68b16c8c7e893112418f13c",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf"
+   ],
+   "capabilities": [
+    "upgrade",
+    "mint_burn"
+   ],
+   "value_usd": 50771802.0,
+   "signs_records": false,
+   "issuer_group": "Precious",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 1.5,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf"
+   ],
+   "capabilities": [
+    "mint_burn"
+   ],
+   "value_usd": 50771802.0,
+   "signs_records": false,
+   "issuer_group": "Precious",
+   "calendar": {
+    "period": 4,
+    "phase": 0,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "ctrl:0xcf355ad32abf378f067fa93a28d96a767feb7377",
+   "role": "owner_admin",
+   "controller_type": "multisig",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 3,
+   "key_exposed": null,
+   "controller_address": "0xcf355ad32abf378f067fa93a28d96a767feb7377",
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xe820c06321e60d36257c666643fa5436643445e3"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist"
+   ],
+   "value_usd": 50055177.0,
+   "signs_records": true,
+   "issuer_group": "USDKG",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 1.75,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0xe820c06321e60d36257c666643fa5436643445e3",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0xe820c06321e60d36257c666643fa5436643445e3"
+   ],
+   "capabilities": [
+    "pause",
+    "freeze_blacklist"
+   ],
+   "value_usd": 50055177.0,
+   "signs_records": true,
+   "issuer_group": "USDKG",
+   "calendar": {
+    "period": 4,
+    "phase": 2,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  },
+  {
+   "anchor_id": "role_holder:0x8c213ee79581ff4984583c6a801e5263418c4b86",
+   "role": "role_holder",
+   "controller_type": "unobserved_role",
+   "algorithm": "secp256k1-ecdsa",
+   "n_keys": 1,
+   "key_exposed": null,
+   "controller_address": null,
+   "timelock_quarters": 0,
+   "tokens": [
+    "0x8c213ee79581ff4984583c6a801e5263418c4b86"
+   ],
+   "capabilities": [
+    "mint_burn"
+   ],
+   "value_usd": 47203188.0,
+   "signs_records": false,
+   "issuer_group": "Janus",
+   "calendar": {
+    "period": 4,
+    "phase": 3,
+    "source": "assumed"
+   },
+   "migration_quarters": 2,
+   "migration_cost": 2.0,
+   "instances": [
+    "ethereum"
+   ],
+   "provenance": {
+    "controller": "not observed",
+    "calendar": "assumed",
+    "migration_time": "assumed",
+    "cost": "assumed",
+    "issuer_group": "assumed",
+    "key_exposed": "not observed"
+   }
+  }
+ ]
+}

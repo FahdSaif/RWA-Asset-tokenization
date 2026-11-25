@@ -1,0 +1,105 @@
+# Exposure and criticality rules derived from the threat model (authors' earlier work) and the 2026 resource
+# estimates. These encode analysis, not regulation; "verified" means the factual premise was checked.
+
+- id: EXP-COMPLIANCE-CRITICAL
+  description: An anchor that can freeze, blacklist, force-transfer or pause is compliance-critical, and so is any admin that can replace the code of a token that has these capabilities.
+  when:
+    any:
+      - {fact: capabilities, contains_any: [freeze_blacklist, forced_transfer_recovery]}
+      - all:
+          - {fact: role, in: [upgrade_admin, owner_admin]}
+          - {fact: signs_records, is_true: true}
+  then:
+    set: {compliance_critical: true}
+    urgency: [compliance_critical]
+  source:
+    title: "Authors' threat model of runtime-enforced compliance (privileged paths reduce to governance)"
+    url: "local:rwa-threatlab/docs/ARCHITECTURE.md"
+    clause: "Privileged operations (forced transfer, recovery, upgrade) bypass ordinary mediation unless re-expressed as mediated transactions."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-KEY-EXPOSED
+  description: A public key already visible on-chain can be attacked offline as soon as a CRQC exists.
+  when: {all: [{fact: quantum_vulnerable, is_true: true}, {fact: key_exposed, is_true: true}]}
+  then:
+    urgency: [exposed_key_forgery]
+  source:
+    title: "Babbush et al., Securing Elliptic Curve Cryptocurrencies against Quantum Vulnerabilities (2026)"
+    url: "https://arxiv.org/abs/2603.28846"
+    clause: "256-bit ECDLP can be solved with about 1,200 logical qubits; circuits can execute in minutes on fewer than half a million physical qubits."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-KEY-UNKNOWN
+  description: Exposure not observed. Treated as exposed (conservative) and flagged for the extraction step.
+  when: {all: [{fact: quantum_vulnerable, is_true: true}, {fact: key_exposed, is_null: true}]}
+  then:
+    urgency: [exposed_key_forgery]
+    flags: [exposure_not_observed]
+  source:
+    title: "QAMP modelling assumption (conservative default)"
+    url: "local:qamp/docs/ASSUMPTIONS.md"
+    clause: "Unobserved key exposure is treated as exposed until nonces are read."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-KEY-HIDDEN
+  description: A key whose public key is not yet revealed is exposed only when it next signs (on-spend window).
+  when: {all: [{fact: quantum_vulnerable, is_true: true}, {fact: key_exposed, is_false: true}]}
+  then:
+    urgency: [on_spend_window]
+  source:
+    title: "Babbush et al. (2026): fast-clock architectures enable on-spend attacks on public mempool transactions"
+    url: "https://arxiv.org/abs/2603.28846"
+    clause: "The first fast-clock CRQCs would enable on-spend attacks on public mempool transactions."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-SINGLE-KEY-ADMIN
+  description: One externally owned account controls a token's code or administration.
+  when: {all: [{fact: controller_type, eq: eoa}, {fact: role, in: [upgrade_admin, owner_admin]}]}
+  then:
+    urgency: [single_key_admin]
+  source:
+    title: "rwa-threatlab census of 25 tokenised-asset contracts (2026-11-08)"
+    url: "local:rwa-threatlab/docs/results/exploratory/census/result.md"
+    clause: "Two contracts are owned by an EOA."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-DISCOVERY-INCOMPLETE
+  description: Controller not readable or held through role-based access control. The holders must be discovered before migration.
+  when: {fact: controller_type, in: [unobserved_role, not_readable, unknown]}
+  then:
+    flags: [discovery_incomplete]
+  source:
+    title: "rwa-threatlab census limits"
+    url: "local:rwa-threatlab/docs/data/exploratory/C_DATA_NOTES.md"
+    clause: "Control through role-based access control cannot be read with these calls."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-SHARED-ANCHOR
+  description: One controller administers several tokens; its compromise affects all of them.
+  when: {fact: n_tokens, gt: 1}
+  then:
+    urgency: [shared_anchor]
+  source:
+    title: "rwa-threatlab census (controllers shared across tokens)"
+    url: "local:rwa-threatlab/docs/results/exploratory/census/result.md"
+    clause: "Several Backed token proxies share one 2-of-3 multisig."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: EXP-BRIDGED
+  description: The anchor is accepted on more than one bridged instance; migration must be coordinated (checked by the guard).
+  when: {fact: n_instances, gt: 1}
+  then:
+    flags: [coordinate_across_instances]
+  source:
+    title: "Authors' bounded model check: two correct instances joined by a bridge can violate compliance with no adversary"
+    url: "local:rwa-threatlab/docs/results/modelcheck_scaled.md"
+    clause: "Composition across a bridge can violate compliance even when each instance is correct."
+    accessed: "2026-11-24"
+    verified: true

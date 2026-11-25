@@ -1,0 +1,55 @@
+# Standards and roadmaps. Every clause below was checked against the cited document on the accessed date
+# (verified: true). Paraphrased, not quoted.
+
+- id: NIST8547-DISALLOW
+  description: Quantum-vulnerable public-key algorithms are disallowed under NIST standards after 2035.
+  when: {fact: quantum_vulnerable, is_true: true}
+  then:
+    deadline_hard: "2035-12-31"
+  source:
+    title: "NIST IR 8547, Transition to Post-Quantum Cryptography Standards (final, October 2026)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ir/2026/NIST.IR.8547.pdf"
+    clause: "Quantum-vulnerable public-key algorithms are deprecated after 2030 and disallowed after 2035, regardless of key size."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: NIST8547-DEPRECATE
+  description: Quantum-vulnerable signatures (including ECDSA and EdDSA at 128-bit security) are deprecated after 2030 in the final report.
+  when: {fact: quantum_vulnerable, is_true: true}
+  then:
+    deadline_soft: "2030-12-31"
+  source:
+    title: "NIST IR 8547 (final, October 2026); change from the November 2024 draft"
+    url: "https://postquantum.com/security-pqc/nist-ir-8547-final/"
+    clause: "The final report adds a deprecation step after 2030 for signatures at 128 bits or more (P-256, Ed25519), which the 2024 draft had left until 2035."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: G7-CRITICAL-FIRST
+  description: The G7 Cyber Expert Group gives 2030-32 as an example timeframe for addressing the most critical systems first. Non-binding.
+  when:
+    all:
+      - {fact: quantum_vulnerable, is_true: true}
+      - {fact: compliance_critical, is_true: true}
+  then:
+    target_date: "2032-12-31"
+    flags: [g7_target_non_binding]
+  source:
+    title: "G7 Cyber Expert Group, Advancing a Coordinated Roadmap for the Transition to Post-Quantum Cryptography in the Financial Sector (January 2026)"
+    url: "https://home.treasury.gov/system/files/136/G7-CEG-Quantum-Roadmap.pdf"
+    clause: "2035 is cited as an overall target; 2030-32 is an example timeframe for the most critical systems; the roadmap is non-authoritative and not prescriptive."
+    accessed: "2026-11-24"
+    verified: true
+
+- id: G7-OVERALL
+  description: Overall non-binding G7 target for the financial sector.
+  when: {fact: quantum_vulnerable, is_true: true}
+  then:
+    target_date: "2035-12-31"
+    flags: [g7_target_non_binding]
+  source:
+    title: "G7 Cyber Expert Group PQC roadmap (January 2026)"
+    url: "https://home.treasury.gov/system/files/136/G7-CEG-Quantum-Roadmap.pdf"
+    clause: "2035 is cited as an overall target date; target dates are subject to change."
+    accessed: "2026-11-24"
+    verified: true
