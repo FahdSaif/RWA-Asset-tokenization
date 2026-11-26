@@ -3,6 +3,8 @@
 **An expert system that plans the post-quantum migration of the compliance trust anchors of tokenised real-world-asset
 (RWA) infrastructure, timed to the commitments those anchors carry.**
 
+**What the experiment does, step by step, with a diagram: [docs/EXPERIMENT.md](docs/EXPERIMENT.md).**
+
 Companion code for a manuscript in preparation for *Expert Systems with Applications* (Fahd Saifuddin). It builds on
 `../rwa-threatlab` (threat model, model checker, census of 25 tokenised-asset contracts) and imports its census
 classification so that both studies use one definition.
