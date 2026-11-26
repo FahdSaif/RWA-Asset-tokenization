@@ -2,6 +2,7 @@
 
 QAMP plans when the keys behind tokenised real-world assets should move to quantum-safe cryptography.
 This page shows what was done, in what order, and where each output is in this folder.
+A page for each step, with dates, fingerprints, checks and deviations, is in [steps/](steps/README.md).
 
 ```mermaid
 flowchart TD
