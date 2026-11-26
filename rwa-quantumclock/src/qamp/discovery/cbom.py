@@ -1,4 +1,4 @@
-"""CycloneDX 1.6-style cryptography bill of materials (CBOM) and RQ1 scoring."""
+"""CBOM output and scoring."""
 from __future__ import annotations
 
 import csv
@@ -43,7 +43,7 @@ def to_cbom(entries: list[InventoryEntry], subject: str) -> dict:
 
 
 def read_labels(path: Path) -> dict[tuple[str, str], bool]:
-    """Ground truth CSV: token,surface,present (1/0),annotator,evidence,notes. Disagreements must be resolved first."""
+    """Reads labels: token, surface, present (1/0)."""
     out = {}
     with open(path, newline="") as fh:
         for row in csv.DictReader(fh):
@@ -52,7 +52,7 @@ def read_labels(path: Path) -> dict[tuple[str, str], bool]:
 
 
 def score(entries: list[InventoryEntry], labels: dict[tuple[str, str], bool]) -> dict:
-    """Precision, recall and F1 per surface type and overall, over (token, surface) pairs that were labelled."""
+    """Precision, recall and F1 against the labels."""
     pred = {(e.token.lower(), e.surface) for e in entries}
     per = defaultdict(lambda: dict(tp=0, fp=0, fn=0))
     for (t, s), present in labels.items():

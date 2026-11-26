@@ -1,21 +1,11 @@
-"""Rule knowledge base with forward chaining and an inference trace.
+"""Rule engine.
 
-Rules are YAML (``qamp/kb/*.yaml``). Each rule has an id, a condition, a conclusion and a ``source`` block (title,
-url, clause, accessed date, ``verified``: whether the clause was checked against the source document). The engine
-evaluates rules on a fact dictionary per anchor until no rule adds anything (fixpoint) and returns the derived
-conclusions together with the trace of fired rules. Conclusions never come from anywhere else: an explanation can
-always cite the rule ids that produced it.
+Rules live in kb/*.yaml, each with its source. The engine applies them to an anchor until
+nothing changes and records which rules fired, so every conclusion can be cited.
 
-Condition language (a dict):
-  {"all": [c1, c2, ...]}  {"any": [...]}  {"not": c}
-  {"fact": name, op: value} with op in eq, ne, in, not_in, gt, ge, lt, le, contains_any, is_null, is_true, is_false
-Conclusion keys:
-  deadline_hard, deadline_soft, target_date  ISO date; the earliest wins
-  retention_years                              the largest wins
-  urgency                                      list of tags (union)
-  flags                                        list of tags (union)
-  set                                          dict of derived facts (later rules may test them)
-"""
+Conditions: all / any / not, or {"fact": name, <op>: value}.
+Conclusions: deadlines and dates (earliest wins), retention years (largest wins),
+urgency and flags (collected), set (new facts for later rules)."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -133,7 +123,7 @@ def load_kb(kb_dir: Path = config.KB_DIR, exclude: tuple[str, ...] = ()) -> Know
 
 
 def anchor_facts(anchor, jurisdictions: tuple[str, ...] = ("US", "EU")) -> dict:
-    """Fact dictionary of an anchor, the only input the rules see."""
+    """The facts about an anchor that the rules can see."""
     return dict(
         anchor_id=anchor.anchor_id, role=anchor.role, controller_type=anchor.controller_type,
         algorithm=anchor.algorithm, quantum_vulnerable=anchor.quantum_vulnerable, key_exposed=anchor.key_exposed,

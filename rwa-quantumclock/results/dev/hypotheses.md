@@ -1,4 +1,4 @@
-Seeds from 0 (development seeds, not evidence); commit 2003e5f263; n_eval 2000, n_plan 20000, oracle on 200.
+Seeds from 0 (development seeds, not evidence); commit ed62a07ca3; n_eval 2000, n_plan 20000, oracle on 200.
 
 | ID | RQ | Hypothesis | Prediction | Outcome | Evidence |
 |---|---|---|---|---|---|
@@ -12,5 +12,7 @@ Seeds from 0 (development seeds, not evidence); commit 2003e5f263; n_eval 2000, 
 | H7 | RQ3 | Guarded planning is cheaper in realized cost than independent planning. | Independent planning costs more than guarded planning (p < 0.01). | **CONFIRMED** | independent - guarded: +43.3M, p_holm 0.0001 |
 | H8 | RQ2 | H1 holds when the CRQC timeline is two years earlier. | Same as H1 under shift_years = 2. | **REFUTED** | accelerated timeline (-2 years): QAMP significantly cheaper than 3/6 list baselines |
 | H11 | RQ2 | Timing pays when commitments are long and capacity is tight. | With 8-quarter renewals and one migration at a time per issuer, QAMP is at least 10% cheaper than ASAP (p < 0.01). | **CONFIRMED** | 8-quarter renewals, capacity 1: ASAP - QAMP +231.9M (+36.1%), p_holm 0.0001 |
+| H12 | RQ4 | The system's own rationales are faithful to the facts they cite. | Citation validity 1.0, faithfulness >= 0.99 and counterfactual consistency >= 0.95. | **CONFIRMED** | citation validity 1.000, faithfulness 1.000 (462 sentences); counterfactual consistency 1.000 (246 cases) |
+| H13 | RQ4 | An LLM can rephrase rationales for auditors without losing grounding. | At least 95% of LLM-rephrased sentences keep valid citations and pass the faithfulness check. | **PENDING DATA** | needs `python -m qamp explain-check --llm` with an API key |
 | H9 | RQ1 | Rules-based discovery from ABI and verified source finds the signature surfaces. | Overall recall >= 0.90 against the adjudicated labels. | **PENDING DATA** | needs labelled inventories (docs/LABELLING.md) and verified source from the extraction notebook |
 | H10 | RQ1 | A knowledge-grounded LLM classifier improves on rules alone. | LLM F1 > rules F1 with no more than 5% of entries dropped for invalid citations. | **PENDING DATA** | needs labelled inventories (docs/LABELLING.md) and verified source from the extraction notebook |

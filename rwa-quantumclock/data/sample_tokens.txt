@@ -1,4 +1,4 @@
-# QAMP Q1 sample. Rows 1-25 are the rwa-threatlab census sample (fixed 2026-11-08). EXTENSION RULE (decide and commit BEFORE fetching): append rows 26-100 of the same Etherscan page (Token Tracker, label Real World Assets, sorted by market cap, descending) in the order displayed, no exclusions, with the date seen. Then tag the commit qamp-q1-plan.
+# QAMP Q1 sample. Rows 1-25 are the rwa-threatlab census sample (fixed 2026-11-08). EXTENSION RULE (decide and commit BEFORE fetching): append rows 26-100 of the same Etherscan page (Token Tracker, label Real World Assets, sorted by market cap, descending) in the order displayed, no exclusions, one line each as 'address rank name (symbol) market-cap', and write the date seen here: <DATE>. Then tag the commit quantumclock-q1-plan.
 # Experiment C sample, fixed BEFORE any census data were fetched (docs/EXPLORATORY_PLAN.md section C and docs/EXPLORATORY_PLAN_C_ADDENDUM.md).
 # Source: https://etherscan.io/tokens/label/real-world-assets?subcatid=0&size=50&start=0&col=3&order=desc
 # Seen on 2026-11-08 (Etherscan "Token Tracker: Real World Assets", 841 records, page 1 of 17, sorted by Market Cap descending).

@@ -1,17 +1,21 @@
 # Pre-registration (DRAFT for the authors' approval)
 
-Status: **draft**. Not yet registered. To be reviewed with the supervisors, frozen (tag `qamp-v1.0-frozen`), archived and
-registered on OSF before the held-out run.
+Status: **draft**. Not yet registered. To be reviewed with the supervisors, frozen (tag `quantumclock-v1.0-frozen`),
+archived and registered on OSF before the held-out run. No interviews, questionnaires or outside participants are
+involved at any step.
 
 ## 1. Questions
 
 * RQ1 How accurately does a knowledge-grounded discovery module inventory the signature surfaces of tokenised-asset
-  contracts, with rules alone and with an LLM classifier?
-* RQ2 Does timing-aware planning (decision windows at renewal boundaries) reduce realized cost (expected exposure loss
-  plus migration spend) relative to common policies and recent readiness-scoring approaches?
-* RQ3 Does independent migration of bridged instances break compliance claims, and does the model-checked guard prevent it?
-* RQ4 Are the system's rationales faithful: does every sentence cite an existing fact that supports it, and do rationales
-  change consistently when a fact changes? (Automatic checks; no assessor study.)
+  contracts, with rules alone and with an LLM classifier? (Ground truth: objective labels from runtime bytecode where a
+  surface has a selector; the author's double-coded labels otherwise.)
+* RQ2 When does timing-aware planning (decision windows at renewal boundaries) reduce realized cost (expected exposure
+  loss plus migration spend) relative to common policies and readiness-scoring approaches?
+* RQ3 Does independent migration of bridged instances break compliance claims, and does the model-checked guard
+  prevent it? (Observed multi-chain instances where they exist; otherwise the labelled synthetic topology.)
+* RQ4 Are the system's rationales faithful: does every sentence cite an existing fact that supplies its values, do
+  rationales change consistently when one fact changes, and can an LLM rephrase them without losing grounding?
+  (Automatic checks; no assessor study.)
 
 ## 2. Hypotheses and decision rules (fixed in `src/qamp/hypotheses.py`)
 
@@ -26,7 +30,9 @@ registered on OSF before the held-out run.
 | H6 | RQ3 | Independent planning of bridged instances breaks its own protection claim; the guard prevents it. | At least one mixed-state violation without the guard, none with it, and the independent planner underestimates its realized loss by at least 10%. | authors' bridge composition result | `guard` |
 | H7 | RQ3 | Guarded planning is cheaper in realized cost than independent planning. | Independent planning costs more than guarded planning (p < 0.01). | design claim | `guard` |
 | H8 | RQ2 | H1 holds when the CRQC timeline is two years earlier. | Same as H1 under shift_years = 2. | robustness | `accelerated` |
-| H11 | RQ2 | Timing pays when commitments are long and capacity is tight. | With 8-quarter renewals and one migration at a time per issuer, QAMP is at least 10% cheaper than ASAP (p < 0.01). | decision-window theory; informed by the exploratory pilot grid (results/dev_sensitivity) | `tight` |
+| H11 | RQ2 | Timing pays when commitments are long and capacity is tight. | With 8-quarter renewals and one migration at a time per issuer, QAMP is at least 10% cheaper than ASAP (p < 0.01). | decision-window theory (alignment matters for long, irreversible commitments); informed by the exploratory pilot grid | `tight` |
+| H12 | RQ4 | The system's own rationales are faithful to the facts they cite. | Citation validity 1.0, faithfulness >= 0.99 and counterfactual consistency >= 0.95. | design claim (verifiable by construction; reported as a property of the system) | `explanations` |
+| H13 | RQ4 | An LLM can rephrase rationales for auditors without losing grounding. | At least 95% of LLM-rephrased sentences keep valid citations and pass the faithfulness check. | design claim | `explanations` |
 | H9 | RQ1 | Rules-based discovery from ABI and verified source finds the signature surfaces. | Overall recall >= 0.90 against the adjudicated labels. | design claim | `discovery` |
 | H10 | RQ1 | A knowledge-grounded LLM classifier improves on rules alone. | LLM F1 > rules F1 with no more than 5% of entries dropped for invalid citations. | design claim | `discovery` |
 
@@ -37,14 +43,17 @@ Wilcoxon signed-rank (medians), bootstrap 95% CIs of the mean difference.
 
 ## 3. Design
 
-* Data: the sample in `data/sample_tokens.txt` at tag `qamp-q1-plan`; observations from `notebooks/Q1_fetch_anchor_facts.ipynb`;
-  observed governance cadence and capacity (v0.2) where the chain shows them; documented defaults otherwise.
-* No interviews, questionnaires or outside participants.
+* Data: the sample in `data/sample_tokens.txt` at tag `quantumclock-q1-plan`; observations from
+  `notebooks/Q1_fetch_anchor_facts.ipynb` (`data/q1_raw.json`, digest in `data/q1_summary.json`).
+* Model inputs from observations (rules in `src/qamp/observed.py`): key exposure; role members; renewal calendars
+  (policy `observed_only`: at least 3 key-change days); issuer capacity; issuer groups; multi-chain instances. Documented
+  defaults where the chain shows nothing (`docs/ASSUMPTIONS.md`).
 * Planning scenarios 20,000; evaluation scenarios 2,000; oracle on the first 200 evaluation scenarios.
-* Seeds: held-out base 50000 (`config.HELD_OUT_SEED_BASE`): planning base+1, evaluation base+2, guard base+11/base+12.
+* Seeds: held-out base 50,000 (`config.HELD_OUT_SEED_BASE`): planning base+1, evaluation base+2, guard base+11/base+12.
   These seeds have not been used.
 * Experiments: `main` (all policies and ablations), `period1` (all calendars renew every quarter), `accelerated`
-  (CRQC two years earlier), `tight` (8-quarter renewals, capacity 1), `guard` (synthetic topology: top-6 anchors by value bridged to a second instance, value 0.7/0.3).
+  (CRQC two years earlier), `tight` (8-quarter renewals, capacity 1), `guard` (observed topology if any, else
+  synthetic), `explanations` (H12; H13 with `explain-check --llm`).
 * Command: `python -m qamp experiments --held-out --frozen-commit <sha>`; outputs committed unchanged.
 
 ## 4. Disclosure of the development pilot
@@ -63,7 +72,9 @@ assumed calendars (`results/dev/`). Its outcomes, which are **not evidence**:
 | H6 | CONFIRMED |
 | H7 | CONFIRMED |
 | H8 | REFUTED |
-| H11 | CONFIRMED (36% cheaper than ASAP; formulated after the exploratory grid) |
+| H11 | CONFIRMED |
+| H12 | CONFIRMED |
+| H13 | PENDING DATA |
 | H9 | PENDING DATA |
 | H10 | PENDING DATA |
 
@@ -79,13 +90,10 @@ significant difference with half-yearly renewals or capacity 2-3.
 
 1. Keep H1, H3 and H5 as stated (theory-derived; the pilot suggests they may be refuted) or revise them. Either is
    legitimate if recorded with its reason before the held-out run; revising them *to match the pilot* must be said so.
-2. Whether observed calendars and capacities replace the defaults for the held-out run (recommended: yes, for every
-   anchor where the chain shows a rotation history).
-3. The LLM model name and version for H10.
-4. Whether to keep H11. It follows from the decision-window theory, but it was formulated after the exploratory grid
-   (`results/dev_sensitivity/sensitivity.md`) showed the effect on development seeds; say so if it is kept.
-5. Whether to add the sensitivity grid (capacity 1-4, hazard 0.25-4, cost decline 0-20%) as exploratory (recommended)
-   or confirmatory.
+2. Keep H11 (formulated after the exploratory grid; say so if kept).
+3. The calendar policy for the held-out run: `observed_only` (default) or `lower_bound`; the other is exploratory.
+4. The LLM model name and version for H10 and H13.
+5. Whether the sensitivity grid is exploratory (recommended) or confirmatory.
 
 ## 6. Addenda
 

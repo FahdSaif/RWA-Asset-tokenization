@@ -1,23 +1,9 @@
-"""Decision-window-aware migration planner (stochastic MILP, solved with HiGHS through scipy.optimize.milp).
+"""Chooses a start quarter for each anchor's migration (MILP, HiGHS solver).
 
-Decision: the start quarter t of each anchor's migration (x[i, t] binary, exactly one t per anchor).
-A migration started at t takes effect at E = next renewal boundary of the anchor at or after t + duration
-(loss.effective_quarter). Starting just too late for a boundary therefore costs a whole renewal period: the
-planner only creates value if it decides inside the decision window, one execution time before a boundary.
-
-Objective (minimised, USD): sum_i [ expected loss_i(E(t)) over the planning scenarios + migration spend_i(t) ]
-  migration spend  = cost_unit_usd * cost_i * (1 - cost_decline_per_year) ** (t / 4)   (tooling matures)
-Constraints
-  one start per anchor
-  hard deadline from the knowledge base: planned E <= the anchor's hard-deadline quarter (NIST: disallowed after 2035)
-  capacity: at most ``capacity`` concurrent migrations per issuer group in any quarter (planned durations)
-  coupling: anchor sets that must start together (added by the guard)
-
-Modes (how the planner treats execution-time uncertainty)
-  stochastic   sample-average over the planning scenarios' deviations (default)
-  expected     plans with the planned duration (deviation 0)
-  pessimistic  plans with the planned duration + ``margin`` quarters (the authors' project-governance finding)
-"""
+A migration only counts from the anchor's next renewal date, so a late start can cost a full period.
+Goal: lowest expected loss plus migration cost.
+Limits: one start each; NIST deadline; migrations at once per issuer; some anchors start together.
+Modes: stochastic (uses the delay odds), expected (no delay), pessimistic (adds a margin)."""
 from __future__ import annotations
 
 import datetime as dt
@@ -62,13 +48,13 @@ def date_to_quarter(iso: str) -> int:
 
 
 def kb_context(dep: Deployment, kb: KnowledgeBase, jurisdictions=("US", "EU")) -> dict[str, dict]:
-    """Per anchor: inference result, hard-deadline quarter (exclusive bound on E) and retention years."""
+    """Rule results, hard deadline and retention years for each anchor."""
     out = {}
     for a in dep.anchors:
         inf = kb.infer(anchor_facts(a, jurisdictions))
         c = inf.conclusions
         hard = c.get("deadline_hard")
-        # "disallowed after 2035-12-31": the migration must take effect by the first quarter after that date
+        # must take effect by 2036 Q1
         hard_q = date_to_quarter(hard) + 1 if hard else None
         out[a.anchor_id] = dict(inference=inf, hard_q=hard_q, retention_years=float(c.get("retention_years", 0)))
     return out
@@ -80,7 +66,7 @@ def spend(anchor, t: int, pp: PlanParams) -> float:
 
 def expected_cost_matrix(dep: Deployment, ctx: dict, ss: ScenarioSet, lp: LossParams, pp: PlanParams,
                          mode: str = "stochastic") -> tuple[np.ndarray, np.ndarray]:
-    """C[i, t] expected loss + spend; F[i, t] feasibility (hard deadline on the planned effective quarter)."""
+    """Expected cost of each start quarter for each anchor, and which starts meet the deadline."""
     """Expectations: the deviation is independent of the CRQC arrival, so the expected loss is
     sum_delta P(delta) * mean over the planning sample of arrivals (mode "stochastic"); "expected" and
     "pessimistic" use a single deviation (0 or +margin). The sample of arrivals should be large (default 20,000):
@@ -121,7 +107,7 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
     nv = n * T
     c = C.flatten()
     ub = F.flatten().astype(float)
-    # anchors with no feasible start: allow the latest start (reported as a deadline miss)
+    # no start meets the deadline: allow the last one (counted as a miss)
     for i in range(n):
         if not F[i].any():
             ub[idx(i, T - 1)] = 1.0
@@ -139,14 +125,15 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
     for i, a in enumerate(dep.anchors):
         groups.setdefault(a.issuer_group, []).append(i)
     for g, members in groups.items():
+        cap = int(dep.group_capacity.get(g, pp.capacity))
         for tau in range(T + 4):
             row = {}
             for i in members:
                 d = max(1, dep.anchors[i].migration_quarters)
                 for t in range(max(0, tau - d + 1), min(T, tau + 1)):
                     row[idx(i, t)] = 1.0
-            if len(row) > pp.capacity:
-                add(row, 0, pp.capacity)
+            if len(row) > cap:
+                add(row, 0, cap)
     pos = {a.anchor_id: i for i, a in enumerate(dep.anchors)}
     for grp in coupling or []:
         ids = [pos[x] for x in grp if x in pos]

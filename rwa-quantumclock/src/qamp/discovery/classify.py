@@ -1,12 +1,7 @@
-"""Classifiers: findings -> inventory entries.
+"""Turns findings into inventory entries.
 
-RulesClassifier   deterministic table from surface type to (algorithm, signer, anchor role, compliance relevance)
-LLMClassifier     sends the findings of one token to a language model and asks for inventory entries as JSON, each
-                  citing evidence ids. Entries citing an unknown id are dropped and counted as hallucinations.
-                  Prompts and responses are appended to a JSONL log for reproducibility. The transport is injectable
-                  (tests use a fake); the default calls the Anthropic Messages API with ANTHROPIC_API_KEY.
-The LLM classifier is optional: the rules path is complete and is the "no LLM" ablation.
-"""
+RulesClassifier: fixed table. LLMClassifier: asks an LLM; drops entries that cite unknown
+evidence and logs every prompt and reply. The rules path works on its own."""
 from __future__ import annotations
 
 import json
@@ -22,7 +17,7 @@ from typing import Callable
 class Finding:
     evidence_id: str
     token: str
-    kind: str          # abi | source | controller
+    kind: str          # abi, source or controller
     surface: str
     location: str
     snippet: str = ""
@@ -34,8 +29,8 @@ class InventoryEntry:
     token: str
     surface: str
     algorithm: str
-    signer: str                   # who produces the signatures the contract accepts
-    anchor_role: str              # trust-anchor role in the reference architecture
+    signer: str                   # who signs
+    anchor_role: str              # role of the key
     quantum_vulnerable: bool
     compliance_relevant: bool
     evidence: list[str]
@@ -46,7 +41,7 @@ class InventoryEntry:
         return (self.token, self.surface)
 
 
-# surface -> algorithm, signer, anchor role, compliance relevant, note
+# surface -> algorithm, signer, role, compliance-relevant, note
 RULES: dict[str, tuple[str, str, str, bool, str]] = {
     "eip2612_permit": ("secp256k1-ecdsa", "token holders", "holder", False, "EIP-2612 permit: holder signatures approve allowances"),
     "eip712_domain": ("secp256k1-ecdsa", "message signers", "holder", False, "EIP-712 typed-data signatures"),

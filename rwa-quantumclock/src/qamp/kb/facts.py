@@ -1,5 +1,5 @@
-"""Static facts used across modules."""
-# Public-key schemes broken by Shor's algorithm on a cryptographically relevant quantum computer.
+"""Fixed lists of algorithms."""
+# Broken by a large quantum computer (Shor's algorithm).
 QUANTUM_VULNERABLE_ALGORITHMS = frozenset({
     "secp256k1-ecdsa", "p256-ecdsa", "ed25519", "eddsa", "schnorr", "frost-schnorr", "bls12-381",
     "rsa", "ecdh", "pedersen-dlog",

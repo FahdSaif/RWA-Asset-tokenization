@@ -1,19 +1,15 @@
-"""Comparison policies. Each returns a Plan (start quarter per anchor) under the same capacity limit as QAMP, so
-differences come from what each policy knows and when it decides, not from extra resources.
+"""Simple policies to compare with. All use the same capacity limits.
 
-  none            no migration (reference for value captured)
-  asap_fifo       start every migration as early as capacity allows, in census order
-  deadline        schedule backwards from NIST's deprecation date (2030), latest start that completes in time
-  annual_review   decisions only at yearly review gates (Q1), in census order: governance by review frequency
-  mosca           priority by Mosca's x + y (record shelf life + migration time), then as early as possible
-  greedy_risk     priority by value at risk x attack weight, then as early as possible
-  kg_score        priority by an adapted readiness score in the spirit of knowledge-graph PQ-readiness frameworks:
-                  vulnerability x (1 + log(1 + tokens controlled)) x (1 + compliance capabilities) x log10(value);
-                  an adaptation of the scoring idea, not a re-implementation of any published system
-  oracle          knows the CRQC arrival and every deviation of the evaluated scenario (upper bound)
+none           never migrate
+asap_fifo      start as early as possible, in list order
+deadline       start as late as possible before 2030
+annual_review  start only at yearly reviews
+mosca          order by record life + migration time
+greedy_risk    order by value at risk
+kg_score       order by a readiness score (adapted idea, not a copy of any tool)
+oracle         knows the future (best possible)
 
-None of the list policies looks at renewal boundaries: that is the difference QAMP's planner is designed to test.
-"""
+None of them look at renewal dates."""
 from __future__ import annotations
 
 import math
@@ -25,12 +21,14 @@ from .scenarios import ScenarioSet
 
 
 class _Capacity:
-    def __init__(self, pp: PlanParams):
+    def __init__(self, pp: PlanParams, group_capacity: dict | None = None):
         self.pp = pp
+        self.caps = group_capacity or {}
         self.use: dict[tuple[str, int], int] = {}
 
     def fits(self, group: str, t: int, d: int) -> bool:
-        return all(self.use.get((group, q), 0) < self.pp.capacity for q in range(t, t + d))
+        cap = int(self.caps.get(group, self.pp.capacity))
+        return all(self.use.get((group, q), 0) < cap for q in range(t, t + d))
 
     def take(self, group: str, t: int, d: int) -> None:
         for q in range(t, t + d):
@@ -38,7 +36,7 @@ class _Capacity:
 
 
 def _list_schedule(dep: Deployment, order: list[int], pp: PlanParams, gates=None, latest=None, method="") -> Plan:
-    cap = _Capacity(pp)
+    cap = _Capacity(pp, dep.group_capacity)
     starts: dict[str, int | None] = {a.anchor_id: None for a in dep.anchors}
     for i in order:
         a = dep.anchors[i]
@@ -55,7 +53,7 @@ def _list_schedule(dep: Deployment, order: list[int], pp: PlanParams, gates=None
                 cap.take(a.issuer_group, t, d)
                 starts[a.anchor_id] = t
                 break
-        if starts[a.anchor_id] is None:      # no capacity left in the horizon: last start, reported as a miss
+        if starts[a.anchor_id] is None:      # no room left: last start (counted as a miss)
             starts[a.anchor_id] = pp.last_start
     return Plan(starts=starts, method=method, status="list-scheduled")
 
@@ -97,7 +95,7 @@ def kg_score(dep, pp: PlanParams = PlanParams(), **_) -> Plan:
 
 
 def oracle(dep, ctx: dict, crqc_q: float, deltas, lp: LossParams, pp: PlanParams) -> Plan:
-    """Deterministic MILP with the scenario's true arrival and deviations (an upper bound no policy can reach)."""
+    """Best plan when the arrival date and delays are known."""
     import numpy as np
     from .loss import anchor_loss
     from .planner import spend

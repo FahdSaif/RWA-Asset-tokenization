@@ -1,9 +1,8 @@
-# Record-retention obligations: how long a signed compliance record must remain trustworthy evidence.
-# A record signed with a quantum-vulnerable key loses evidentiary value if a CRQC arrives before its retention ends
-# (trust-now, forge-later).
+# How long signed compliance records must be kept. A record signed with an old key can be disputed
+# if a quantum computer arrives before the keeping period ends.
 
 - id: RET-FATF-R11
-  description: International minimum of five years for transaction records.
+  description: "Keep transaction records at least 5 years (FATF)."
   when: {fact: signs_records, is_true: true}
   then:
     retention_years: 5
@@ -15,7 +14,7 @@
     verified: true
 
 - id: RET-EU-AMLD-40
-  description: EU obliged entities retain CDD and transaction records for five years, extendable by up to five more.
+  description: "EU: keep records 5 years, up to 5 more (AML directive)."
   when:
     all:
       - {fact: signs_records, is_true: true}
@@ -30,7 +29,7 @@
     verified: true
 
 - id: RET-US-SEC-17A4
-  description: US broker-dealer records under Rule 17a-4(a) are preserved for at least six years.
+  description: "US broker-dealers: keep records 6 years (SEC 17a-4)."
   when:
     all:
       - {fact: signs_records, is_true: true}

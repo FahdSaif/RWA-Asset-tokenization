@@ -1,4 +1,4 @@
-"""Software tests: they must always pass (a failure is a bug). Research hypotheses live in qamp.hypotheses."""
+"""Software tests. They must always pass; a failure is a bug."""
 import json
 
 import numpy as np
@@ -26,7 +26,7 @@ def kb():
     return load_kb()
 
 
-# ------------------------------------------------------------------ data
+# --- data
 
 def test_census_tokens_and_caps():
     rows = read_tokens()
@@ -44,7 +44,7 @@ def test_census_anchors(dep):
     assert sum(a.controller_type == "eoa" for a in dep.anchors) == 2
 
 
-# ------------------------------------------------------------------ calendar, loss
+# --- calendar, loss
 
 @pytest.mark.parametrize("period,phase,q,expected", [(4, 0, 0, 0), (4, 0, 1, 4), (4, 1, 1, 1), (4, 3, 0, 3), (4, 3, 4, 7), (1, 0, 2.5, 3)])
 def test_next_boundary(period, phase, q, expected):
@@ -53,27 +53,27 @@ def test_next_boundary(period, phase, q, expected):
 
 def test_window_costs_a_period():
     a = Anchor("x", "upgrade_admin", "eoa", migration_quarters=2, calendar=Calendar(4, 0))
-    assert effective_quarter(a, 2) == 4          # inside the window
-    assert effective_quarter(a, 3) == 8          # one quarter late: waits a whole period
-    assert effective_quarter(a, 2, delta=1) == 8  # overrun pushes past the boundary
+    assert effective_quarter(a, 2) == 4          # in time
+    assert effective_quarter(a, 3) == 8          # one quarter late: waits a full period
+    assert effective_quarter(a, 2, delta=1) == 8  # a delay misses the date
 
 
 def test_loss_properties():
     a = Anchor("x", "upgrade_admin", "eoa", value_usd=1e9, signs_records=True)
     p = LossParams()
-    # migrated before the CRQC: no forgery window, but records signed in the last 5 years stay repudiable
+    # migrated in time, but records from the last 5 years can still be disputed
     assert anchor_loss(a, 10, 12.0, 5, p) == pytest.approx(p.rho_records * 1e9 * 10 / 4)
     b = Anchor("z", "upgrade_admin", "eoa", value_usd=1e9, signs_records=False)
     assert anchor_loss(b, 10, 12.0, 5, p) == 0.0
     assert anchor_loss(a, 20, 12.0, 0, p) > anchor_loss(a, 16, 12.0, 0, p) > 0
-    assert anchor_loss(a, 5, 60.0, 5, p) == 0.0                                       # CRQC after horizon
+    assert anchor_loss(a, 5, 60.0, 5, p) == 0.0                                       # arrival after 2040
     T = np.array([3.0, 12.0, 70.0])
     assert np.allclose(anchor_loss_vec(a, 20, T, 5, p), [anchor_loss(a, 20, t, 5, p) for t in T])
     pq = Anchor("y", "upgrade_admin", "eoa", value_usd=1e9, algorithm="ml-dsa-65")
     assert anchor_loss(pq, None, 1.0, 5, p) == 0.0
 
 
-# ------------------------------------------------------------------ scenarios
+# --- scenarios
 
 def test_weibull_matches_survey_points():
     for p10, p15 in [(0.28, 0.51), (0.49, 0.70)]:
@@ -90,7 +90,7 @@ def test_scenarios_reproducible_and_conditional():
     assert set(np.unique(a.delta)) <= {-1, 0, 1}
 
 
-# ------------------------------------------------------------------ knowledge base
+# --- knowledge base
 
 def test_kb_rules_have_sources(kb):
     for r in kb.rules:
@@ -116,7 +116,7 @@ def test_kb_fixpoint_and_aggregation():
     assert inf.fired() == ["A", "B", "C"]
 
 
-# ------------------------------------------------------------------ planner and baselines
+# --- planner and baselines
 
 def test_planner_optimal_on_own_objective(dep, kb):
     ctx = planner.kb_context(dep, kb)
@@ -150,7 +150,7 @@ def test_hard_deadline_respected(dep, kb):
         assert effective_quarter(a, p.starts[a.anchor_id]) <= ctx[a.anchor_id]["hard_q"]
 
 
-# ------------------------------------------------------------------ guard
+# --- guard
 
 def test_guard_detects_mixed_state():
     eff = {"a@eth": 4, "a@l2": 12}
@@ -171,7 +171,7 @@ def test_guarded_plan_resolves(dep, kb):
     assert abs(sum(a.value_usd for a in d2.anchors) - sum(a.value_usd for a in dep.anchors)) < 1
 
 
-# ------------------------------------------------------------------ discovery and explanations
+# --- discovery and explanations
 
 SOL = """pragma solidity ^0.8.20;
 // ecrecover( in a comment is not evidence
@@ -232,7 +232,7 @@ def test_explanations_are_cited(dep, kb):
     assert kept2 == [] and dropped2 == 2
 
 
-# ------------------------------------------------------------------ statistics
+# --- statistics
 
 def test_sign_flip_test():
     rng = np.random.default_rng(0)
@@ -243,3 +243,26 @@ def test_sign_flip_test():
 
 def test_held_out_seeds_disjoint():
     assert config.HELD_OUT_SEED_BASE - config.DEV_SEED_BASE >= 1000
+
+
+def test_explanation_checks_can_fail(dep, kb):
+    ctx = planner.kb_context(dep, kb)
+    a = next(x for x in dep.anchors if x.signs_records)
+    r = explain.write(a, 4, ctx[a.anchor_id]["inference"], [])
+    assert explain.scores([r]) == dict(sentences=len(r.sentences), citation_validity=1.0, faithfulness=1.0)
+    plan_sentence = next(s for s in r.sentences if s.startswith("Start the migration"))
+    tampered = plan_sentence.replace("2028 Q1", "2029 Q1", 1)        # a valid value used twice
+    assert tampered != plan_sentence and not explain.faithful(tampered, r.facts)
+    assert not explain.faithful(plan_sentence.replace("2028 Q1", "2030 Q2", 1), r.facts)   # a value not in the facts
+    ret = next(s for s in r.sentences if "remain evidence" in s)
+    assert not explain.faithful(ret.replace("evidence for 5", "evidence for 9"), r.facts)
+    assert not explain.faithful("The key is safe until 2040 Q1 [R:NIST8547-DISALLOW].", r.facts)
+    kept, dropped = explain.rephrase_with_llm(r, lambda prompt: "\n".join([plan_sentence, tampered, "No citation here."]))
+    assert kept == [plan_sentence] and dropped == 2
+
+
+def test_counterfactual_consistency(dep, kb):
+    ctx = planner.kb_context(dep, kb)
+    starts = {a.anchor_id: 0 for a in dep.anchors}
+    res = explain.counterfactual_consistency(dep, ctx, starts, kb)
+    assert res["cases"] > len(dep.anchors) and res["consistency"] == 1.0

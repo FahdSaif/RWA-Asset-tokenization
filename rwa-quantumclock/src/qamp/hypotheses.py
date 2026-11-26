@@ -1,12 +1,7 @@
-"""Research hypotheses: stated before the held-out run, reported as CONFIRMED / REFUTED / INCONCLUSIVE / PENDING DATA.
+"""Research hypotheses. Unlike tests, they are allowed to fail.
 
-These are claims about the world under the stated model, not software tests: they are allowed to fail. Each
-hypothesis names its prediction, its decision rule and the experiment that produces its evidence. The decision
-rules are fixed here and in docs/PREREGISTRATION.md; the held-out run evaluates them once.
-
-Status of this list: DRAFT for the authors' approval. The development pilot (dev seeds) has been run; this is
-disclosed in the pre-registration, and the held-out seeds have never been used.
-"""
+Each states a prediction and a rule for deciding it. Outcomes: CONFIRMED, REFUTED,
+INCONCLUSIVE or PENDING DATA. This list is a draft for the authors to approve."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -28,7 +23,7 @@ class Hypothesis:
 
 
 def _better(tests: dict, k: str) -> bool:
-    """QAMP-stochastic significantly cheaper than policy k (positive mean difference = k costs more)."""
+    """True if QAMP is significantly cheaper than policy k."""
     t = tests.get(k)
     return bool(t and t["p_holm"] < ALPHA and t["mean_diff"] > 0)
 
@@ -42,7 +37,7 @@ def h1(r):
 
 def h2(r):
     t = r["main"]["tests"]["qamp_pessimistic"]
-    # prediction: pessimistic is cheaper than stochastic, i.e. mean_diff (pessimistic - stochastic) < 0, significant
+    # predicted: pessimistic is cheaper
     if t["p_holm"] < ALPHA and t["mean_diff"] < 0:
         out = "CONFIRMED"
     elif t["p_holm"] < ALPHA and t["mean_diff"] > 0:
@@ -114,6 +109,22 @@ def h11(r):
     return ("CONFIRMED" if ok else "REFUTED"), f"8-quarter renewals, capacity 1: ASAP - QAMP {t['mean_diff'] / 1e6:+.1f}M ({rel:+.1%}), p_holm {t['p_holm']:.2g}"
 
 
+def h12(r):
+    e = r["explanations"]
+    d, c = e["deterministic"], e["counterfactual"]
+    ok = d["citation_validity"] == 1.0 and d["faithfulness"] >= 0.99 and c["consistency"] >= 0.95
+    return ("CONFIRMED" if ok else "REFUTED"), (f"citation validity {d['citation_validity']:.3f}, faithfulness {d['faithfulness']:.3f} "
+                                                f"({d['sentences']} sentences); counterfactual consistency {c['consistency']:.3f} ({c['cases']} cases)")
+
+
+def h13(r):
+    e = r.get("explanations", {})
+    if "llm" not in e:
+        return "PENDING DATA", "needs `python -m qamp explain-check --llm` with an API key"
+    ret = e["llm"]["retained"]
+    return ("CONFIRMED" if ret >= 0.95 else "REFUTED"), f"{ret:.3f} of {e['llm']['sentences']} rephrased sentences retained ({e['llm']['model']})"
+
+
 def _pending(key):
     def f(r):
         if key not in r:
@@ -153,6 +164,12 @@ HYPOTHESES = [
                "With 8-quarter renewals and one migration at a time per issuer, QAMP is at least 10% cheaper than ASAP (p < 0.01).",
                "decision-window theory (alignment matters for long, irreversible commitments); informed by the exploratory pilot grid",
                "tight", h11),
+    Hypothesis("H12", "RQ4", "The system's own rationales are faithful to the facts they cite.",
+               "Citation validity 1.0, faithfulness >= 0.99 and counterfactual consistency >= 0.95.",
+               "design claim (verifiable by construction; reported as a property of the system)", "explanations", h12),
+    Hypothesis("H13", "RQ4", "An LLM can rephrase rationales for auditors without losing grounding.",
+               "At least 95% of LLM-rephrased sentences keep valid citations and pass the faithfulness check.",
+               "design claim", "explanations", h13),
     Hypothesis("H9", "RQ1", "Rules-based discovery from ABI and verified source finds the signature surfaces.",
                "Overall recall >= 0.90 against the adjudicated labels.", "design claim", "discovery", _pending("H9")),
     Hypothesis("H10", "RQ1", "A knowledge-grounded LLM classifier improves on rules alone.",
@@ -163,7 +180,7 @@ HYPOTHESES = [
 def evaluate_all(results: dict) -> list[dict]:
     out = []
     for h in HYPOTHESES:
-        if h.experiment not in results and not h.id.startswith(("H9", "H10")):
+        if h.experiment not in results and h.id not in ("H9", "H10", "H13"):
             out.append(dict(id=h.id, rq=h.rq, statement=h.statement, prediction=h.prediction, outcome="NOT RUN", evidence=""))
             continue
         outcome, ev = h.decide(results)

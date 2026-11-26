@@ -1,9 +1,4 @@
-"""Evidence from verified Solidity source, with file and line numbers.
-
-Patterns cover the ways an EVM contract accepts a public-key signature or delegates trust to a key. Comments are
-stripped before matching, so a pattern in a comment is not evidence. Multi-file sources (Etherscan standard JSON
-input) are scanned file by file.
-"""
+"""Evidence from verified source code, with file and line. Comments are ignored."""
 from __future__ import annotations
 
 import json
@@ -30,12 +25,12 @@ _COMMENT = re.compile(r"//[^\n]*|/\*.*?\*/", re.S)
 
 
 def _strip_comments(text: str) -> str:
-    """Replace comments by spaces of the same length (keeps line numbers)."""
+    """Blanks out comments but keeps line numbers."""
     return _COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
 
 
 def split_sources(source_code: str) -> dict[str, str]:
-    """Etherscan returns either flat source or standard JSON input (wrapped in an extra pair of braces)."""
+    """Splits Etherscan source into files."""
     s = source_code.strip()
     if s.startswith("{{") and s.endswith("}}"):
         s = s[1:-1]

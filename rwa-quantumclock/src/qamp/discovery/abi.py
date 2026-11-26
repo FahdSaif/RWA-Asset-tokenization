@@ -1,13 +1,9 @@
-"""Evidence from ABI function names (observed in the census) and from controller observations.
-
-An ABI shows that a capability exists, not who may use it or how a signature is checked; the surface types below
-are therefore *candidates* that the source scan or a reviewer confirms.
-"""
+"""Evidence from ABI function names and from controllers. The ABI shows a feature exists, not who uses it."""
 from __future__ import annotations
 
 from .classify import Finding
 
-# surface type -> (required name patterns (any), supporting patterns (any, optional)), matched case-insensitively
+# surface -> (names that show it, names that support it)
 ABI_SURFACES: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {
     "eip2612_permit": (("permit",), ("domain_separator", "permit_typehash", "nonces")),
     "eip712_domain": (("eip712domain",), ()),
@@ -36,7 +32,7 @@ def scan_abi(token_address: str, functions: list[str]) -> list[Finding]:
 
 
 def scan_controllers(dep) -> list[Finding]:
-    """One finding per observed controlling key (EOA, multisig, timelock) of the census."""
+    """One finding per controlling key."""
     out = []
     for a in dep.anchors:
         if not a.controller_address:

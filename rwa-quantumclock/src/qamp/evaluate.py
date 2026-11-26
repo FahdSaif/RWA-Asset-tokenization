@@ -1,18 +1,11 @@
-"""Experiment harness.
+"""Runs the experiments.
 
-Planning and evaluation use disjoint scenario seeds: a plan is made on planning scenarios and scored on evaluation
-scenarios it has never seen (CRQC arrival and execution-time deviations). Development runs use
-``config.DEV_SEED_BASE``; the pre-registered run uses ``config.HELD_OUT_SEED_BASE`` and nothing else.
+Plans are made on one set of scenarios and scored on a different set.
+Development seeds are for trying out; held-out seeds are only for the pre-registered run.
 
-Realized cost of a plan in scenario s = sum over anchors of
-  loss(anchor, realized effective quarter, CRQC arrival)  +  migration spend at the planned start
-where the realized effective quarter uses the scenario's deviation and, for bridged instances, the protection of
-the worst bridged peer (guard.true_effective).
-
-Reported per policy: mean realized cost with a bootstrap 95% CI, value captured relative to no migration and to
-the oracle, share of value at risk protected by 2030 Q4 (NIST deprecation) and 2032 Q4 (G7 example for critical
-systems), hard-deadline misses, and paired Wilcoxon signed-rank tests against QAMP with Holm correction.
-"""
+Cost of a plan in a scenario = losses + migration spending.
+Reported: mean cost with 95% interval, share of the best possible saving, share protected by 2030 and 2032,
+missed deadlines, and paired tests against QAMP (sign-flip test on the mean, Holm correction)."""
 from __future__ import annotations
 
 import copy
@@ -32,7 +25,7 @@ from .model import Calendar, Deployment
 from .planner import Plan, PlanParams
 
 
-# ---------------------------------------------------------------- scoring
+# --- scoring
 
 def realized_costs(dep: Deployment, ctx: dict, plan: Plan, ss: scenarios.ScenarioSet, lp: LossParams,
                    pp: PlanParams, bridge_policy: str = "open") -> np.ndarray:
@@ -50,8 +43,7 @@ def realized_costs(dep: Deployment, ctx: dict, plan: Plan, ss: scenarios.Scenari
 
 
 def protected_share(dep: Deployment, plan: Plan, by_quarter: int, ss: scenarios.ScenarioSet | None = None) -> float:
-    """Share of value at risk whose migration takes effect by ``by_quarter`` (planned durations, or mean over the
-    scenarios' deviations when ``ss`` is given)."""
+    """Share of value whose migration takes effect by a given quarter."""
     tot = sum(a.value_usd for a in dep.anchors if a.quantum_vulnerable)
     if tot == 0:
         return 1.0
@@ -87,8 +79,7 @@ def bootstrap_ci(x: np.ndarray, n: int = 2000, seed: int = 0) -> tuple[float, fl
 
 
 def sign_flip_test(d: np.ndarray, n_perm: int = 20_000, seed: int = 0) -> float:
-    """Two-sided paired permutation (sign-flip) test of mean(d) = 0. The objective is an expectation and losses are
-    heavy-tailed, so the mean, not the median, is the quantity tested."""
+    """Paired test that the mean difference is zero. Uses the mean because losses have rare large values."""
     d = np.asarray(d, dtype=float)
     if np.allclose(d, 0):
         return 1.0
@@ -103,8 +94,7 @@ def sign_flip_test(d: np.ndarray, n_perm: int = 20_000, seed: int = 0) -> float:
 
 
 def paired_tests(ref: np.ndarray, others: dict[str, np.ndarray]) -> dict[str, dict]:
-    """Per comparison: mean difference (other - ref) with a paired bootstrap 95% CI, a sign-flip permutation p-value
-    (primary, Holm-corrected across comparisons) and a Wilcoxon signed-rank p-value (secondary, on medians)."""
+    """Mean difference, 95% interval and p-values for each policy against the reference."""
     raw = {}
     for k, v in others.items():
         d = np.asarray(v) - np.asarray(ref)
@@ -122,7 +112,7 @@ def paired_tests(ref: np.ndarray, others: dict[str, np.ndarray]) -> dict[str, di
     return raw
 
 
-# ---------------------------------------------------------------- variants used as ablations
+# --- variants for ablations
 
 def with_calendar_period(dep: Deployment, period: int) -> Deployment:
     d = copy.deepcopy(dep)
@@ -135,13 +125,13 @@ def ctx_without_kb(ctx: dict) -> dict:
     return {k: dict(v, hard_q=None, retention_years=0.0) for k, v in ctx.items()}
 
 
-# ---------------------------------------------------------------- main experiment
+# --- main experiment
 
 @dataclass
 class RunConfig:
     n_plan: int = 20_000
     n_eval: int = 2_000
-    n_oracle: int = 200          # the oracle (one MILP per scenario) is scored on the first n_oracle evaluation scenarios
+    n_oracle: int = 200          # oracle is slow: score it on the first n_oracle scenarios
     seed_base: int = config.DEV_SEED_BASE
     shift_years: float = 0.0
     oracle: bool = True
@@ -166,7 +156,7 @@ def run_policies(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, ctx: dict | 
         if name.startswith("qamp_") and name not in ("qamp_no_windows", "qamp_no_kb"):
             plans[name] = planner.plan(dep, kb, ss_plan, rc.lp, rc.pp, mode=name.split("_", 1)[1], ctx=ctx)
         elif name == "qamp_no_windows":
-            d1 = with_calendar_period(dep, 1)            # plans as if every quarter were a renewal boundary
+            d1 = with_calendar_period(dep, 1)            # plan as if every quarter were a renewal date
             p = planner.plan(d1, kb, ss_plan, rc.lp, rc.pp, mode="stochastic", ctx=ctx)
             p.method = name
             plans[name] = p
@@ -197,7 +187,7 @@ def run_policies(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, ctx: dict | 
         if no:
             row["mean_oracle_subset"] = float(v[:no].mean())
         if L_none is not None and L_or is not None and L_none > L_or:
-            # value captured on the oracle subset (same scenarios for every policy)
+            # same scenarios for every policy
             row["value_captured"] = float((L_none - v[:no].mean()) / (L_none - L_or))
         if k in plans:
             row["protected_by_2030"] = protected_share(dep, plans[k], q2030 + 1, ss_eval)
@@ -215,12 +205,19 @@ def run_policies(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, ctx: dict | 
 
 
 def run_guard(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, top_k: int = 6,
-              instances=("ethereum", "l2"), split=(0.7, 0.3)) -> dict:
-    """RQ3 stress test on a SYNTHETIC instance topology: the top-k anchors by value are given a second, bridged
-    instance. Compares independent planning, guarded planning and independent planning with paused bridges."""
-    top = sorted(dep.anchors, key=lambda a: -a.value_usd)[:top_k]
-    topo = {a.anchor_id: list(instances) for a in top}
-    d2 = guard.expand_instances(dep, topo, value_split=dict(zip(instances, split)))
+              instances=("ethereum", "l2"), split=(0.7, 0.3), topology: str = "auto") -> dict:
+    """RQ3: bridged chains during a migration.
+
+    Uses the observed chain copies if there are any, otherwise a labelled made-up example.
+    Compares planning each chain alone, planning with the guard, and pausing bridges."""
+    use_obs = (topology == "observed") or (topology == "auto" and bool(dep.observed_topology))
+    if use_obs:
+        topo = dict(dep.observed_topology)
+        d2 = guard.expand_instances(dep, topo, label="observed multi-chain topology (bridges assumed)")
+    else:
+        top = sorted(dep.anchors, key=lambda a: -a.value_usd)[:top_k]
+        topo = {a.anchor_id: list(instances) for a in top}
+        d2 = guard.expand_instances(dep, topo, value_split=dict(zip(instances, split)), label="synthetic topology")
     ctx = planner.kb_context(d2, kb)
     n = len(d2.anchors)
     ss_plan = scenarios.sample(rc.n_plan, n, seed=rc.seed_base + 11, shift_years=rc.shift_years)
@@ -230,7 +227,8 @@ def run_guard(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, top_k: int = 6,
     guarded, rounds, final, hist = guard.guarded_plan(d2, lambda cp: planner.solve(d2, C, F, rc.pp, coupling=cp, method="qamp_guarded"))
     res_indep = guard.check_plan(d2, indep.starts)
     res_pause = guard.check_plan(d2, indep.starts, bridge_policy="pause_revalidate")
-    out = dict(topology={k: v for k, v in topo.items()}, rounds=rounds, history=hist,
+    out = dict(topology_kind="observed" if use_obs else "synthetic", topology={k: v for k, v in topo.items()},
+               rounds=rounds, history=hist,
                violations=dict(independent=sum(g.violation for g in res_indep),
                                guarded=sum(g.violation for g in final),
                                independent_pause_revalidate=sum(g.violation for g in res_pause)),
@@ -240,7 +238,7 @@ def run_guard(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, top_k: int = 6,
     costs = dict(independent=realized_costs(d2, ctx, indep, ss_eval, rc.lp, rc.pp),
                  guarded=realized_costs(d2, ctx, guarded, ss_eval, rc.lp, rc.pp),
                  independent_pause_revalidate=realized_costs(d2, ctx, indep, ss_eval, rc.lp, rc.pp, bridge_policy="pause_revalidate"))
-    # what the independent planner believed: its own model ignores bridges
+    # what the plan expected, ignoring bridges
     believed = float(np.mean([sum(anchor_loss(a, effective_quarter(a, indep.starts[a.anchor_id], int(ss_eval.delta[s, i])),
                                                float(ss_eval.crqc_quarter[s]), ctx[a.anchor_id]["retention_years"], rc.lp)
                                    for i, a in enumerate(d2.anchors)) for s in range(len(ss_eval))]))
@@ -266,8 +264,7 @@ def _jsonable(o):
 def run_sensitivity(dep: Deployment, kb: KnowledgeBase, seed_base: int = config.DEV_SEED_BASE,
                     capacities=(1, 2, 3), periods=(2, 4, 8), hazards=(0.25, 1.0, 4.0),
                     n_plan: int = 5_000, n_eval: int = 1_000) -> list[dict]:
-    """EXPLORATORY: where does timing-aware planning pay? QAMP-stochastic vs ASAP over a grid of capacity, renewal
-    period (all anchors) and attack hazard. Development seeds only; not part of the confirmatory hypotheses."""
+    """Exploratory: where does timing pay? QAMP vs ASAP across capacity, renewal period and hazard."""
     rows = []
     for period in periods:
         dp = with_calendar_period(dep, period) if period != 4 else dep

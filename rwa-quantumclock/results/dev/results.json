@@ -3,7 +3,7 @@
   "seed_base": 0,
   "held_out": false,
   "frozen_commit": null,
-  "git_commit": "2003e5f26327bca9a11d52dec098acff840498b1",
+  "git_commit": "ed62a07ca3f9bfb065fca727dd7c0fd193d58924",
   "run_config": {
    "n_plan": 20000,
    "n_eval": 2000,
@@ -30,8 +30,8 @@
    "python": "3.13.18",
    "numpy": "2.5.3",
    "scipy": "1.18.1",
-   "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
-   "utc": "2026-11-24T16:20:10Z"
+   "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+   "utc": "2026-11-25T08:30:13Z"
   },
   "kb_unverified_rules": []
  },
@@ -25237,7 +25237,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 20.768444776535034,
+   "runtime_s": 16.441821575164795,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -25264,8 +25264,8 @@
     "python": "3.13.18",
     "numpy": "2.5.3",
     "scipy": "1.18.1",
-    "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
-    "utc": "2026-11-24T16:19:58Z"
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "utc": "2026-11-25T08:30:02Z"
    }
   },
   "period1": {
@@ -31526,7 +31526,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 2.611708641052246,
+   "runtime_s": 1.8019256591796875,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -31553,8 +31553,8 @@
     "python": "3.13.18",
     "numpy": "2.5.3",
     "scipy": "1.18.1",
-    "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
-    "utc": "2026-11-24T16:20:00Z"
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "utc": "2026-11-25T08:30:04Z"
    }
   },
   "accelerated": {
@@ -48185,7 +48185,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 5.060397148132324,
+   "runtime_s": 4.715270280838013,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -48212,8 +48212,8 @@
     "python": "3.13.18",
     "numpy": "2.5.3",
     "scipy": "1.18.1",
-    "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
-    "utc": "2026-11-24T16:20:06Z"
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "utc": "2026-11-25T08:30:09Z"
    }
   },
   "tight": {
@@ -54474,7 +54474,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 1.9801881313323975,
+   "runtime_s": 1.5734748840332031,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -54501,11 +54501,12 @@
     "python": "3.13.18",
     "numpy": "2.5.3",
     "scipy": "1.18.1",
-    "platform": "Linux-6.18.44-fc-v819-x86_64-with-glibc2.39",
-    "utc": "2026-11-24T16:20:08Z"
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+    "utc": "2026-11-25T08:30:11Z"
    }
   },
   "guard": {
+   "topology_kind": "synthetic",
    "topology": {
     "ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7": [
      "ethereum",
@@ -54595,6 +54596,18 @@
      "n_nonzero": 2000,
      "p_holm": 9.99950002499875e-05
     }
+   }
+  },
+  "explanations": {
+   "deterministic": {
+    "sentences": 462,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "counterfactual": {
+    "cases": 246,
+    "consistency": 1.0,
+    "failures": []
    }
   }
  },
@@ -54688,6 +54701,24 @@
    "source_of_prediction": "decision-window theory (alignment matters for long, irreversible commitments); informed by the exploratory pilot grid",
    "outcome": "CONFIRMED",
    "evidence": "8-quarter renewals, capacity 1: ASAP - QAMP +231.9M (+36.1%), p_holm 0.0001"
+  },
+  {
+   "id": "H12",
+   "rq": "RQ4",
+   "statement": "The system's own rationales are faithful to the facts they cite.",
+   "prediction": "Citation validity 1.0, faithfulness >= 0.99 and counterfactual consistency >= 0.95.",
+   "source_of_prediction": "design claim (verifiable by construction; reported as a property of the system)",
+   "outcome": "CONFIRMED",
+   "evidence": "citation validity 1.000, faithfulness 1.000 (462 sentences); counterfactual consistency 1.000 (246 cases)"
+  },
+  {
+   "id": "H13",
+   "rq": "RQ4",
+   "statement": "An LLM can rephrase rationales for auditors without losing grounding.",
+   "prediction": "At least 95% of LLM-rephrased sentences keep valid citations and pass the faithfulness check.",
+   "source_of_prediction": "design claim",
+   "outcome": "PENDING DATA",
+   "evidence": "needs `python -m qamp explain-check --llm` with an API key"
   },
   {
    "id": "H9",

@@ -1,27 +1,11 @@
-"""Model-checked guard: mixed-cryptography states across bridged instances.
+"""Checks bridged chains during a migration.
 
-Setting. One anchor (an admin or issuer key) is accepted on several instances of a token (chains or rollups)
-joined by bridges that accept the source instance's state as valid. Each instance migrates at its own effective
-quarter E_c: before E_c it accepts the quantum-vulnerable signature, from E_c only the post-quantum one.
+If one chain has migrated but a bridged chain has not, an attacker with a quantum computer can
+forge on the old chain and bridge the result to the new one. The check searches all steps for
+this case and returns the path if it finds one.
 
-Claim of a plan. "Instance d is protected from E_d on."
-Counterexample. After a CRQC arrives, an adversary forges the legacy signature on an instance c that still accepts it
-(q < E_c), creates a forged position there (mint, unfreeze, forced transfer) and bridges it to d at a quarter
-q >= E_d. Instance d then holds a forged-origin position although its own migration is complete. This extends the
-authors' earlier finding (two individually correct instances joined by a bridge can violate compliance with no
-adversary) to a migration in progress.
-
-Bounded explicit-state search (breadth-first, like rwa_threatlab.modelcheck):
-  state      (q, crqc_arrived, loc, f)   loc: instance holding a forged position (or None); f: quarter it was forged
-  actions    tick (q + 1, up to the horizon); crqc (once); forge on c if crqc, q < E_c and no position yet;
-             bridge loc -> d along an open bridge
-  violation  a position forged at f >= E_d arrives at d through a bridge (d was already protected when it was
-             forged: the plan's claim fails). Positions forged before E_d are ordinary pre-migration exposure,
-             counted by the loss model, not a violation.
-  bridge policy  "open"; or "pause_revalidate": a bridge is closed while exactly one end has migrated, and on
-             reopening rejects positions forged after the destination migrated (costs bridge downtime)
-This is a consistency check of plans in a stated abstraction, not a verification of any deployed system.
-"""
+Bridge options: open, or pause_revalidate (close the bridge until both sides have migrated).
+It checks a simple model of a plan, not real systems."""
 from __future__ import annotations
 
 import copy
@@ -89,27 +73,31 @@ def check_component(anchor_id: str, effective: dict[str, int | None], bridges: l
     return GuardResult(anchor_id, False, None, len(seen), dict(effective))
 
 
-def expand_instances(dep: Deployment, topology: dict[str, list[str]], value_split: dict[str, float] | None = None) -> Deployment:
-    """Copy each anchor listed in ``topology`` into one anchor per instance ("<id>@<instance>"), split its value
-    (equally unless ``value_split`` gives shares per instance) and connect the copies with bridges to the first
-    (canonical) instance. Instances of one anchor share its issuer group and calendar."""
+def expand_instances(dep: Deployment, topology: dict, value_split: dict[str, float] | None = None,
+                     label: str = "synthetic topology") -> Deployment:
+    """Makes one anchor per chain and joins them with bridges."""
     anchors, bridges = [], []
     for a in dep.anchors:
         insts = topology.get(a.anchor_id)
         if not insts:
             anchors.append(a)
             continue
-        shares = value_split or {c: 1 / len(insts) for c in insts}
+        if isinstance(insts, dict):
+            shares = dict(insts)
+            insts = sorted(insts, key=lambda c: (c != "ethereum", c))
+        else:
+            shares = value_split or {c: 1 / len(insts) for c in insts}
         for c in insts:
             b = copy.deepcopy(a)
             b.anchor_id = f"{a.anchor_id}@{c}"
             b.instances = [c]
             b.value_usd = a.value_usd * shares[c]
-            b.provenance = dict(a.provenance, instance=f"{c} (synthetic topology)", base_anchor=a.anchor_id)
+            b.provenance = dict(a.provenance, instance=f"{c} ({label})", base_anchor=a.anchor_id)
             anchors.append(b)
         for c in insts[1:]:
             bridges.append(Bridge(anchor_id=a.anchor_id, a=f"{a.anchor_id}@{insts[0]}", b=f"{a.anchor_id}@{c}"))
-    return Deployment(tokens=dep.tokens, anchors=anchors, bridges=bridges, source=dep.source + " + synthetic instance topology")
+    return Deployment(tokens=dep.tokens, anchors=anchors, bridges=bridges, source=dep.source + f" + {label}",
+                      group_capacity=dict(dep.group_capacity))
 
 
 def components(dep: Deployment) -> dict[str, dict]:
@@ -130,8 +118,7 @@ def check_plan(dep: Deployment, starts: dict[str, int | None], bridge_policy: st
 
 
 def guarded_plan(dep: Deployment, plan_fn, max_rounds: int = 5, bridge_policy: str = "open"):
-    """Plan, model-check every bridged component, couple the violating components (start together) and re-plan
-    until no violation remains. Returns (plan, rounds, results of the final check, history)."""
+    """Plans, checks, makes bridged copies start together if needed, and plans again."""
     coupling: list[list[str]] = []
     history = []
     for r in range(max_rounds):
@@ -152,8 +139,7 @@ def guarded_plan(dep: Deployment, plan_fn, max_rounds: int = 5, bridge_policy: s
 
 
 def true_effective(dep: Deployment, eff: dict[str, int | None], bridge_policy: str = "open") -> dict[str, int | None]:
-    """Effective protection with bridges: an instance is protected only once every instance it is bridged to has
-    migrated (forged positions can cross an open bridge). With ``pause_revalidate`` bridges its own quarter counts."""
+    """When each copy is really protected: only once every bridged copy has migrated."""
     if bridge_policy == "pause_revalidate":
         return dict(eff)
     out = dict(eff)
@@ -166,7 +152,7 @@ def true_effective(dep: Deployment, eff: dict[str, int | None], bridge_policy: s
 
 
 def bridge_downtime(dep: Deployment, eff: dict[str, int | None], horizon: int = config.HORIZON_QUARTERS) -> int:
-    """Quarters during which some bridge is closed under ``pause_revalidate`` (mixed state)."""
+    """Quarters a bridge is closed under pause_revalidate."""
     tot = 0
     for comp in components(dep).values():
         for a, b in comp["edges"]:

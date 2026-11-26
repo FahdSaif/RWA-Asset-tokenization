@@ -1,17 +1,10 @@
-"""Build a Deployment (tokens + trust anchors) from the real census of tokenised-asset contracts.
+"""Builds tokens and trust anchors.
 
-Input: rwa-threatlab experiment C (``census_raw.json``, ``census_tokens.txt``): 25 Ethereum contracts labelled
-"Real World Assets" on Etherscan, fetched 2026-11-08. The controller classification is imported from
-``rwa_threatlab.exploratory.census`` so that both studies use one definition.
-
-What is observed and what is not (recorded per anchor in ``provenance``):
-  observed   token address, rank, market cap shown by Etherscan, proxy flag, ABI function names, upgrade-admin and
-             owner/defaultAdmin controllers (EOA, multisig threshold and owners, timelock delay)
-  assumed    commitment calendars, migration times and costs, issuer grouping, key exposure (until the extraction
-             notebook ``notebooks/Q1_fetch_anchor_facts.ipynb`` reads nonces), bridged instances
-"""
+Source: the rwa-threatlab census (25 contracts), or the notebook data once it exists.
+Each anchor records what was observed and what was assumed in `provenance`."""
 from __future__ import annotations
 
+import datetime as dt
 import json
 import sys
 import zlib
@@ -31,7 +24,7 @@ def _threatlab_census():
 
 
 def read_tokens(path: Path = config.CENSUS_TOKENS) -> list[dict]:
-    """Rows of census_tokens.txt: address, rank, name (symbol), market cap (USD)."""
+    """Reads a token list: address, rank, name (symbol), market cap."""
     out = []
     for line in path.read_text().splitlines():
         if not line.strip() or line.startswith("#"):
@@ -46,7 +39,7 @@ def read_tokens(path: Path = config.CENSUS_TOKENS) -> list[dict]:
 
 
 def _resolve(addr: Optional[str], controllers: dict, hops: int = 1) -> dict:
-    """Controller of an address, following one owner() hop, keeping the final controlling address."""
+    """Who controls an address, following one owner() step."""
     census = _threatlab_census()
     if addr is None:
         return dict(type="unknown", address=None)
@@ -60,42 +53,51 @@ def _resolve(addr: Optional[str], controllers: dict, hops: int = 1) -> dict:
 
 
 def _issuer_group(tok: dict, contract_name: str) -> str:
-    """Organisation that carries out the migration. ASSUMPTION: Backed proxies form one group; otherwise the first
-    word of the token name shown by Etherscan."""
+    """Issuer name. Assumption: Backed tokens are one issuer; otherwise the first word of the name."""
     if contract_name == "BackedTokenProxy":
         return "Backed"
     return tok["name"].split()[0] if tok["name"] else tok["address"][:8]
 
 
 def _calendar_for(group: str, role: str) -> Calendar:
-    """ASSUMED default calendar: annual renewal; the phase is a deterministic function of the issuer group so that
-    groups are not all aligned. Replaced by observed or documented calendars when data/calendars.csv exists."""
+    """Default calendar (assumption): yearly renewal, with the quarter spread across issuers."""
     phase = zlib.crc32(f"{group}:{role}".encode()) % 4
     return Calendar(period=4, phase=phase, source="assumed")
 
 
 def _defaults(controller_type: str, n_keys: int) -> tuple[int, float]:
-    """ASSUMED planned execution time (quarters) and relative cost of a migration by controller type."""
+    """Default migration time (quarters) and cost by controller type (assumption)."""
     if controller_type == "eoa":
         return 1, 1.0
     if controller_type == "multisig":
         return 2, 1.0 + 0.25 * n_keys
     if controller_type == "timelock":
         return 2, 1.5
-    return 2, 2.0   # unobserved or role-based: discovery of the holders is part of the work
+    return 2, 2.0   # holders unknown: finding them is part of the work
 
 
 def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.CENSUS_TOKENS,
                 calendars_path: Optional[Path] = None, facts_path: Optional[Path] = None,
-                q1_raw_path: Optional[Path] = None) -> Deployment:
-    """``q1_raw_path``: observations of the extraction notebook. When given, observed AccessControl role members
-    replace the token's unobserved role-holder anchor (one anchor per member key)."""
+                q1_raw_path: Optional[Path] = None, calendar_policy: str = "observed_only") -> Deployment:
+    """Builds the deployment.
+
+    Uses the census, or the notebook data if it covers every token in the list.
+    Observed role members replace unknown role holders. Observed calendars, capacity and
+    other-chain copies are added. Calendars in calendars.csv win over observed ones."""
+    from . import observed
     census = _threatlab_census()
     raw = json.loads(Path(raw_path).read_text())["tokens"]
+    meta = {t["address"]: t for t in read_tokens(tokens_path)}
+    q1raw = None
     q1 = {}
     if q1_raw_path and Path(q1_raw_path).exists():
-        q1 = {t["address"].lower(): t for t in json.loads(Path(q1_raw_path).read_text())["tokens"]}
-    meta = {t["address"]: t for t in read_tokens(tokens_path)}
+        q1raw = json.loads(Path(q1_raw_path).read_text())
+        q1 = {t["address"].lower(): t for t in q1raw["tokens"]}
+        if set(meta) <= set(q1):
+            raw = [q1[a] for a in meta]
+            raw_path = q1_raw_path
+    raw = [r for r in raw if r["address"].lower() in meta]
+    groups = observed.issuer_groups(raw, lambda r: _issuer_group(meta[r["address"].lower()], r.get("contract_name") or ""))
     known_calendars = _read_calendars(calendars_path) if calendars_path else {}
     facts = json.loads(Path(facts_path).read_text()) if facts_path and Path(facts_path).exists() else {}
 
@@ -126,18 +128,18 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
                     contract_name=rec.get("contract_name") or "", is_proxy=bool(rec.get("is_proxy")),
                     abi_functions=list(rec.get("abi_functions", [])), categories=cats)
         tokens.append(tok)
-        group = _issuer_group(m, tok.contract_name)
+        group = groups[addr]
         ctrls = rec.get("controllers", {})
         caps_all = [k for k, v in cats.items() if v]
         compliance_caps = [c for c in caps_all if c in ("freeze_blacklist", "forced_transfer_recovery", "pause")]
 
-        # 1. upgrade admin (proxies only): controls the code, hence every capability of the token
+        # 1. upgrade admin (proxies only): can change all the code
         if tok.is_proxy:
             admin = rec.get("admin_slot")
             res = _resolve(admin, ctrls) if admin and admin.lower() != "0x" + "0" * 40 else dict(type="not_readable", address=None)
             _add_controller_anchor(add_anchor, "upgrade_admin", res, tok, group, caps_all, compliance_caps, known_calendars, facts)
 
-        # 2. owner() / defaultAdmin()
+        # 2. owner or default admin
         own = None
         for k in ("owner", "default_admin"):
             if rec.get(k):
@@ -148,16 +150,14 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
             if res["type"] != "none":
                 _add_controller_anchor(add_anchor, "owner_admin", res, tok, group, caps_all, compliance_caps, known_calendars, facts)
 
-        # 3. role holders: observed members (extraction notebook) or one unobserved anchor per token
-        obs = q1.get(addr, {})
-        members = sorted({m for r in obs.get("roles", {}).values() for m in r.get("members", [])})
+        # 3. role holders: observed members, or one unknown anchor
+        obs = q1.get(addr, rec)
+        members = sorted({m for r in (obs.get("roles") or {}).values() for m in r.get("members", [])})
         if members:
             for m_addr in members:
-                o = obs.get("controllers", {}).get(m_addr, {})
-                ctype = "eoa" if o.get("is_contract") is False else ("multisig" if o.get("threshold") else
-                                                                      ("timelock" if o.get("min_delay") else "other_contract"))
-                res = dict(type=ctype, address=m_addr, threshold=o.get("threshold"), owners=len(o.get("owners") or []) or None,
-                           delay_seconds=o.get("min_delay"))
+                res = _resolve(m_addr, obs.get("controllers", {}))
+                if res.get("address") is None:
+                    res = dict(res, address=m_addr)
                 _add_controller_anchor(add_anchor, "role_holder", res, tok, group,
                                        [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)
         elif compliance_caps or cats.get("mint_burn"):
@@ -165,11 +165,25 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
             _add_controller_anchor(add_anchor, "role_holder", res, tok, group,
                                    [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)
 
-    dep = Deployment(tokens=tokens, anchors=list(anchors.values()),
-                     source=f"rwa-threatlab census {Path(raw_path).name} (25 contracts, Etherscan, 2026-11-08)")
+    src = (f"rwa-threatlab census {Path(raw_path).name} (25 contracts, Etherscan, 2026-11-08)" if q1raw is None or raw_path != q1_raw_path
+           else f"extraction notebook {Path(raw_path).name} ({len(tokens)} contracts, block {q1raw.get('block')}, {q1raw.get('retrieved_at_utc')})")
+    dep = Deployment(tokens=tokens, anchors=list(anchors.values()), source=src)
     caps = {t.address: t.market_cap_usd for t in tokens}
     for a in dep.anchors:
         a.value_usd = sum(caps[t] for t in a.tokens)
+    if q1raw is not None:
+        days = observed.change_days(q1raw, dep)
+        end = None
+        if q1raw.get("retrieved_at_utc"):
+            end = dt.date.fromisoformat(q1raw["retrieved_at_utc"][:10])
+        cals = observed.calendars_from_events(days, policy=calendar_policy, window_end=end)
+        for a in dep.anchors:
+            if a.anchor_id in cals and a.anchor_id not in known_calendars:
+                a.calendar = cals[a.anchor_id]
+                a.provenance["calendar"] = a.calendar.source
+            a.provenance["key_change_days"] = len(days.get(a.anchor_id, []))
+        dep.group_capacity = observed.capacity_from_events(days, dep)
+        dep.observed_topology = observed.topology_from_raw(q1raw, dep)
     return dep
 
 
@@ -178,7 +192,7 @@ def _add_controller_anchor(add_anchor, role: str, res: dict, tok: Token, group: 
     ctype = res["type"]
     address = res.get("address")
     n_keys = int(res.get("threshold") or 1) if ctype == "multisig" else 1
-    # one anchor per controlling key: the same multisig acting as upgrade admin and owner is migrated once
+    # one anchor per key, even if it has several roles
     key = f"ctrl:{address}" if address else f"{role}:{tok.address}"
     mq, cost = _defaults(ctype, n_keys)
     delay_s = res.get("delay_seconds") or 0
@@ -196,7 +210,7 @@ def _add_controller_anchor(add_anchor, role: str, res: dict, tok: Token, group: 
 
 
 def _read_calendars(path: Path) -> dict[str, Calendar]:
-    """data/calendars.csv: anchor_id,period_quarters,phase_quarter,source (observed or documented calendars)."""
+    """Reads calendars.csv: anchor_id, period, phase, source."""
     import csv
     out = {}
     with open(path, newline="") as fh:

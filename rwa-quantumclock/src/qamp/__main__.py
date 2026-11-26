@@ -1,15 +1,13 @@
-"""Command-line interface.
+"""Command line.
 
-  python -m qamp census                      anchors derived from the real census (results/census_anchors.md)
-  python -m qamp facts                       classify notebook observations (data/q1_raw.json -> data/anchor_facts.json)
-  python -m qamp discover [--source-dir D] [--labels F] [--llm]
-                                             CBOM from ABIs + controllers (+ verified source); score against labels
-  python -m qamp plan                        QAMP plan with grounded rationales (results/plan.md)
-  python -m qamp sensitivity                 EXPLORATORY grid: capacity x renewal period x hazard (dev seeds)
-  python -m qamp experiments [--quick]       development run: main, period-1, accelerated, guard + hypotheses
-  python -m qamp experiments --held-out --frozen-commit <sha>
-                                             the pre-registered run (held-out seeds; run once, after freezing)
-"""
+  census          list the anchors
+  facts           interpret the notebook data
+  labels          merge bytecode and manual labels
+  discover        build the CBOM and score it
+  plan            make a plan with explanations
+  explain-check   check the explanations (RQ4)
+  sensitivity     exploratory grid
+  experiments     development run; --held-out for the pre-registered run (once)"""
 from __future__ import annotations
 
 import argparse
@@ -37,28 +35,108 @@ def _git_commit() -> str:
 
 
 def _load(args):
+    """Uses the census until the notebook data exists, then the full sample."""
     facts = Path(args.facts) if getattr(args, "facts", None) else config.DATA_DIR / "anchor_facts.json"
     cals = Path(args.calendars) if getattr(args, "calendars", None) else config.DATA_DIR / "calendars.csv"
     q1 = config.DATA_DIR / "q1_raw.json"
-    return load_census(facts_path=facts if facts.exists() else None, calendars_path=cals if cals.exists() else None,
-                       q1_raw_path=q1 if q1.exists() else None)
+    tokens = config.DATA_DIR / "sample_tokens.txt" if q1.exists() else config.CENSUS_TOKENS
+    dep = load_census(tokens_path=tokens, facts_path=facts if facts.exists() else None,
+                      calendars_path=cals if cals.exists() else None, q1_raw_path=q1 if q1.exists() else None,
+                      calendar_policy=getattr(args, "calendar_policy", "observed_only"))
+    if q1.exists() and not dep.source.startswith("extraction notebook"):
+        print("WARNING: data/q1_raw.json does not cover every token of data/sample_tokens.txt; using the census records")
+    return dep
 
 
 def cmd_facts(args) -> None:
-    """Classify the extraction notebook's observations (data/q1_raw.json) into data/anchor_facts.json."""
+    """Interprets the notebook data: key exposure, bytecode labels, observed summary."""
     from .extraction import digest, facts_from_raw
     raw_p = config.DATA_DIR / "q1_raw.json"
     if not raw_p.exists():
-        raise SystemExit("data/q1_raw.json not found: run notebooks/Q1_fetch_anchor_facts.ipynb and unzip into qamp/data/")
+        raise SystemExit("data/q1_raw.json not found: run notebooks/Q1_fetch_anchor_facts.ipynb and unzip into rwa-quantumclock/data/")
     raw = json.loads(raw_p.read_text())
     summ_p = config.DATA_DIR / "q1_summary.json"
     if summ_p.exists() and json.loads(summ_p.read_text()).get("sha256_raw") != digest(raw):
         raise SystemExit("q1_raw.json does not match the digest in q1_summary.json")
+    import csv
+    from collections import Counter
+    from .observed import bytecode_labels
     facts = facts_from_raw(raw)
     (config.DATA_DIR / "anchor_facts.json").write_text(json.dumps(facts, indent=1, sort_keys=True))
-    n = len(facts)
-    print(f"{n} controller addresses; exposed {sum(f['key_exposed'] is True for f in facts.values())}, "
-          f"not exposed {sum(f['key_exposed'] is False for f in facts.values())}, unknown {sum(f['key_exposed'] is None for f in facts.values())}")
+    rows = bytecode_labels(raw)
+    with open(config.DATA_DIR / "labels_bytecode.csv", "w", newline="") as fh:
+        wr = csv.DictWriter(fh, fieldnames=["token", "surface", "present", "annotator", "evidence", "notes"])
+        wr.writeheader()
+        wr.writerows(rows)
+    dep = _load(args)
+    obs_cal = Counter(a.calendar.source.split(":")[0] for a in dep.anchors)
+    summary_obs = dict(
+        tokens=len(raw["tokens"]), with_errors=sum(bool(t.get("errors")) for t in raw["tokens"]),
+        controllers=len(facts), key_exposed=Counter(str(f["key_exposed"]) for f in facts.values()),
+        bytecode_labels=len(rows), events=sum(len(t.get("events", [])) for t in raw["tokens"]),
+        anchors=len(dep.anchors), calendars_by_source=dict(obs_cal), group_capacity=dep.group_capacity,
+        multi_chain_anchors=len(dep.observed_topology),
+        instances=Counter(c for v in dep.observed_topology.values() for c in v))
+    out = _out("observed")
+    (out / "observed_summary.json").write_text(json.dumps(summary_obs, indent=1, default=str))
+    print(json.dumps(summary_obs, indent=1, default=str))
+
+
+def cmd_labels(args) -> None:
+    """Merges bytecode labels with your manual labels. Bytecode wins where it can decide."""
+    import csv
+    from .observed import BYTECODE_SURFACES
+    bc_p, man_p = config.DATA_DIR / "labels_bytecode.csv", config.DATA_DIR / "labels_manual.csv"
+    rows, ignored = [], []
+    if bc_p.exists():
+        rows += list(csv.DictReader(open(bc_p, newline="")))
+    if man_p.exists():
+        for r in csv.DictReader(open(man_p, newline="")):
+            (ignored if r["surface"] in BYTECODE_SURFACES else rows).append(r)
+    if not rows:
+        raise SystemExit("no labels: run `python -m qamp facts` (bytecode labels) and/or write data/labels_manual.csv")
+    with open(config.DATA_DIR / "labels.csv", "w", newline="") as fh:
+        wr = csv.DictWriter(fh, fieldnames=["token", "surface", "present", "annotator", "evidence", "notes"])
+        wr.writeheader()
+        wr.writerows({k: r.get(k, "") for k in wr.fieldnames} for r in rows)
+    print(f"wrote data/labels.csv: {len(rows)} rows; ignored {len(ignored)} manual rows for bytecode-decided surfaces")
+
+
+def cmd_explain_check(args) -> None:
+    """Runs the explanation checks; with --llm also tests LLM rewording."""
+    res = _explain_results(_load(args), load_kb(), llm=args.llm)
+    out = _out("explain")
+    (out / "checks.json").write_text(json.dumps(res, indent=1))
+    print(json.dumps(res, indent=1))
+
+
+def _explain_results(dep, kb, llm: bool = False) -> dict:
+    from .discovery import RulesClassifier, scan_abi
+    from .discovery.abi import scan_controllers
+    ctx = planner.kb_context(dep, kb)
+    ss = scenarios.sample(5_000, len(dep.anchors), seed=config.DEV_SEED_BASE + 21)
+    p = planner.plan(dep, kb, ss, ctx=ctx)
+    entries = RulesClassifier().classify([f for t in dep.tokens for f in scan_abi(t.address, t.abi_functions)] + scan_controllers(dep))
+    ev_tok: dict[str, list[str]] = {}
+    for e in entries:
+        ev_tok.setdefault(e.token, []).extend(e.evidence)
+    evidence = {a.anchor_id: [e for t in a.tokens for e in ev_tok.get(t, [])][:3] for a in dep.anchors}
+    rats = [explain.write(a, p.starts[a.anchor_id], ctx[a.anchor_id]["inference"], evidence[a.anchor_id]) for a in dep.anchors]
+    res = dict(deterministic=explain.scores(rats), counterfactual=explain.counterfactual_consistency(dep, ctx, p.starts, kb, evidence))
+    if llm:
+        from .discovery.classify import LLMClassifier
+        clf = LLMClassifier(log_path=config.RESULTS_DIR / "explain" / "llm_log.jsonl")
+        tot = kept = 0
+        for r in rats:
+            def logged(prompt: str, _id: str = r.anchor_id) -> str:
+                text = clf.transport(prompt)
+                clf._log(_id, prompt, text)
+                return text
+            k, d = explain.rephrase_with_llm(r, logged)
+            kept += len(k)
+            tot += len(k) + d
+        res["llm"] = dict(model=clf.model, sentences=tot, retained=kept / tot if tot else None)
+    return res
 
 
 def cmd_census(args) -> None:
@@ -158,6 +236,8 @@ def cmd_experiments(args) -> None:
                                              include=("qamp_stochastic", "asap_fifo", "none"))
     print("guard …")
     results["guard"] = evaluate.run_guard(dep, kb, rc)
+    print("explanations …")
+    results["explanations"] = _explain_results(dep, kb)
     rows = hypotheses.evaluate_all(results)
     meta = dict(seed_base=base, held_out=args.held_out, frozen_commit=args.frozen_commit, git_commit=_git_commit(),
                 run_config=rc.as_dict(), env=evaluate.environment(), kb_unverified_rules=kb.unverified())
@@ -200,8 +280,13 @@ def main(argv=None) -> None:
     ap.add_argument("--facts", help="anchor_facts.json from the extraction notebook")
     ap.add_argument("--calendars", help="observed or documented calendars CSV")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    ap.add_argument("--calendar-policy", default="observed_only", choices=["observed_only", "lower_bound"],
+                    help="how observed key changes become calendars (qamp.observed.calendars_from_events)")
     sub.add_parser("census")
     sub.add_parser("facts")
+    sub.add_parser("labels")
+    x = sub.add_parser("explain-check")
+    x.add_argument("--llm", action="store_true")
     d = sub.add_parser("discover")
     d.add_argument("--source-dir")
     d.add_argument("--labels")
@@ -213,7 +298,7 @@ def main(argv=None) -> None:
     e.add_argument("--held-out", action="store_true")
     e.add_argument("--frozen-commit")
     args = ap.parse_args(argv)
-    dict(census=cmd_census, facts=cmd_facts, discover=cmd_discover, plan=cmd_plan, sensitivity=cmd_sensitivity, experiments=cmd_experiments)[args.cmd](args)
+    dict(census=cmd_census, facts=cmd_facts, labels=cmd_labels, **{"explain-check": cmd_explain_check}, discover=cmd_discover, plan=cmd_plan, sensitivity=cmd_sensitivity, experiments=cmd_experiments)[args.cmd](args)
 
 
 if __name__ == "__main__":

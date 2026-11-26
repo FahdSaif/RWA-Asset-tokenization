@@ -1,8 +1,7 @@
-# Standards and roadmaps. Every clause below was checked against the cited document on the accessed date
-# (verified: true). Paraphrased, not quoted.
+# Standards and roadmaps. Each clause was checked against its source (verified: true). Paraphrased.
 
 - id: NIST8547-DISALLOW
-  description: Quantum-vulnerable public-key algorithms are disallowed under NIST standards after 2035.
+  description: "Old public-key algorithms are not allowed after 2035 (NIST)."
   when: {fact: quantum_vulnerable, is_true: true}
   then:
     deadline_hard: "2035-12-31"
@@ -14,7 +13,7 @@
     verified: true
 
 - id: NIST8547-DEPRECATE
-  description: Quantum-vulnerable signatures (including ECDSA and EdDSA at 128-bit security) are deprecated after 2030 in the final report.
+  description: "Old signatures, including ECDSA and EdDSA, are deprecated after 2030 (NIST)."
   when: {fact: quantum_vulnerable, is_true: true}
   then:
     deadline_soft: "2030-12-31"
@@ -26,7 +25,7 @@
     verified: true
 
 - id: G7-CRITICAL-FIRST
-  description: The G7 Cyber Expert Group gives 2030-32 as an example timeframe for addressing the most critical systems first. Non-binding.
+  description: "G7 example: most critical systems by 2030-32. Not binding."
   when:
     all:
       - {fact: quantum_vulnerable, is_true: true}
@@ -42,7 +41,7 @@
     verified: true
 
 - id: G7-OVERALL
-  description: Overall non-binding G7 target for the financial sector.
+  description: "G7 overall target for finance: 2035. Not binding."
   when: {fact: quantum_vulnerable, is_true: true}
   then:
     target_date: "2035-12-31"

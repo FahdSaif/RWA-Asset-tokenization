@@ -1,19 +1,8 @@
-"""Threat scenarios: arrival of a cryptographically relevant quantum computer (CRQC) and execution-time deviations.
+"""Scenarios: when a quantum computer arrives, and how late each migration runs.
 
-CRQC arrival
-  Prior from the Global Risk Institute Quantum Threat Timeline Report 2025 (26 experts): a CRQC is 28-49% likely
-  within 10 years and 51-70% likely within 15 years (the range spans the low and high interpretations of the
-  answers). Per scenario we draw u ~ U(0, 1), set p10 = 0.28 + 0.21 u and p15 = 0.51 + 0.19 u (one interpretation
-  for both horizons), fit a Weibull CDF through (10, p10) and (15, p15) years after the survey year, and sample an
-  arrival time conditional on no CRQC before the planning start (2027). ``shift_years`` moves the distribution
-  earlier (the report's experts expected covert efforts could shift the timeline by two or more years).
-  This is a modelling choice; sensitivity to it is part of the evaluation.
-
-Execution-time deviation
-  As in the authors' project-governance model, the execution time of a migration is uncertain by at most one
-  period: delta in {-1, 0, +1} quarters with probabilities (0.15, 0.55, 0.30) (late more likely than early).
-  ASSUMPTION, recorded in every run.
-"""
+Arrival: fitted to the GRI 2025 expert survey (28-49% within 10 years, 51-70% within 15),
+with no arrival before 2027. `shift_years` moves it earlier.
+Delay: -1, 0 or +1 quarter with chances 15%, 55%, 30% (an assumption)."""
 from __future__ import annotations
 
 import math
@@ -30,7 +19,7 @@ DELTA_PROBS = np.array([0.15, 0.55, 0.30])
 
 
 def weibull_params(p10: float, p15: float) -> tuple[float, float]:
-    """Shape k and scale lam (years) of a Weibull CDF with F(10) = p10 and F(15) = p15."""
+    """Weibull shape and scale that match the survey at 10 and 15 years."""
     a, b = -math.log(1 - p10), -math.log(1 - p15)
     k = math.log(b / a) / math.log(15 / 10)
     lam = 10 / a ** (1 / k)
@@ -43,9 +32,9 @@ def _weibull_cdf(x: float, k: float, lam: float) -> float:
 
 @dataclass
 class ScenarioSet:
-    """S scenarios: CRQC arrival quarter (float, relative to quarter 0) and execution-time deviation per anchor."""
-    crqc_quarter: np.ndarray            # shape (S,)
-    delta: np.ndarray                   # shape (S, n_anchors), integer quarters
+    """Arrival quarter per scenario and delay per scenario and anchor."""
+    crqc_quarter: np.ndarray            # one per scenario
+    delta: np.ndarray                   # per scenario and anchor
     seed: int
     params: dict = field(default_factory=dict)
 
@@ -56,14 +45,14 @@ class ScenarioSet:
 def sample(n: int, n_anchors: int, seed: int, shift_years: float = 0.0, delta_probs=DELTA_PROBS,
            fixed_interpretation: float | None = None) -> ScenarioSet:
     rng = np.random.default_rng(seed)
-    start = config.START_YEAR - SURVEY_YEAR        # years after the survey at quarter 0
+    start = config.START_YEAR - SURVEY_YEAR        # years from the survey to 2027
     t = np.empty(n)
     for s in range(n):
         u = rng.uniform() if fixed_interpretation is None else fixed_interpretation
         p10 = GRI["p10"][0] + (GRI["p10"][1] - GRI["p10"][0]) * u
         p15 = GRI["p15"][0] + (GRI["p15"][1] - GRI["p15"][0]) * u
         k, lam = weibull_params(p10, p15)
-        # sample conditional on arrival after the planning start (inverse CDF on the truncated range)
+        # only arrivals after 2027
         lo = _weibull_cdf(start + shift_years, k, lam)
         v = lo + (1 - lo) * rng.uniform()
         years_after_survey = lam * (-math.log(1 - v)) ** (1 / k) - shift_years
@@ -76,7 +65,7 @@ def sample(n: int, n_anchors: int, seed: int, shift_years: float = 0.0, delta_pr
 
 
 def cumulative_probability_by_year(ss: ScenarioSet, years=(2030, 2032, 2035, 2040)) -> dict:
-    """Share of scenarios with a CRQC by the end of each year (a check against the survey)."""
+    """Share of scenarios with an arrival by the end of each year."""
     out = {}
     for y in years:
         q = (y - config.START_YEAR + 1) * 4

@@ -15,19 +15,23 @@ classification so that both studies use one definition.
 | `planner.py` | Decision-window-aware stochastic MILP (HiGHS via SciPy): start quarter per anchor, renewal boundaries, capacity per issuer, hard deadlines from the KB | RQ2 |
 | `baselines.py` | ASAP, deadline-driven, annual review, Mosca ranking, greedy risk, adapted KG readiness score, oracle | RQ2 |
 | `guard.py` | Bounded model check of mixed-cryptography states across bridged instances; couples and re-plans | RQ3 |
-| `explain.py` | Rationales in which every sentence cites a rule, evidence item, plan decision or guard check | RQ4 |
-| `extraction.py` + `notebooks/Q1_fetch_anchor_facts.ipynb` | Observation of key exposure, role members, Safe owners and verified source on Ethereum (Colab, your Etherscan key); classification in repository code | data |
+| `explain.py` | Rationales in which every sentence cites a rule, evidence item, plan decision or guard check; automatic checks (citation validity, faithfulness, counterfactual consistency); optional LLM rephrasing | RQ4 |
+| `extraction.py` + `notebooks/Q1_fetch_anchor_facts.ipynb` | Observation (Colab, your Etherscan key): source, ABI, controllers, role members, governance-event history, runtime bytecode, the same address on 12 other EVM chains | data |
+| `observed.py` | Classification of the observations: key exposure, renewal calendars, issuer capacity and groups, multi-chain instances, objective bytecode labels | data, RQ1 |
+| `keccak.py` | Keccak-256 in pure Python, so that no selector or event topic is typed by hand | — |
 | `evaluate.py`, `hypotheses.py` | Harness, statistics (paired sign-flip test on means, Holm; Wilcoxon secondary; bootstrap CIs), pre-stated hypotheses | all |
 
 ## Quick start
 
 ```bash
-cd qamp
+cd rwa-quantumclock
 python -m pip install -e ".[dev]"        # numpy, scipy, pyyaml; pytest for tests
 python -m pytest -q                      # software tests (must pass)
 python -m qamp census                    # anchors from the real census -> results/census/
 python -m qamp discover                  # CBOM -> results/discovery/
 python -m qamp plan                      # plan with cited rationales -> results/plan/plan.md
+python -m qamp explain-check             # RQ4 automatic checks -> results/explain/
+python -m qamp sensitivity               # exploratory grid -> results/dev_sensitivity/
 python -m qamp experiments --quick       # development run, about 10 s
 python -m qamp experiments               # full development run, about 30 s
 ```
@@ -46,16 +50,17 @@ the instrument is frozen: see `docs/RUNBOOK.md` and `docs/PREREGISTRATION.md`.
 ## What is observed and what is assumed
 
 Observed (real data): the 25 contracts, their market caps, ABIs and controllers (rwa-threatlab census, 2026-11-08);
-regulatory dates and retention periods (sources in `kb/*.yaml`); the CRQC survey ranges. Assumed until replaced:
-renewal calendars, migration times and costs, issuer capacity, key exposure (until the notebook runs), bridged
-instances (RQ3 uses a labelled synthetic topology). Every anchor records the provenance of each field.
+regulatory dates and retention periods (sources in `kb/*.yaml`); the CRQC survey ranges. Until the extraction notebook runs, renewal calendars, issuer
+capacity, key exposure and bridged instances are documented defaults (RQ3 uses a labelled synthetic topology); after
+it runs they are observed where the chain shows them. Migration times and costs stay assumed. No interviews or
+questionnaires are used. Every anchor records the provenance of each field.
 `docs/ASSUMPTIONS.md` lists every assumption and how it will be replaced or varied.
 
 ## Folder layout
 
 ```
-qamp/
-├── src/qamp/            package
+rwa-quantumclock/
+├── src/qamp/            package (the system is called QAMP in the paper)
 ├── kb/                  knowledge-base rules (YAML, with sources)
 ├── data/                sample_tokens.txt, templates; notebook output goes here
 ├── notebooks/           Q1_fetch_anchor_facts.ipynb (Colab, Etherscan)

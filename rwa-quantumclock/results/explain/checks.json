@@ -1,0 +1,12 @@
+{
+ "deterministic": {
+  "sentences": 462,
+  "citation_validity": 1.0,
+  "faithfulness": 1.0
+ },
+ "counterfactual": {
+  "cases": 246,
+  "consistency": 1.0,
+  "failures": []
+ }
+}
