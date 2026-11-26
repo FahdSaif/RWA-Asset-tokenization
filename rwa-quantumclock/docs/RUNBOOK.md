@@ -13,11 +13,11 @@ interviews, questionnaires or outside participants.
 
 ## 2. Fix the sample, then extract the data [you]
 
-1. Decide the extension of the sample **before fetching**. The rule is written at the top of `data/sample_tokens.txt`:
-   append rows 26-100 of the Etherscan "Real World Assets" token page sorted by market cap, in the order displayed, no
-   exclusions, one line each in the same format as rows 1-25 (`address rank name (symbol) market-cap`), and note the
-   date seen in the header. Commit, then tag the commit `quantumclock-q1-plan` (Releases → Draft a new release →
-   pre-release, not latest).
+1. The sample is fixed **before fetching** (done on 2026-11-26): the 25 census tokens plus the first 75 other tokens on
+   Etherscan's "Real World Assets" page sorted by market cap. The pages were saved in Chrome as "Webpage, Single File"
+   and converted with `python tools/build_sample.py page1.mhtml page2.mhtml page3.mhtml`, which writes
+   `data/sample_tokens.txt` and `data/etherscan_rwa_snapshot_2026-11-26.txt` (every row read, with the SHA-256 of each
+   saved page). Commit both, then tag the commit `quantumclock-q1-plan` (pre-release, not latest).
 2. Open `notebooks/Q1_fetch_anchor_facts.ipynb` in Google Colab (File → Open notebook → GitHub). Check
    `REPO_REF = "quantumclock-q1-plan"`. *Runtime, Run all*. Paste a **new** Etherscan key when asked. It observes, per
    token: verified source and ABI, proxy slots, owner, defaultAdmin, totalSupply, symbol, AccessControl role members,
