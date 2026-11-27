@@ -1,0 +1,48 @@
+{
+ "tokens": 100,
+ "with_errors": 100,
+ "controllers": 102,
+ "key_exposed": {
+  "True": 38,
+  "False": 7,
+  "None": 57
+ },
+ "bytecode_labels": 700,
+ "events": 20234,
+ "anchors": 92,
+ "calendars_by_source": {
+  "observed": 25,
+  "assumed": 67
+ },
+ "group_capacity": {
+  "Ondo": 4,
+  "BlackRock": 1,
+  "Re": 2,
+  "Backed": 1,
+  "Theo": 1,
+  "Nest": 1,
+  "Plume": 1,
+  "Goldfish": 1,
+  "VanEck": 1,
+  "Precious": 1,
+  "Neuberger": 1,
+  "AI": 1,
+  "Lumia": 1,
+  "OpenEden": 1,
+  "Midas": 1,
+  "Realio": 1,
+  "Compounding": 1,
+  "Newton": 1,
+  "Redbelly": 1,
+  "Apex": 1,
+  "WisdomTree": 1,
+  "PinLink": 1
+ },
+ "multi_chain_anchors": 30,
+ "instances": {
+  "ethereum": 30,
+  "arbitrum": 30,
+  "mantle": 21,
+  "polygon": 1
+ }
+}
