@@ -99,9 +99,10 @@ Evidence:
 class LLMClassifier:
     name = "llm"
 
-    def __init__(self, model: str = "claude-sonnet-4-5", transport: Callable[[str], str] | None = None,
+    def __init__(self, model: str | None = None, transport: Callable[[str], str] | None = None,
                  log_path: Path | None = None, max_tokens: int = 2000):
-        self.model, self.max_tokens = model, max_tokens
+        # the model name comes from the run, not the code: set QAMP_LLM_MODEL or pass model=
+        self.model, self.max_tokens = model or os.environ.get("QAMP_LLM_MODEL", ""), max_tokens
         self.transport = transport or self._anthropic
         self.log_path = log_path
         self.hallucinated = 0
@@ -111,6 +112,8 @@ class LLMClassifier:
         key = os.environ.get("ANTHROPIC_API_KEY")
         if not key:
             raise RuntimeError("ANTHROPIC_API_KEY is not set; use RulesClassifier or pass a transport")
+        if not self.model:
+            raise RuntimeError("no model set: set QAMP_LLM_MODEL or pass model=")
         body = json.dumps(dict(model=self.model, max_tokens=self.max_tokens, temperature=0,
                                messages=[dict(role="user", content=prompt)])).encode()
         req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST",

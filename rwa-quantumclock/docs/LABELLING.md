@@ -23,6 +23,15 @@ the true answer for each token and each kind of place ("surface"). This page say
 
 With these changes, each pass is **192 rows** (32 codes × 6 surfaces) instead of 1,000.
 
+4. **Who labelled (2026-11-27).** At the author's request, the 192 hand labels were made by an AI assistant
+   reading the verified source, not by the author. Every `present = 1` gives file and line; every
+   `0` gives a reason (`data/labels_A.csv`). The assistant had not run QAMP's discovery on these surfaces before
+   labelling, but it did write QAMP's discovery rules, so the labels are **not independent of the system**. This is
+   reported as a limitation. There is one pass only, so there is no agreement score between two labellers.
+5. **Human check (optional, recommended).** `data/labels_check_blank.csv` holds 40 rows drawn at random (seed
+   20261127) from the 192, without answers. The author fills them in from the source, without opening
+   `labels_A.csv`; agreement with the AI labels is then reported as Cohen's kappa on those 40 rows.
+
 ## What each hand-labelled surface means
 
 Mark `present = 1` if the **deployed code** (the implementation, for a proxy) has an externally callable path that
@@ -41,7 +50,7 @@ can be called does count.
 Write the file and line as evidence (for example `sources/0x96f6….impl.sol.txt:123`). Use `notes` for anything
 unsure.
 
-## How to do it
+## How to do it (original two-pass plan; replaced by points 4 and 5 above)
 
 1. **Do not look at QAMP's discovery output** before or while labelling.
 2. Copy `data/labels_sheet_blank.csv` to `data/labels_A.csv`. Open it in Excel or Numbers.
