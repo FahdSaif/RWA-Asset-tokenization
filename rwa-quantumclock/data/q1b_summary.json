@@ -1,0 +1,10 @@
+{
+ "n_tokens": 20,
+ "distinct_holders": 3,
+ "with_errors": 0,
+ "block": 26503940,
+ "retrieved_at_utc": "2026-11-27T03:49:36Z",
+ "plan_ref": "quantumclock-q1b-plan",
+ "plan_commit": "be1c0c9c184828a956666031d1e22c4f9e816ad4",
+ "sha256_raw": "c7214317929e9db9f8d709c531b8bab2248305c3b7cc681212033ce7f3f9a581"
+}
