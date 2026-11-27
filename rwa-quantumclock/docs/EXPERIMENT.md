@@ -64,7 +64,7 @@ flowchart TD
 
 Each box is a milestone. Green: worked as planned. Red: failed or was refuted. Amber: a fix made in the open after
 a failure. Grey: still to come. Details for each step: [1](steps/01_sample.md), [2](steps/02_collection.md),
-[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md). Background on Safe multisig wallets:
+[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md). Background on Safe multisig wallets:
 [SAFE.md](SAFE.md).
 
 ```mermaid
@@ -95,8 +95,11 @@ flowchart TD
     E5["Mint and burn keys are single wallets<br/>with exposed public keys"]:::ok
     L6["Step 6 · RQ1 labels: 800 from bytecode,<br/>192 read from source (fixed before scoring)"]:::ok
     H9["H9 refuted: discovery recall 0.852 < 0.90<br/>forwarder, ECDSA, compliance rules too crude"]:::bad
-    S6["Step 7 · Freeze and pre-register"]:::todo
-    S7["Step 8 · Held-out run (decides H1-H13)"]:::todo
+    S6["Step 7 · Decisions D1-D20 recorded<br/>tag: quantumclock-v1.0-frozen"]:::ok
+    S7["Held-out run, once (seeds 50,000)"]:::ok
+    F1["Confirmed: H1, H2b, H3, H6, H7, H8, H11, H12<br/>QAMP $369.6M vs ASAP $409.2M"]:::ok
+    F2["Refuted: H2, H4, H5, H9<br/>(pessimism not best; a third of oracle gap)"]:::bad
+    F3["Next · AI runs H10, H13<br/>then manuscript"]:::todo
 
     P1 --> R0 --> S1
     S1 --> F1 --> X1 --> S2
@@ -104,23 +107,25 @@ flowchart TD
     S2 --> S3 --> X3 --> O3 --> S4
     S4 --> X4 --> O4
     X4 --> U4 --> S5 --> O5 --> R5 --> L6 --> H9 --> S6 --> S7
+    S7 --> F1
+    S7 --> F2
+    F1 --> F3
     O5 --> E5
     R5 --> K5
 ```
 
-### Hypotheses so far (development seeds only, not evidence)
+### Hypotheses: from development to the final verdict
 
-| | Census, assumed calendars | Real data (step 4) | Real data with Q1b (step 5) |
-|---|---|---|---|
-| Confirmed | H4, H6, H7, H11, H12 | H2, H2b, H6, H11, H12 | H1, H2b, H3, H6, H7, H8, H11, H12 |
-| Refuted | H1, H2, H3, H5, H8 | H1, H3, H4, H5, H7, H8 | H2, H4, H5, H9 |
-| Inconclusive | H2b | – | – |
-| Pending | H9, H10, H13 | H9, H10, H13 | H10, H13 |
+| | Census, assumed calendars | Real data (step 4) | Real data with Q1b (step 5) | **Held-out run (final)** |
+|---|---|---|---|---|
+| Confirmed | H4, H6, H7, H11, H12 | H2, H2b, H6, H11, H12 | H1, H2b, H3, H6, H7, H8, H11, H12 | **H1, H2b, H3, H6, H7, H8, H11, H12** |
+| Refuted | H1, H2, H3, H5, H8 | H1, H3, H4, H5, H7, H8 | H2, H4, H5, H9 | **H2, H4, H5, H9** |
+| Inconclusive | H2b | – | – | – |
+| Pending | H9, H10, H13 | H9, H10, H13 | H10, H13 | **H10, H13** |
 
-Held in every setting: **H6** (the guard stops mixed-state bridge violations), **H11** (timing pays with long
-renewals and tight capacity), **H12** (explanations are faithful to what they cite). Refuted in every setting:
-**H5** (QAMP does not close half the gap to perfect foresight). H9 (discovery recall) does not depend on seeds, so its
-verdict stands: refuted. The other verdicts come only from the held-out run.
+Only the last column is evidence; the others are development runs. Held in every setting: H6, H11, H12. Refuted in
+every setting: H5. The held-out verdicts match the last development column exactly, and the sensitivity run agrees
+on every hypothesis.
 
 ## Steps and where to find them
 
@@ -145,6 +150,7 @@ verdict stands: refuted. The other verdicts come only from the held-out run.
 | `quantumclock-q1b-plan` | Q1b top-up rule fixed, before any Q1b data were collected |
 | `quantumclock-v0.3.4` | Q1b data, facts and development runs with Backed's real role holders |
 | `quantumclock-v0.3.7` | RQ1 labels committed, discovery scored (H9 refuted) |
-| `quantumclock-v1.0-frozen` | Code and hypotheses frozen, before the held-out run (planned) |
+| `quantumclock-v1.0-frozen` | Decisions D1-D20 recorded; code, data and hypotheses frozen (`cb1c560`) |
+| `quantumclock-v1.0-results` | Held-out results committed unchanged |
 
 Data source: Etherscan.io (label list and API).
