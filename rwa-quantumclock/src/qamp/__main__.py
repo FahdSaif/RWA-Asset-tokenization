@@ -43,7 +43,8 @@ def _load(args):
     dep = load_census(tokens_path=tokens, facts_path=facts if facts.exists() else None,
                       calendars_path=cals if cals.exists() else None, q1_raw_path=q1 if q1.exists() else None,
                       calendar_policy=getattr(args, "calendar_policy", "observed_only"),
-                      unobserved_roles=getattr(args, "unobserved_roles", "per_token"))
+                      unobserved_roles=getattr(args, "unobserved_roles", "per_token"),
+                      q1b_raw_path=config.DATA_DIR / "q1b_raw.json")
     if q1.exists() and not dep.source.startswith("extraction notebook"):
         print("WARNING: data/q1_raw.json does not cover every token of data/sample_tokens.txt; using the census records")
     return dep
@@ -62,6 +63,11 @@ def cmd_facts(args) -> None:
     import csv
     from collections import Counter
     from .observed import bytecode_labels
+    q1b_p = config.DATA_DIR / "q1b_raw.json"
+    if q1b_p.exists():                       # Q1b role getters, added to the checked Q1 records
+        from .data import load_q1b
+        from .extraction import merge_role_getters
+        raw = merge_role_getters(raw, load_q1b(q1b_p))
     facts = facts_from_raw(raw)
     (config.DATA_DIR / "anchor_facts.json").write_text(json.dumps(facts, indent=1, sort_keys=True))
     rows = bytecode_labels(raw)
@@ -73,6 +79,7 @@ def cmd_facts(args) -> None:
     obs_cal = Counter(a.calendar.source.split(":")[0] for a in dep.anchors)
     summary_obs = dict(
         tokens=len(raw["tokens"]), with_errors=sum(bool(t.get("errors")) for t in raw["tokens"]),
+        q1b_used=q1b_p.exists(),
         controllers=len(facts), key_exposed=Counter(str(f["key_exposed"]) for f in facts.values()),
         bytecode_labels=len(rows), events=sum(len(t.get("events", [])) for t in raw["tokens"]),
         anchors=len(dep.anchors), calendars_by_source=dict(obs_cal), group_capacity=dep.group_capacity,

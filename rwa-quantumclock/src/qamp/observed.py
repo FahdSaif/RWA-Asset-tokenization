@@ -70,7 +70,12 @@ def bytecode_labels(raw: dict) -> list[dict]:
 
 KEY_CHANGE_EVENTS = {"AddedOwner(address)", "RemovedOwner(address)", "ChangedThreshold(uint256)",
                      "OwnershipTransferred(address,address)", "AdminChanged(address,address)",
-                     "RoleGranted(bytes32,address,address)", "RoleRevoked(bytes32,address,address)"}
+                     "RoleGranted(bytes32,address,address)", "RoleRevoked(bytes32,address,address)",
+                     # role holders set through plain setters (Q1b)
+                     "NewMinter(address)", "NewBurner(address)", "NewPauser(address)", "NewMultiplierUpdater(address)",
+                     "BlacklisterChanged(address)", "MasterMinterChanged(address)", "RescuerChanged(address)"}
+ROLE_SET_EVENT_NAMES = {"NewMinter(address)", "NewBurner(address)", "NewPauser(address)", "NewMultiplierUpdater(address)",
+                        "BlacklisterChanged(address)", "MasterMinterChanged(address)", "RescuerChanged(address)"}
 
 
 def _day(ts: int) -> dt.date:
@@ -98,12 +103,13 @@ def change_days(raw: dict, dep) -> dict[str, list[dt.date]]:
                     elif e["address"].lower() == t:
                         if ("upgrade_admin" in roles and e["event"].startswith("AdminChanged")) or \
                            ("owner_admin" in roles and e["event"].startswith("OwnershipTransferred")) or \
-                           ("role_holder" in roles and e["event"].startswith("Role")):
+                           ("role_holder" in roles and (e["event"].startswith("Role") or e["event"] in ROLE_SET_EVENT_NAMES)):
                             out[a.anchor_id].add(_day(e["ts"]))
         elif a.role == "role_holder":
             for t in a.tokens:
                 for e in by_token.get(t, {}).get("events", []):
-                    if e.get("ts") is not None and e["address"].lower() == t and e["event"].startswith("Role"):
+                    if e.get("ts") is not None and e["address"].lower() == t and (
+                            e["event"].startswith("Role") or e["event"] in ROLE_SET_EVENT_NAMES):
                         out[a.anchor_id].add(_day(e["ts"]))
     return {k: sorted(v) for k, v in out.items()}
 

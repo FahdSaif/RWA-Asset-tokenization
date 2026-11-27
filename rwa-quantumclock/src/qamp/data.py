@@ -76,10 +76,20 @@ def _defaults(controller_type: str, n_keys: int) -> tuple[int, float]:
     return 2, 2.0   # holders unknown: finding them is part of the work
 
 
+def load_q1b(path: Path) -> dict:
+    """Q1b records, checked against their digest."""
+    from .extraction import digest
+    q1b = json.loads(Path(path).read_text())
+    summ = Path(path).with_name("q1b_summary.json")
+    if summ.exists() and json.loads(summ.read_text()).get("sha256_raw") != digest(q1b):
+        raise SystemExit(f"{Path(path).name} does not match the digest in q1b_summary.json")
+    return q1b
+
+
 def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.CENSUS_TOKENS,
                 calendars_path: Optional[Path] = None, facts_path: Optional[Path] = None,
                 q1_raw_path: Optional[Path] = None, calendar_policy: str = "observed_only",
-                unobserved_roles: str = "per_token") -> Deployment:
+                unobserved_roles: str = "per_token", q1b_raw_path: Optional[Path] = None) -> Deployment:
     """Builds the deployment.
 
     Uses the census, or the notebook data if it covers every token in the list.
@@ -93,6 +103,9 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
     q1 = {}
     if q1_raw_path and Path(q1_raw_path).exists():
         q1raw = json.loads(Path(q1_raw_path).read_text())
+        if q1b_raw_path and Path(q1b_raw_path).exists():     # Q1b: role holders read from plain getters
+            from .extraction import merge_role_getters
+            q1raw = merge_role_getters(q1raw, load_q1b(q1b_raw_path))
         q1 = {t["address"].lower(): t for t in q1raw["tokens"]}
         if set(meta) <= set(q1):
             raw = [q1[a] for a in meta]

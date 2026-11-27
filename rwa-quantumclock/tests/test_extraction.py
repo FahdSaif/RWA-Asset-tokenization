@@ -231,3 +231,24 @@ def test_issuer_groups_use_role_members_and_top_rank_name():
     g = issuer_groups(toks, lambda t: t["name"], rank={toks[0]["address"]: 5, toks[1]["address"]: 1})
     assert g[toks[0]["address"]] == g[toks[1]["address"]] == "Ondo"
     assert g[toks[2]["address"]] == "Other"   # the zero address joins nothing
+
+
+def test_q1b_targets_and_merge():
+    """Only tokens with a fixed role getter are targets; merging adds roles and keeps the Q1 records unchanged."""
+    from qamp.extraction import merge_role_getters, q1b_targets
+    h = "0x" + "cd" * 20
+    raw = dict(tokens=[dict(address="0x" + "01" * 20, abi_functions=["minter", "transfer"], roles={}, controllers={}, events=[]),
+                       dict(address="0x" + "02" * 20, abi_functions=["transfer"], roles={}, controllers={}, events=[])])
+    assert q1b_targets(raw) == ["0x" + "01" * 20]
+    q1b = dict(tokens=[dict(address="0x" + "01" * 20, getters={"minter": h}, controllers={h: {"is_contract": False, "nonce": 3}},
+                            events=[dict(address="0x" + "01" * 20, event="NewMinter(address)", ts=1700000000)])])
+    m = merge_role_getters(raw, q1b)
+    assert m["tokens"][0]["roles"]["minter()"]["members"] == [h]
+    assert h in m["tokens"][0]["controllers"]
+    assert raw["tokens"][0]["roles"] == {}            # original untouched
+
+
+def test_q1b_selectors():
+    from qamp.keccak import selector
+    assert selector("minter()") == "0x07546172"
+    assert selector("pauser()") == "0x9fd0506d"

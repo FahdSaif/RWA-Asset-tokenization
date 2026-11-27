@@ -27,7 +27,9 @@ CONTROLLER_EVENTS = ["AddedOwner(address)", "RemovedOwner(address)", "ChangedThr
                      "OwnershipTransferred(address,address)",
                      "CallScheduled(bytes32,uint256,address,uint256,bytes,bytes32,uint256)",
                      "CallExecuted(bytes32,uint256,address,uint256,bytes)"]
-EVENT_TOPICS = {topic(e): e for e in TOKEN_EVENTS + CONTROLLER_EVENTS}
+_ROLE_SET_EVENTS = ("NewMinter(address)", "NewBurner(address)", "NewPauser(address)", "NewMultiplierUpdater(address)",
+                    "BlacklisterChanged(address)", "MasterMinterChanged(address)", "RescuerChanged(address)")
+EVENT_TOPICS = {topic(e): e for e in TOKEN_EVENTS + CONTROLLER_EVENTS + list(_ROLE_SET_EVENTS)}
 
 # Other chains to check (Etherscan chain ids).
 OTHER_CHAINS = {10: "optimism", 56: "bnb", 137: "polygon", 8453: "base", 42161: "arbitrum", 43114: "avalanche",
@@ -293,4 +295,54 @@ def facts_from_raw(raw: dict) -> dict:
         for addr, obs in flat.items():
             out[addr] = dict(key_exposed=exposed(addr), is_contract=obs.get("is_contract"), nonce=obs.get("nonce"),
                              threshold=obs.get("threshold"), n_owners=obs.get("n_owners"), min_delay=obs.get("min_delay"))
+    return out
+
+
+# --- Q1b top-up: role holders kept in plain getters (fixed before fetching, docs/Q1B_PLAN.md)
+
+ROLE_GETTERS = ("minter", "burner", "pauser", "multiplierUpdater", "blacklister", "masterMinter", "rescuer")
+ROLE_SET_EVENTS = _ROLE_SET_EVENTS
+
+
+def q1b_targets(raw: dict) -> list[str]:
+    """Tokens in the Q1 records whose ABI has at least one fixed role getter."""
+    return [t["address"].lower() for t in raw["tokens"] if set(t.get("abi_functions", [])) & set(ROLE_GETTERS)]
+
+
+def observe_role_getters(ob: "Observer", token: dict) -> dict:
+    """Reads each role getter, the holder's controller facts, and the role-change events."""
+    ob.errors = []
+    a = token["address"].lower()
+    getters = {}
+    for g in ROLE_GETTERS:
+        if g in token.get("abi_functions", []):
+            getters[g] = word_to_address(ob.call(a, selector(g + "()"), g))
+    flat: dict = {}
+    for h in sorted({h for h in getters.values() if h and h != "0x" + "0" * 40}):
+        ob.observe_into(flat, h)
+    events = []
+    for ev in ROLE_SET_EVENTS:
+        events += ob.logs(a, topic(ev), f"logs {ev.split('(')[0]}")
+    for c, info in flat.items():
+        if info.get("is_contract"):
+            for ev in CONTROLLER_EVENTS:
+                events += ob.logs(c, topic(ev), f"logs {ev.split('(')[0]} {c[:10]}")
+    return dict(address=a, getters=getters, controllers=flat, events=events, errors=list(ob.errors))
+
+
+def merge_role_getters(raw: dict, q1b: dict) -> dict:
+    """Q1 records with the Q1b getters added as roles. The Q1 records themselves are not changed."""
+    import copy
+    out = copy.deepcopy(raw)
+    by = {t["address"]: t for t in q1b.get("tokens", [])}
+    for t in out["tokens"]:
+        r = by.get(t["address"].lower())
+        if not r:
+            continue
+        for g, h in r["getters"].items():
+            if h and h != "0x" + "0" * 40:
+                t.setdefault("roles", {})[f"{g}()"] = dict(role_id=None, count=1, members=[h], source="q1b getter")
+        for c, info in r["controllers"].items():
+            t.setdefault("controllers", {}).setdefault(c, info)
+        t["events"] = list(t.get("events", [])) + list(r["events"])
     return out
