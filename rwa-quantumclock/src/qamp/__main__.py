@@ -233,6 +233,22 @@ def cmd_discover(args) -> None:
     print(json.dumps(res, indent=1))
 
 
+def _h9_from_discovery():
+    """H9 from the saved rules-based discovery score (python -m qamp discover --labels data/labels.csv)."""
+    f = config.RESULTS_DIR / "discovery" / "discovery_rules.json"
+    if not f.exists():
+        return None
+    d = json.loads(f.read_text())
+    if "score" not in d:
+        return None
+    o = d["score"]["overall"]
+    per = d.get("score_per_distinct_code", {}).get("overall", {})
+    ok = (o.get("recall") or 0) >= 0.90
+    ev = (f"recall {o['recall']:.3f} (precision {o['precision']:.3f}, F1 {o['f1']:.3f}) over {o['tp'] + o['fn']} labelled positives"
+          + (f"; per distinct code recall {per['recall']:.3f}" if per.get("recall") is not None else ""))
+    return ("CONFIRMED" if ok else "REFUTED"), ev
+
+
 def cmd_plan(args) -> None:
     from .discovery import RulesClassifier, scan_abi
     from .discovery.abi import scan_controllers
@@ -307,6 +323,9 @@ def cmd_experiments(args) -> None:
     results["guard"] = evaluate.run_guard(dep, kb, rc)
     print("explanations …")
     results["explanations"] = _explain_results(dep, kb)
+    h9 = _h9_from_discovery()
+    if h9:
+        results["H9"] = h9
     rows = hypotheses.evaluate_all(results)
     from . import __version__
     meta = dict(seed_base=base, held_out=args.held_out, frozen_commit=args.frozen_commit, git_commit=_git_commit(),

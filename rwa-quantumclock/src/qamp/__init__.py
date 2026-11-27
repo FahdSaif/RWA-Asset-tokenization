@@ -15,4 +15,4 @@ Modules:
   guard      checks bridged chains during a migration
   explain    cited explanations and their checks
   evaluate   experiments and statistics"""
-__version__ = "0.3.6"
+__version__ = "0.3.7"

@@ -4,7 +4,7 @@
   "held_out": false,
   "frozen_commit": null,
   "git_commit": "",
-  "qamp_version": "0.3.4",
+  "qamp_version": "0.3.7",
   "unobserved_roles": "per_issuer",
   "run_config": {
    "n_plan": 20000,
@@ -33,7 +33,7 @@
    "numpy": "2.5.3",
    "scipy": "1.18.1",
    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
-   "utc": "2026-11-27T12:26:55Z"
+   "utc": "2026-11-27T12:59:03Z"
   },
   "kb_unverified_rules": []
  },
@@ -27690,7 +27690,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 28.597940683364868,
+   "runtime_s": 28.27725625038147,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -27718,7 +27718,7 @@
     "numpy": "2.5.3",
     "scipy": "1.18.1",
     "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
-    "utc": "2026-11-27T12:26:45Z"
+    "utc": "2026-11-27T12:58:51Z"
    }
   },
   "price_of_compliance": {
@@ -34068,7 +34068,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 1.7178356647491455,
+   "runtime_s": 1.709132194519043,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -34096,7 +34096,7 @@
     "numpy": "2.5.3",
     "scipy": "1.18.1",
     "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
-    "utc": "2026-11-27T12:26:47Z"
+    "utc": "2026-11-27T12:58:53Z"
    }
   },
   "accelerated": {
@@ -50940,7 +50940,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 4.296319961547852,
+   "runtime_s": 5.137095212936401,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -50968,7 +50968,7 @@
     "numpy": "2.5.3",
     "scipy": "1.18.1",
     "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
-    "utc": "2026-11-27T12:26:51Z"
+    "utc": "2026-11-27T12:58:58Z"
    }
   },
   "tight": {
@@ -57312,7 +57312,7 @@
     ],
     "fixed_interpretation": null
    },
-   "runtime_s": 1.5311708450317383,
+   "runtime_s": 1.6111977100372314,
    "run_config": {
     "n_plan": 20000,
     "n_eval": 2000,
@@ -57340,7 +57340,7 @@
     "numpy": "2.5.3",
     "scipy": "1.18.1",
     "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
-    "utc": "2026-11-27T12:26:53Z"
+    "utc": "2026-11-27T12:59:00Z"
    }
   },
   "guard": {
@@ -57480,7 +57480,11 @@
     "consistency": 1.0,
     "failures": []
    }
-  }
+  },
+  "H9": [
+   "REFUTED",
+   "recall 0.852 (precision 0.670, F1 0.750) over 384 labelled positives; per distinct code recall 0.865"
+  ]
  },
  "hypotheses": [
   {
@@ -57597,8 +57601,8 @@
    "statement": "Rules-based discovery from ABI and verified source finds the signature surfaces.",
    "prediction": "Overall recall >= 0.90 against the adjudicated labels.",
    "source_of_prediction": "design claim",
-   "outcome": "PENDING DATA",
-   "evidence": "needs labelled inventories (docs/LABELLING.md) and verified source from the extraction notebook"
+   "outcome": "REFUTED",
+   "evidence": "recall 0.852 (precision 0.670, F1 0.750) over 384 labelled positives; per distinct code recall 0.865"
   },
   {
    "id": "H10",

@@ -1,5 +1,223 @@
 {
- "findings": 80,
- "entries": 80,
- "classifier": "rules"
+ "findings": 4921,
+ "entries": 588,
+ "classifier": "rules",
+ "score": {
+  "overall": {
+   "tp": 327,
+   "fp": 161,
+   "fn": 57,
+   "precision": 0.6700819672131147,
+   "recall": 0.8515625,
+   "f1": 0.75
+  },
+  "per_surface": {
+   "access_control_roles": {
+    "tp": 59,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.9833333333333333,
+    "recall": 1.0,
+    "f1": 0.9915966386554621
+   },
+   "ecdsa_library": {
+    "tp": 10,
+    "fp": 0,
+    "fn": 22,
+    "precision": 1.0,
+    "recall": 0.3125,
+    "f1": 0.47619047619047616
+   },
+   "ecrecover_direct": {
+    "tp": 5,
+    "fp": 32,
+    "fn": 0,
+    "precision": 0.13513513513513514,
+    "recall": 1.0,
+    "f1": 0.2380952380952381
+   },
+   "eip2612_permit": {
+    "tp": 39,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.9512195121951219,
+    "recall": 1.0,
+    "f1": 0.975
+   },
+   "eip712_domain": {
+    "tp": 39,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.9512195121951219,
+    "recall": 1.0,
+    "f1": 0.975
+   },
+   "enumerable_roles": {
+    "tp": 46,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "erc1271_contract_signature": {
+    "tp": 0,
+    "fp": 3,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "erc2771_forwarder": {
+    "tp": 4,
+    "fp": 89,
+    "fn": 0,
+    "precision": 0.043010752688172046,
+    "recall": 1.0,
+    "f1": 0.08247422680412372
+   },
+   "external_compliance_module": {
+    "tp": 48,
+    "fp": 3,
+    "fn": 34,
+    "precision": 0.9411764705882353,
+    "recall": 0.5853658536585366,
+    "f1": 0.7218045112781956
+   },
+   "ownable_admin": {
+    "tp": 34,
+    "fp": 9,
+    "fn": 1,
+    "precision": 0.7906976744186046,
+    "recall": 0.9714285714285714,
+    "f1": 0.8717948717948717
+   },
+   "signed_parameter_update": {
+    "tp": 0,
+    "fp": 20,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "upgradeable_proxy": {
+    "tp": 43,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "predicted_but_unlabelled": 0
+ },
+ "score_per_distinct_code": {
+  "overall": {
+   "tp": 96,
+   "fp": 52,
+   "fn": 15,
+   "precision": 0.6486486486486487,
+   "recall": 0.8648648648648649,
+   "f1": 0.7413127413127414
+  },
+  "per_surface": {
+   "access_control_roles": {
+    "tp": 15,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.9375,
+    "recall": 1.0,
+    "f1": 0.967741935483871
+   },
+   "ecdsa_library": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 3,
+    "precision": 1.0,
+    "recall": 0.7,
+    "f1": 0.8235294117647058
+   },
+   "ecrecover_direct": {
+    "tp": 4,
+    "fp": 10,
+    "fn": 0,
+    "precision": 0.2857142857142857,
+    "recall": 1.0,
+    "f1": 0.4444444444444445
+   },
+   "eip2612_permit": {
+    "tp": 16,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.9411764705882353,
+    "recall": 1.0,
+    "f1": 0.9696969696969697
+   },
+   "eip712_domain": {
+    "tp": 16,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.9411764705882353,
+    "recall": 1.0,
+    "f1": 0.9696969696969697
+   },
+   "enumerable_roles": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   },
+   "erc1271_contract_signature": {
+    "tp": 0,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "erc2771_forwarder": {
+    "tp": 1,
+    "fp": 25,
+    "fn": 0,
+    "precision": 0.038461538461538464,
+    "recall": 1.0,
+    "f1": 0.07407407407407407
+   },
+   "external_compliance_module": {
+    "tp": 4,
+    "fp": 3,
+    "fn": 11,
+    "precision": 0.5714285714285714,
+    "recall": 0.26666666666666666,
+    "f1": 0.36363636363636365
+   },
+   "ownable_admin": {
+    "tp": 11,
+    "fp": 8,
+    "fn": 1,
+    "precision": 0.5789473684210527,
+    "recall": 0.9166666666666666,
+    "f1": 0.7096774193548387
+   },
+   "signed_parameter_update": {
+    "tp": 0,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "upgradeable_proxy": {
+    "tp": 19,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+   }
+  },
+  "predicted_but_unlabelled": 0
+ }
 }
