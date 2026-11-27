@@ -172,7 +172,7 @@ def run_policies(dep: Deployment, kb: KnowledgeBase, rc: RunConfig, ctx: dict | 
             plans[name] = baselines.none(dep)
         else:
             plans[name] = baselines.LIST_BASELINES[name](dep, ctx=ctx, lp=rc.lp, pp=rc.pp)
-    for k, p in plans.items():                          # a missing start must never be scored as "no migration"
+    for k, p in plans.items():                          # a key with no start date is an error, not "no migration"
         if k != "none" and any(v is None for v in p.starts.values()):
             raise RuntimeError(f"{k}: plan has anchors without a start ({p.status})")
     costs = {k: realized_costs(dep, ctx, p, ss_eval, rc.lp, rc.pp) for k, p in plans.items()}

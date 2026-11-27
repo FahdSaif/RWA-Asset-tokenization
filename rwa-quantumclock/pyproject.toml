@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qamp"
-version = "0.3.3"
+version = "0.3.4"
 description = "QAMP: a quantum-aware expert system that plans the post-quantum migration of compliance trust anchors in tokenised real-world-asset infrastructure"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -270,9 +270,13 @@ def cmd_experiments(args) -> None:
             f"QAMP {__version__}; unseen role holders {meta['unobserved_roles']}; commit {meta['git_commit'][:10] or 'n/a'}; n_eval {rc.n_eval}, n_plan {rc.n_plan}, oracle on {rc.n_oracle}.")
     (out / "hypotheses.md").write_text(hypotheses.markdown(rows, note))
     poc = results["price_of_compliance"]
-    (out / "main_table.md").write_text(_main_table(results["main"]) + (
-        f"\n\nPrice of compliance (QAMP compliance-first vs cost-first): extra expected cost USD {poc['extra_cost_usd'] / 1e6:,.1f}m "
-        f"for {poc['misses_avoided']:.2f} fewer deadline misses.\n"))
+    if poc["misses_avoided"] > 0:
+        poc_line = (f"Price of compliance (QAMP compliance-first vs cost-first): extra expected cost USD "
+                    f"{poc['extra_cost_usd'] / 1e6:,.1f}m for {poc['misses_avoided']:.2f} fewer deadline misses.")
+    else:   # both modes meet the deadline equally: any cost gap is solver rounding
+        poc_line = ("Price of compliance: none. Both QAMP modes miss the deadline equally often "
+                    f"(cost gap USD {poc['extra_cost_usd'] / 1e6:,.1f}m, within solver tolerance).")
+    (out / "main_table.md").write_text(_main_table(results["main"]) + "\n\n" + poc_line + "\n")
     print(hypotheses.markdown(rows, note))
     print(f"wrote {out}")
 

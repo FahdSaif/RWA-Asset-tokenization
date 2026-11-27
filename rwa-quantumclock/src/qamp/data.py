@@ -103,7 +103,7 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
     q1 = {}
     if q1_raw_path and Path(q1_raw_path).exists():
         q1raw = json.loads(Path(q1_raw_path).read_text())
-        if q1b_raw_path and Path(q1b_raw_path).exists():     # Q1b: role holders read from plain getters
+        if q1b_raw_path and Path(q1b_raw_path).exists():     # Q1b: add role holders read from minter() etc.
             from .extraction import merge_role_getters
             q1raw = merge_role_getters(q1raw, load_q1b(q1b_raw_path))
         q1 = {t["address"].lower(): t for t in q1raw["tokens"]}
@@ -153,7 +153,7 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
             admin = rec.get("admin_slot")
             res = _resolve(admin, ctrls) if admin and admin.lower() != "0x" + "0" * 40 else dict(type="not_readable", address=None)
             if res["type"] == "not_readable" and tok.contract_name == "BeaconProxy" and rec.get("implementation"):
-                # beacon proxies with the same implementation share one beacon: one upgrade key for all
+                # tokens behind the same beacon are upgraded by one key, so they share one anchor
                 res = dict(res, shared_key=f"beacon:{rec['implementation'].lower()}")
             _add_controller_anchor(add_anchor, "upgrade_admin", res, tok, group, caps_all, compliance_caps, known_calendars, facts)
 
@@ -180,7 +180,7 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
                                        [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)
         elif compliance_caps or cats.get("mint_burn"):
             res = dict(type="unobserved_role", address=None)
-            if unobserved_roles == "per_issuer":    # sensitivity: one shared unseen role key per issuer
+            if unobserved_roles == "per_issuer":    # check: assume one hidden role key per issuer
                 res["shared_key"] = f"role_holder:issuer:{group}"
             _add_controller_anchor(add_anchor, "role_holder", res, tok, group,
                                    [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)

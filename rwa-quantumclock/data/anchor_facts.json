@@ -15,6 +15,14 @@
   "nonce": null,
   "threshold": null
  },
+ "0x0a934bc9c64309c9654451f23d8331c2dad34c2a": {
+  "is_contract": false,
+  "key_exposed": true,
+  "min_delay": null,
+  "n_owners": null,
+  "nonce": 4477,
+  "threshold": null
+ },
  "0x0f2d30ca4417e2d746679c56d36e5227fa6b7a07": {
   "is_contract": true,
   "key_exposed": null,
@@ -117,6 +125,14 @@
   "min_delay": null,
   "n_owners": null,
   "nonce": 3,
+  "threshold": null
+ },
+ "0x297c815a70ec3cf394aa3db5b4aa166448961541": {
+  "is_contract": false,
+  "key_exposed": true,
+  "min_delay": null,
+  "n_owners": null,
+  "nonce": 9,
   "threshold": null
  },
  "0x29c3b3588b30be185dc7e54dcb09fa82d8442bcb": {
@@ -223,6 +239,14 @@
   "nonce": 33,
   "threshold": null
  },
+ "0x414f6cb44cd975165f8299a5ccbed92aa1a26f58": {
+  "is_contract": false,
+  "key_exposed": true,
+  "min_delay": null,
+  "n_owners": null,
+  "nonce": 11,
+  "threshold": null
+ },
  "0x49754062e35f7591b93cc4f9915965be89643a65": {
   "is_contract": true,
   "key_exposed": true,
@@ -285,6 +309,14 @@
   "min_delay": null,
   "n_owners": null,
   "nonce": 311,
+  "threshold": null
+ },
+ "0x5f7a4c11bde4f218f0025ef444c369d838ffa2ad": {
+  "is_contract": false,
+  "key_exposed": true,
+  "min_delay": null,
+  "n_owners": null,
+  "nonce": 40785,
   "threshold": null
  },
  "0x60f030d621a4ab27dff024a8e43eb36e2d95fb02": {
@@ -447,6 +479,14 @@
   "nonce": null,
   "threshold": null
  },
+ "0x8768cda7a463dae1baa6b2500efb025ebd7ffc50": {
+  "is_contract": true,
+  "key_exposed": true,
+  "min_delay": null,
+  "n_owners": 4,
+  "nonce": null,
+  "threshold": 2
+ },
  "0x89ab60d8fcd674b2b0b308e7fa63ff84a2682ce2": {
   "is_contract": true,
   "key_exposed": null,
@@ -525,6 +565,14 @@
   "min_delay": null,
   "n_owners": null,
   "nonce": 2,
+  "threshold": null
+ },
+ "0xa9899539d3d2c0b43ccf931e2538bfb0380ccd2c": {
+  "is_contract": false,
+  "key_exposed": false,
+  "min_delay": null,
+  "n_owners": null,
+  "nonce": 0,
   "threshold": null
  },
  "0xaa1e4eef723ceadd137b3ad39ea540da4b092f8e": {

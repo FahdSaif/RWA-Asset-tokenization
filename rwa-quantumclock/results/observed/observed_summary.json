@@ -1,24 +1,25 @@
 {
  "tokens": 100,
  "with_errors": 100,
- "controllers": 102,
+ "q1b_used": true,
+ "controllers": 108,
  "key_exposed": {
-  "True": 38,
-  "False": 7,
+  "True": 43,
+  "False": 8,
   "None": 57
  },
  "bytecode_labels": 700,
- "events": 20234,
- "anchors": 92,
+ "events": 20514,
+ "anchors": 75,
  "calendars_by_source": {
-  "observed": 25,
-  "assumed": 67
+  "observed": 28,
+  "assumed": 47
  },
  "group_capacity": {
   "Ondo": 4,
   "BlackRock": 1,
   "Re": 2,
-  "Backed": 1,
+  "Backed": 4,
   "Theo": 1,
   "Nest": 1,
   "Plume": 1,
@@ -38,11 +39,11 @@
   "WisdomTree": 1,
   "PinLink": 1
  },
- "multi_chain_anchors": 30,
+ "multi_chain_anchors": 13,
  "instances": {
-  "ethereum": 30,
-  "arbitrum": 30,
-  "mantle": 21,
+  "ethereum": 13,
+  "arbitrum": 13,
+  "mantle": 4,
   "polygon": 1
  }
 }

@@ -67,10 +67,10 @@ def spend(anchor, t: int, pp: PlanParams) -> float:
 def expected_cost_matrix(dep: Deployment, ctx: dict, ss: ScenarioSet, lp: LossParams, pp: PlanParams,
                          mode: str = "stochastic") -> tuple[np.ndarray, np.ndarray]:
     """Expected cost of each start quarter for each anchor, and which starts meet the deadline."""
-    """Expectations: the deviation is independent of the CRQC arrival, so the expected loss is
-    sum_delta P(delta) * mean over the planning sample of arrivals (mode "stochastic"); "expected" and
-    "pessimistic" use a single deviation (0 or +margin). The sample of arrivals should be large (default 20,000):
-    losses are dominated by rare early arrivals."""
+    """How: delays and the quantum computer's arrival are treated as unrelated, so the expected loss is
+    the chance of each delay x the average loss over the sampled arrival dates ("stochastic" mode).
+    "expected" assumes no delay; "pessimistic" assumes one quarter of delay. Use many samples (default
+    20,000): most of the loss comes from rare early arrivals."""
     from .loss import anchor_loss_vec
     from .scenarios import DELTA_PROBS, DELTA_VALUES
     n, T = len(dep.anchors), pp.last_start + 1
@@ -102,16 +102,15 @@ def expected_cost_matrix(dep: Deployment, ctx: dict, ss: ScenarioSet, lp: LossPa
 
 def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, coupling: list[list[str]] | None = None,
           method: str = "qamp", priority: str = "compliance") -> Plan:
-    """Chooses one start quarter per anchor.
+    """Picks one start quarter for each key.
 
-    priority "compliance" (default): first the fewest deadline misses, then the lowest expected cost.
-    priority "cost": first the lowest expected cost, then the fewest misses at that cost.
-    An anchor that does not fit within its issuer's capacity can take an "overflow" start: the last quarter,
-    outside the capacity limit, counted as a miss. The list baselines do the same, so the comparison is fair.
-    The deadline is therefore soft: the plan always exists, and misses are reported."""
+    priority "compliance" (default): miss the 2035 deadline as few times as possible, then keep the cost low.
+    priority "cost": keep the cost as low as possible, then miss the deadline as few times as possible.
+    If a key does not fit in its issuer's capacity, it is put in the last quarter and counted as a miss.
+    The simple baselines do the same, so the comparison is fair. So there is always a plan, and misses are reported."""
     n, T = C.shape
     idx = lambda i, t: i * T + t  # noqa: E731
-    ov = lambda i: n * T + i      # noqa: E731  overflow variable of anchor i
+    ov = lambda i: n * T + i      # noqa: E731  "does not fit" choice for key i
     nv = n * T + n
     miss = np.concatenate([(~F).astype(float).flatten(), np.ones(n)])
     cost = np.concatenate([C.flatten(), C[:, T - 1]])
@@ -163,7 +162,7 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
     if r1.x is None:
         raise RuntimeError(f"{method}: planning failed in step 1: {r1.message}")
     bound = r1.fun + 0.5 if priority == "compliance" else r1.fun + max(1.0, 1e-9 * abs(r1.fun))
-    res = run(second, (first, bound))                     # step 2: best second goal without losing the first
+    res = run(second, (first, bound))                     # step 2: best second goal, keeping the first one
     if res.x is None:
         raise RuntimeError(f"{method}: planning failed in step 2: {res.message}")
     x = np.round(res.x)
@@ -182,9 +181,9 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
 
 
 def diagnose(dep: Deployment, pp: PlanParams, T: int) -> list[dict]:
-    """Issuer groups that cannot finish all migrations in time, even with perfect scheduling.
+    """Issuers that cannot finish all their migrations by the deadline, whatever the order.
 
-    Needed: sum of migration times. Available: capacity x quarters in the planning window."""
+    Needed: the migration quarters of all their keys. Available: capacity x quarters left."""
     need: dict[str, int] = {}
     for a in dep.anchors:
         need[a.issuer_group] = need.get(a.issuer_group, 0) + max(1, a.migration_quarters)

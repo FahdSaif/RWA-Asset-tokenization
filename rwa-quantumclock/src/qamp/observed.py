@@ -25,7 +25,7 @@ SURFACE_SELECTORS = {k: {selector(s) for s in v} for k, v in BYTECODE_SURFACES.i
 # --- contract code
 
 def selectors_from_bytecode(code_hex: str | None) -> set[str]:
-    """Function selectors found in contract code (PUSH4 values).
+    """Function IDs found in the contract code (4-byte values the code pushes).
 
     May include a few false positives; reported as a limitation."""
     if not code_hex or code_hex in ("0x", "0x0"):
@@ -71,7 +71,7 @@ def bytecode_labels(raw: dict) -> list[dict]:
 KEY_CHANGE_EVENTS = {"AddedOwner(address)", "RemovedOwner(address)", "ChangedThreshold(uint256)",
                      "OwnershipTransferred(address,address)", "AdminChanged(address,address)",
                      "RoleGranted(bytes32,address,address)", "RoleRevoked(bytes32,address,address)",
-                     # role holders set through plain setters (Q1b)
+                     # role holders changed by functions like setMinter() (Q1b)
                      "NewMinter(address)", "NewBurner(address)", "NewPauser(address)", "NewMultiplierUpdater(address)",
                      "BlacklisterChanged(address)", "MasterMinterChanged(address)", "RescuerChanged(address)"}
 ROLE_SET_EVENT_NAMES = {"NewMinter(address)", "NewBurner(address)", "NewPauser(address)", "NewMultiplierUpdater(address)",
@@ -143,10 +143,10 @@ def capacity_from_events(days: dict[str, list[dt.date]], dep, cap_max: int = 4) 
 
 
 def issuer_groups(raw_tokens: list[dict], name_group, rank=None) -> dict[str, str]:
-    """Tokens that share any controller are one issuer; tokens with the same name rule too.
+    """Tokens that share any controlling address belong to one issuer. So do tokens with the same name rule.
 
-    Controllers: upgrade admin, owner, default admin, role members and other observed controllers.
-    Each group takes the name of its largest token (lowest rank)."""
+    Controlling addresses: upgrade admin, owner, default admin, role holders and others seen.
+    Each group is named after its largest token."""
     parent: dict[str, str] = {}
 
     def find(x):
@@ -197,8 +197,8 @@ def topology_from_raw(raw: dict, dep) -> dict[str, dict[str, float]]:
     """Copies of each anchor's tokens on other chains, with value shares.
 
     A copy counts if the same address has code and the same symbol. Shares follow totalSupply.
-    Bridges between copies are assumed. Chains the key could not read count as no copy,
-    so this is a lower bound."""
+    Bridges between copies are assumed. A chain we could not read counts as "no copy",
+    so the real number of copies may be higher."""
     by_token = {t["address"].lower(): t for t in raw["tokens"]}
     token_shares: dict[str, dict[str, float]] = {}
     for a, t in by_token.items():

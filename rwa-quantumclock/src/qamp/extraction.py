@@ -298,19 +298,19 @@ def facts_from_raw(raw: dict) -> dict:
     return out
 
 
-# --- Q1b top-up: role holders kept in plain getters (fixed before fetching, docs/Q1B_PLAN.md)
+# --- Q1b top-up: role holders that a token shows through simple functions like minter() (docs/Q1B_PLAN.md)
 
 ROLE_GETTERS = ("minter", "burner", "pauser", "multiplierUpdater", "blacklister", "masterMinter", "rescuer")
 ROLE_SET_EVENTS = _ROLE_SET_EVENTS
 
 
 def q1b_targets(raw: dict) -> list[str]:
-    """Tokens in the Q1 records whose ABI has at least one fixed role getter."""
+    """Tokens from Q1 that have at least one of the role functions in ROLE_GETTERS."""
     return [t["address"].lower() for t in raw["tokens"] if set(t.get("abi_functions", [])) & set(ROLE_GETTERS)]
 
 
 def observe_role_getters(ob: "Observer", token: dict) -> dict:
-    """Reads each role getter, the holder's controller facts, and the role-change events."""
+    """Reads who holds each role, facts about each holder, and the events that changed a holder."""
     ob.errors = []
     a = token["address"].lower()
     getters = {}
@@ -331,7 +331,7 @@ def observe_role_getters(ob: "Observer", token: dict) -> dict:
 
 
 def merge_role_getters(raw: dict, q1b: dict) -> dict:
-    """Q1 records with the Q1b getters added as roles. The Q1 records themselves are not changed."""
+    """Adds the Q1b role holders to a copy of the Q1 records. The Q1 records stay as they are."""
     import copy
     out = copy.deepcopy(raw)
     by = {t["address"]: t for t in q1b.get("tokens", [])}
