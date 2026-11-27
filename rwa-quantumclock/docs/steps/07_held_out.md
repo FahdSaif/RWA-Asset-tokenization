@@ -28,7 +28,7 @@ flowchart LR
     A["Decisions D1-D20<br/>cb1c560"] --> B(["tag: quantumclock-v1.0-frozen"])
     B --> C["Exact copy of cb1c560<br/>46 tests pass"]
     C --> D["Held-out run, once<br/>seeds 50,000"]
-    D --> E["results/held_out/<br/>9 confirmed · 4 refuted · 2 pending"]
+    D --> E["results/held_out/<br/>8 confirmed · 4 refuted · 2 pending"]
     D --> F["results/held_out_roles_per_issuer/<br/>same verdicts"]
 ```
 
@@ -81,7 +81,7 @@ No policy misses the 2035 deadline, so the price of compliance is zero.
 | H10 AI classifier beats rules | pending | needs the AI run | – |
 | H13 AI rewording keeps grounding | pending | needs the AI run | – |
 
-**9 confirmed, 4 refuted, 2 pending.** The sensitivity run gives the same verdict on every hypothesis.
+**8 confirmed, 4 refuted, 2 pending** (corrected 2026-11-27: an earlier version of this page and the results commit message said 9). H10 and H13 were decided later, in [step 8](08_ai_runs.md): both refuted. The sensitivity run gives the same verdict on every hypothesis.
 
 ## What this means
 

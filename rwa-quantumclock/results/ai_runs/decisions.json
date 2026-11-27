@@ -1,0 +1,30 @@
+{
+ "H10": {
+  "outcome": "REFUTED",
+  "ai_f1": 0.15632183908045977,
+  "rules_f1": 0.75,
+  "ai_precision": 0.6666666666666666,
+  "ai_recall": 0.08854166666666667,
+  "dropped_entries": 85,
+  "kept_entries": 59,
+  "dropped_share": 0.5902777777777778,
+  "hallucinated_citations": 0,
+  "per_distinct_code": {
+   "tp": 28,
+   "fp": 14,
+   "fn": 83,
+   "precision": 0.6666666666666666,
+   "recall": 0.25225225225225223,
+   "f1": 0.3660130718954248
+  }
+ },
+ "H13": {
+  "outcome": "REFUTED",
+  "retained": 0.5542021924482339,
+  "sentences": 821
+ },
+ "model": "model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+ "frozen_commit": "cb1c56096ee50d6c6f8dcdfde077a5098e4c60c9",
+ "started_utc": "2026-11-27T14:05:27Z",
+ "finished_utc": "2026-11-27T14:52:10Z"
+}

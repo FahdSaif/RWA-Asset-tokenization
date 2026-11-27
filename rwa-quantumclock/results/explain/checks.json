@@ -1,12 +1,17 @@
 {
  "deterministic": {
-  "sentences": 462,
+  "sentences": 781,
   "citation_validity": 1.0,
   "faithfulness": 1.0
  },
  "counterfactual": {
-  "cases": 246,
+  "cases": 441,
   "consistency": 1.0,
   "failures": []
+ },
+ "llm": {
+  "model": "model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "sentences": 821,
+  "retained": 0.5542021924482339
  }
 }

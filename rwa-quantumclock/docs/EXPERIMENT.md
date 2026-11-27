@@ -64,7 +64,7 @@ flowchart TD
 
 Each box is a milestone. Green: worked as planned. Red: failed or was refuted. Amber: a fix made in the open after
 a failure. Grey: still to come. Details for each step: [1](steps/01_sample.md), [2](steps/02_collection.md),
-[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md). Background on Safe multisig wallets:
+[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md). Background on Safe multisig wallets:
 [SAFE.md](SAFE.md).
 
 ```mermaid
@@ -99,7 +99,10 @@ flowchart TD
     S7["Held-out run, once (seeds 50,000)"]:::ok
     F1["Confirmed: H1, H2b, H3, H6, H7, H8, H11, H12<br/>QAMP $369.6M vs ASAP $409.2M"]:::ok
     F2["Refuted: H2, H4, H5, H9<br/>(pessimism not best; a third of oracle gap)"]:::bad
-    F3["Next · AI runs H10, H13<br/>then manuscript"]:::todo
+    A8["Step 8 · AI runs on frozen code<br/>(model with temperature 0; retry when busy)"]:::ok
+    F4["H10 refuted: AI F1 0.16 vs rules 0.75<br/>85/100 answers cut off at 2,000 tokens"]:::bad
+    F5["H13 refuted: 55% of AI rewording verifiable<br/>(numbers rephrased; templates 100%)"]:::bad
+    F3["Next · manuscript"]:::todo
 
     P1 --> R0 --> S1
     S1 --> F1 --> X1 --> S2
@@ -109,7 +112,11 @@ flowchart TD
     X4 --> U4 --> S5 --> O5 --> R5 --> L6 --> H9 --> S6 --> S7
     S7 --> F1
     S7 --> F2
-    F1 --> F3
+    S7 --> A8
+    A8 --> F4
+    A8 --> F5
+    F4 --> F3
+    F5 --> F3
     O5 --> E5
     R5 --> K5
 ```
@@ -119,11 +126,12 @@ flowchart TD
 | | Census, assumed calendars | Real data (step 4) | Real data with Q1b (step 5) | **Held-out run (final)** |
 |---|---|---|---|---|
 | Confirmed | H4, H6, H7, H11, H12 | H2, H2b, H6, H11, H12 | H1, H2b, H3, H6, H7, H8, H11, H12 | **H1, H2b, H3, H6, H7, H8, H11, H12** |
-| Refuted | H1, H2, H3, H5, H8 | H1, H3, H4, H5, H7, H8 | H2, H4, H5, H9 | **H2, H4, H5, H9** |
+| Refuted | H1, H2, H3, H5, H8 | H1, H3, H4, H5, H7, H8 | H2, H4, H5, H9 | **H2, H4, H5, H9, H10, H13** |
 | Inconclusive | H2b | – | – | – |
-| Pending | H9, H10, H13 | H9, H10, H13 | H10, H13 | **H10, H13** |
+| Pending | H9, H10, H13 | H9, H10, H13 | H10, H13 | **none** |
 
-Only the last column is evidence; the others are development runs. Held in every setting: H6, H11, H12. Refuted in
+Only the last column is evidence; the others are development runs. Final count: **8 confirmed, 6 refuted** (H10 and
+H13 from the AI runs, step 8). Held in every setting: H6, H11, H12. Refuted in
 every setting: H5. The held-out verdicts match the last development column exactly, and the sensitivity run agrees
 on every hypothesis.
 
@@ -152,5 +160,6 @@ on every hypothesis.
 | `quantumclock-v0.3.7` | RQ1 labels committed, discovery scored (H9 refuted) |
 | `quantumclock-v1.0-frozen` | Decisions D1-D20 recorded; code, data and hypotheses frozen (`cb1c560`) |
 | `quantumclock-v1.0-results` | Held-out results committed unchanged |
+| `quantumclock-v1.0-ai` | AI runs (H10, H13) on the frozen code |
 
 Data source: Etherscan.io (label list and API).

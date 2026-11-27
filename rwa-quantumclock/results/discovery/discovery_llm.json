@@ -1,0 +1,209 @@
+{
+ "findings": 4921,
+ "entries": 59,
+ "classifier": "llm",
+ "hallucinated_citations": 0,
+ "dropped_entries": 85,
+ "score": {
+  "overall": {
+   "tp": 34,
+   "fp": 17,
+   "fn": 350,
+   "precision": 0.6666666666666666,
+   "recall": 0.08854166666666667,
+   "f1": 0.15632183908045977
+  },
+  "per_surface": {
+   "access_control_roles": {
+    "tp": 2,
+    "fp": 1,
+    "fn": 57,
+    "precision": 0.6666666666666666,
+    "recall": 0.03389830508474576,
+    "f1": 0.06451612903225806
+   },
+   "ecdsa_library": {
+    "tp": 1,
+    "fp": 2,
+    "fn": 31,
+    "precision": 0.3333333333333333,
+    "recall": 0.03125,
+    "f1": 0.05714285714285714
+   },
+   "ecrecover_direct": {
+    "tp": 5,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.8333333333333334,
+    "recall": 1.0,
+    "f1": 0.9090909090909091
+   },
+   "eip2612_permit": {
+    "tp": 8,
+    "fp": 0,
+    "fn": 31,
+    "precision": 1.0,
+    "recall": 0.20512820512820512,
+    "f1": 0.3404255319148936
+   },
+   "eip712_domain": {
+    "tp": 8,
+    "fp": 0,
+    "fn": 31,
+    "precision": 1.0,
+    "recall": 0.20512820512820512,
+    "f1": 0.3404255319148936
+   },
+   "enumerable_roles": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 45,
+    "precision": 1.0,
+    "recall": 0.021739130434782608,
+    "f1": 0.042553191489361694
+   },
+   "erc1271_contract_signature": {
+    "tp": 0,
+    "fp": 3,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "erc2771_forwarder": {
+    "tp": 0,
+    "fp": 8,
+    "fn": 4,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "external_compliance_module": {
+    "tp": 1,
+    "fp": 1,
+    "fn": 81,
+    "precision": 0.5,
+    "recall": 0.012195121951219513,
+    "f1": 0.023809523809523808
+   },
+   "ownable_admin": {
+    "tp": 6,
+    "fp": 1,
+    "fn": 29,
+    "precision": 0.8571428571428571,
+    "recall": 0.17142857142857143,
+    "f1": 0.2857142857142857
+   },
+   "upgradeable_proxy": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 41,
+    "precision": 1.0,
+    "recall": 0.046511627906976744,
+    "f1": 0.08888888888888888
+   }
+  },
+  "predicted_but_unlabelled": 0
+ },
+ "score_per_distinct_code": {
+  "overall": {
+   "tp": 28,
+   "fp": 14,
+   "fn": 83,
+   "precision": 0.6666666666666666,
+   "recall": 0.25225225225225223,
+   "f1": 0.3660130718954248
+  },
+  "per_surface": {
+   "access_control_roles": {
+    "tp": 1,
+    "fp": 1,
+    "fn": 14,
+    "precision": 0.5,
+    "recall": 0.06666666666666667,
+    "f1": 0.11764705882352941
+   },
+   "ecdsa_library": {
+    "tp": 1,
+    "fp": 1,
+    "fn": 9,
+    "precision": 0.5,
+    "recall": 0.1,
+    "f1": 0.16666666666666669
+   },
+   "ecrecover_direct": {
+    "tp": 4,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.8,
+    "recall": 1.0,
+    "f1": 0.888888888888889
+   },
+   "eip2612_permit": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 9,
+    "precision": 1.0,
+    "recall": 0.4375,
+    "f1": 0.6086956521739131
+   },
+   "eip712_domain": {
+    "tp": 7,
+    "fp": 0,
+    "fn": 9,
+    "precision": 1.0,
+    "recall": 0.4375,
+    "f1": 0.6086956521739131
+   },
+   "enumerable_roles": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 3,
+    "precision": null,
+    "recall": 0.0,
+    "f1": null
+   },
+   "erc1271_contract_signature": {
+    "tp": 0,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null,
+    "f1": null
+   },
+   "erc2771_forwarder": {
+    "tp": 0,
+    "fp": 7,
+    "fn": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "external_compliance_module": {
+    "tp": 0,
+    "fp": 1,
+    "fn": 15,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "ownable_admin": {
+    "tp": 6,
+    "fp": 1,
+    "fn": 6,
+    "precision": 0.8571428571428571,
+    "recall": 0.5,
+    "f1": 0.631578947368421
+   },
+   "upgradeable_proxy": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 17,
+    "precision": 1.0,
+    "recall": 0.10526315789473684,
+    "f1": 0.1904761904761905
+   }
+  },
+  "predicted_but_unlabelled": 0
+ }
+}

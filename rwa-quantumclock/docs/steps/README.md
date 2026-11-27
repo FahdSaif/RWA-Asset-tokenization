@@ -14,7 +14,7 @@ The overall flow is in [../EXPERIMENT.md](../EXPERIMENT.md).
 | 5 | [Top-up collection: Backed role holders (Q1b)](05_q1b.md) | 2026-11-27 | `quantumclock-v0.3.4` | done |
 | 6 | [RQ1: labels and discovery score](06_rq1.md) | 2026-11-27 | `quantumclock-v0.3.7` | done |
 | 7 | [Freeze, then the held-out run](07_held_out.md) | 2026-11-27 | `quantumclock-v1.0-frozen`, `quantumclock-v1.0-results` | done |
-| 8 | AI runs (H10, H13) | | | planned |
+| 8 | [AI runs (H10, H13)](08_ai_runs.md) | 2026-11-27 | `quantumclock-v1.0-ai` | done |
 | 9 | Manuscript and anonymised review copy | | `quantumclock-v1.0-eswa` | planned |
 
 Earlier development (prototype on the 25-token census, development seeds only): tags `quantumclock-v0.1.1` and

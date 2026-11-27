@@ -160,3 +160,16 @@ held-out seeds were used. Evidence for each item is in `docs/steps/`.
 | D18 | The sensitivity grid is exploratory. |
 | D19 | No OSF registration. The public, dated git tag `quantumclock-v1.0-frozen` is the record of what was fixed. |
 | D20 | The held-out run is done once: `python -m qamp experiments --held-out --frozen-commit <sha>` (and the per-issuer sensitivity run), outputs committed unchanged. |
+
+## 7. Run-day notes for H10 and H13 (2026-11-27, recorded after the AI run)
+
+Both were met on the run day, before any model answer was seen, and fixed without changing the frozen code. Earlier
+attempts that day failed before any model call (wrong key type; model name not found; the setting below) and produced
+no results.
+
+| # | Note |
+|---|---|
+| D21 | The newest balanced model rejected `temperature = 0`, which the frozen code sends (repeatable answers). The run used the newest balanced model that accepts it, found with a tiny test call. The model is recorded only as its SHA-256 fingerprint (D13). |
+| D22 | A network wrapper retried calls that failed because the service was busy (HTTP 429, 500, 502, 503, 529, timeouts). The frozen code was not changed. |
+| D23 | Outcomes, decided with the rules in section 2: **H10 REFUTED** (AI F1 0.156 vs rules 0.750; 59% of answers dropped, 85 of 100 cut off by the frozen 2,000-token answer limit). **H13 REFUTED** (55.4% of reworded sentences pass, against ≥ 95%). See `docs/steps/08_ai_runs.md`. |
+

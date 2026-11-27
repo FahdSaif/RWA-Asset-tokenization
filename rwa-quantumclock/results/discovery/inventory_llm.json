@@ -1,0 +1,1031 @@
+[
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:eip2612_permit",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/token/ERC20.sol:173",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/token/ERC20.sol:196",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/interfaces/IERC20.sol:159"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-2612 permit is implemented with two overloads (bytes and v/r/s), allowing gasless approvals by token holders via off-chain signatures."
+ },
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/token/ERC20.sol:63",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/token/ERC20.sol:184",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/interfaces/IERC20.sol:175"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-712 domain separator is defined and used to construct the structured-data digest for permit signature verification."
+ },
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "erc1271_contract_signature",
+  "algorithm": "contract-defined",
+  "signer": "token holder (smart contract wallet)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/token/ERC20.sol:189",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/libraries/SignatureLib.sol:5",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/libraries/SignatureLib.sol:10"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib.isValidSignature falls back to ERC-1271 contract signature validation when the signer address is a smart contract, enabling multisig or smart-wallet permit signers."
+ },
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "ecdsa_library",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/libraries/SignatureLib.sol:26",
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/libraries/SignatureLib.sol:10"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib wraps a direct ecrecover call to recover the EOA signer from a secp256k1 ECDSA signature over an EIP-712 digest."
+ },
+ {
+  "token": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x5a0f93d040de44e78f251b03c43be9cf317dcf64:src/libraries/SignatureLib.sol:26"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A raw ecrecover opcode is called directly inside SignatureLib to verify EOA permit signatures without an audited wrapper library, which warrants review for signature malleability handling."
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:eip2612_permit",
+   "src:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:lib/solmate/src/tokens/ERC20.sol:116"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-2612 permit function allows token holders to approve transfers via off-chain secp256k1 signatures, bypassing on-chain approval transactions."
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:lib/solmate/src/tokens/ERC20.sol:130"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Raw ecrecover call inside the solmate ERC20 permit implementation recovers the signer address directly without an external ECDSA library."
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "src:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:lib/solmate/src/tokens/ERC20.sol:134",
+   "src:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:lib/solmate/src/tokens/ERC20.sol:162",
+   "abi:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:eip2612_permit"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-712 domain separator is constructed and exposed via DOMAIN_SEPARATOR() to scope permit signatures to this contract and chain."
+ },
+ {
+  "token": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+  "surface": "controller_timelock",
+  "algorithm": "contract-defined",
+  "signer": "timelock controller",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x119dd7daff816f29d7ee47596ae5e4bdc4299165:0x34e8bb9e0fa50d63bfca1d8e83ddba0d9fd5c062"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A timelock contract (threshold=1) holds the owner/admin role over the token contract, gating privileged operations with a time delay."
+ },
+ {
+  "token": "0xe820c06321e60d36257c666643fa5436643445e3",
+  "surface": "external_compliance_module",
+  "algorithm": "contract-defined",
+  "signer": "compliance module contract",
+  "anchor_role": "credential_issuer",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xe820c06321e60d36257c666643fa5436643445e3:external_compliance_module"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "An external compliance module is wired into the token contract to gate transfers or other regulated operations."
+ },
+ {
+  "token": "0xe820c06321e60d36257c666643fa5436643445e3",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig at 0xcf355ad32abf378f067fa93a28d96a767feb7377",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xe820c06321e60d36257c666643fa5436643445e3:0xcf355ad32abf378f067fa93a28d96a767feb7377"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The contract owner is a 3-of-n multisig, meaning all privileged owner actions (pause, issue, redeem, setParams) require quorum signatures."
+ },
+ {
+  "token": "0xe820c06321e60d36257c666643fa5436643445e3",
+  "surface": "ownable_admin",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "owner (multisig at 0xcf355ad32abf378f067fa93a28d96a767feb7377)",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:58",
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:163",
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:171",
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:197",
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:208",
+   "src:0xe820c06321e60d36257c666643fa5436643445e3:contracts/USDKG.sol:217"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A single owner role (held by the multisig) gates all critical administrative functions including pause, unpause, issue, redeem, and fee parameter updates."
+ },
+ {
+  "token": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+  "surface": "upgradeable_proxy",
+  "algorithm": "contract-defined",
+  "signer": "upgrade_admin multisig",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:upgradeable_proxy",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:contract.sol:446",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:contract.sol:457"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The contract exposes upgradeTo and upgradeToAndCall behind an ifAdmin guard, making the proxy logic replaceable by the controlling admin."
+ },
+ {
+  "token": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "upgrade_admin multisig (0xca3144aad1f75557e68b16c8c7e893112418f13c, threshold=2)",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:0xca3144aad1f75557e68b16c8c7e893112418f13c"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A 2-of-n multisig wallet controls the proxy admin role and can authorize implementation upgrades."
+ },
+ {
+  "token": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction forwarder / trusted forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:23",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:122",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:141",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:160",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:177",
+   "src:0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf:@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:196"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "ERC20Upgradeable uses the virtual _msgSender() pattern from ContextUpgradeable, enabling an ERC-2771 trusted forwarder to inject an alternative sender for meta-transactions."
+ },
+ {
+  "token": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x54a4fc78431f9201824643e99bec891bb7462a1d:eip2612_permit",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:apps/tokenization/SygToken/contracts/ERC20SygToken.sol:93",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/ERC20/ERC20.sol:63",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/ERC20/interfaces/IERC20.sol:133"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-2612 permit allows token holders to approve transfers via an off-chain secp256k1 ECDSA signature, bypassing on-chain approval transactions."
+ },
+ {
+  "token": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/ERC20/ERC20View.sol:84",
+   "abi:0x54a4fc78431f9201824643e99bec891bb7462a1d:eip2612_permit"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "An EIP-712 domain separator is exposed, structuring typed data for permit signature verification."
+ },
+ {
+  "token": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/ERC20/ERC20Core.sol:267"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The permit implementation calls ecrecover directly to recover the signer address from the EIP-712 structured hash."
+ },
+ {
+  "token": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+  "surface": "upgradeable_proxy",
+  "algorithm": "contract-defined",
+  "signer": "upgrade admin / timelock",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x54a4fc78431f9201824643e99bec891bb7462a1d:upgradeable_proxy",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:apps/tokenization/SygToken/contracts/SygToken.sol:122",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeable.sol:25",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeableCore.sol:110",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeableCore.sol:135",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSUtils.sol:44",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSUpgradeableCore.sol:105",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSUpgradeableCore.sol:115",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSUpgradeableCore.sol:141",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/interface/IUUPSSynchronousUpgradeable.sol:20",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:apps/UUPSProxy/contracts/UUPSProxy.sol:19"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A UUPS upgradeable proxy pattern with timelock-gated _authorizeUpgrade controls implementation replacement, making the upgrade admin a critical trust anchor."
+ },
+ {
+  "token": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+  "surface": "controller_timelock",
+  "algorithm": "contract-defined",
+  "signer": "timelock controller",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeable.sol:25",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeableCore.sol:110",
+   "src:0x54a4fc78431f9201824643e99bec891bb7462a1d:libs/UUPS/UUPSTimelockUpgradeableCore.sol:135"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Upgrade authorization is routed through a timelock mechanism, requiring time-delayed governance approval before any implementation change takes effect."
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x8c213ee79581ff4984583c6a801e5263418c4b86:eip2612_permit",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/token/ERC20.sol:173",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/token/ERC20.sol:196",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/interfaces/IERC20.sol:159"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-2612 permit is implemented with both a bytes-signature overload and a v/r/s overload, allowing gasless approvals by token holders."
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/token/ERC20.sol:63",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/token/ERC20.sol:184",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/interfaces/IERC20.sol:175",
+   "abi:0x8c213ee79581ff4984583c6a801e5263418c4b86:eip2612_permit"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A DOMAIN_SEPARATOR is constructed and exposed per EIP-712, anchoring all structured-data signatures to this contract and chain."
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "erc1271_contract_signature",
+  "algorithm": "contract-defined",
+  "signer": "token holder (smart-contract wallet)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/token/ERC20.sol:189",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/libraries/SignatureLib.sol:5",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/libraries/SignatureLib.sol:10"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib.isValidSignature delegates to ERC-1271 when the signer address is a contract, enabling smart-contract wallets to issue permit signatures."
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "ecdsa_library",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/libraries/SignatureLib.sol:26",
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/libraries/SignatureLib.sol:10"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib wraps a direct ecrecover call to recover the EOA signer from a digest, serving as the ECDSA verification path for permit."
+ },
+ {
+  "token": "0x8c213ee79581ff4984583c6a801e5263418c4b86",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c213ee79581ff4984583c6a801e5263418c4b86:src/libraries/SignatureLib.sol:26"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A raw ecrecover opcode is called inside SignatureLib to verify EOA signatures without an external ECDSA library."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:eip2612_permit",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:878",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4909"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "ERC-20 permit (EIP-2612) is implemented twice (interface and concrete), allowing gasless approvals via holder-signed secp256k1 signatures."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:eip712_domain",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4689",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4764",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4887",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4906",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4924",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4941",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:901"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-712 typed-data domain is established via the abstract EIP712 base contract and exposed through DOMAIN_SEPARATOR, underpinning all structured-data signatures in the contract."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:1096"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A raw ecrecover call at line 1096 recovers a signer address directly without an ECDSA library wrapper, introducing a potential signature-malleability risk."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "ecdsa_library",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:4926"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "OpenZeppelin ECDSA.recover is used at line 4926 within the permit flow, providing malleability-safe signature recovery for the EIP-2612 implementation."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "ownable_admin",
+  "algorithm": "contract-defined",
+  "signer": "contract owner (EOA or multisig)",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5087",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5113",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5123",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5130",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5134",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5138",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5146",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:5164"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A single owner controlled by onlyOwner gates critical admin functions including pause/unpause, access-control list management, and ownership transfer, making the owner key a high-value compliance control point."
+ },
+ {
+  "token": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:300",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:413",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:434",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:456",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:641",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:656",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:759",
+   "src:0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7:contract.sol:771"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Overridden _msgSender() throughout the contract indicates ERC-2771 meta-transaction support, meaning a trusted forwarder can relay signed transactions on behalf of users, which is compliance-relevant for KYC/AML attribution."
+ },
+ {
+  "token": "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:eip2612_permit",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/ERC20.sol:179",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/ERC20.sol:185",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/interfaces/IERC20.sol:166"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-2612 permit is implemented with both split-signature and bytes-signature variants, allowing gasless approvals by token holders."
+ },
+ {
+  "token": "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder (EOA or contract)",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/ERC20.sol:196",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/ERC20.sol:208",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/interfaces/IERC20.sol:182"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "EIP-712 domain separator is defined and exposed, providing the structured-data hashing context for permit signatures."
+ },
+ {
+  "token": "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+  "surface": "ecrecover_direct",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder EOA",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/libraries/SignatureLib.sol:28"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib calls ecrecover directly to recover the signer address from a split (v, r, s) signature for EOA permit validation."
+ },
+ {
+  "token": "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+  "surface": "erc1271_contract_signature",
+  "algorithm": "contract-defined",
+  "signer": "token holder smart contract",
+  "anchor_role": "holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/ERC20.sol:201",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/libraries/SignatureLib.sol:5",
+   "src:0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc:src/misc/libraries/SignatureLib.sol:12"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "SignatureLib implements ERC-1271 fallback so that contract-owned accounts can authorize permits via their own isValidSignature logic."
+ },
+ {
+  "token": "0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0",
+  "surface": "access_control_roles",
+  "algorithm": "contract-defined",
+  "signer": "role_holder",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:access_control_roles",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:49",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:63",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:122",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:137",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:7",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:9",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:40",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:77",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:137",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:contracts/RIOToken.sol:154"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "RIOToken uses OpenZeppelin AccessControl with DEFAULT_ADMIN_ROLE governing administrative parameter updates and MINTER_ROLE gating mint/burn operations, making role assignment directly compliance-relevant for a tokenised RWA."
+ },
+ {
+  "token": "0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/utils/Context.sol:17",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:87",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:158",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:186",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/access/AccessControl.sol:203",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/token/ERC20/ERC20.sol:105",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/token/ERC20/ERC20.sol:128",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/token/ERC20/ERC20.sol:150",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol:21",
+   "src:0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0:@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol:36"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Pervasive use of _msgSender() across AccessControl and ERC20 logic indicates the contract is designed to support an ERC-2771 meta-transaction forwarder, which can substitute the effective caller identity and is compliance-relevant for a tokenised RWA."
+ },
+ {
+  "token": "0xcdd60d15125bf3362b6838d2506b0fa33bc1a515",
+  "surface": "access_control_roles",
+  "algorithm": "contract-defined",
+  "signer": "role_holder",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:access_control_roles",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:145",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:156",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:167",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:177",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:219",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/globalMarkets/GMToken.sol:230",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:50",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:79",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:178",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:198"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "OpenZeppelin AccessControl gates minting, burning, and configuration behind MINTER_ROLE, BURNER_ROLE, and CONFIGURER_ROLE with DEFAULT_ADMIN_ROLE as the root admin."
+ },
+ {
+  "token": "0xcdd60d15125bf3362b6838d2506b0fa33bc1a515",
+  "surface": "enumerable_roles",
+  "algorithm": "contract-defined",
+  "signer": "role_holder",
+  "anchor_role": "admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:enumerable_roles",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol:7",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol:17"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "AccessControlEnumerableUpgradeable exposes getRoleMember and getRoleMemberCount, allowing on-chain enumeration of all role holders."
+ },
+ {
+  "token": "0xcdd60d15125bf3362b6838d2506b0fa33bc1a515",
+  "surface": "external_compliance_module",
+  "algorithm": "contract-defined",
+  "signer": "role_holder",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:external_compliance_module"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The token exposes a setCompliance function and a compliance reference, delegating transfer-eligibility logic to an external compliance module contract."
+ },
+ {
+  "token": "0xcdd60d15125bf3362b6838d2506b0fa33bc1a515",
+  "surface": "controller_timelock",
+  "algorithm": "contract-defined",
+  "signer": "upgrade_admin",
+  "anchor_role": "upgrade_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:0x3715b2154d2ff4c5b027c7a1f734b53f27bc34f1"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A timelock contract at 0x3715b2 holds the upgrade_admin role, meaning all proxy upgrades must pass through a time-delayed governance queue."
+ },
+ {
+  "token": "0xcdd60d15125bf3362b6838d2506b0fa33bc1a515",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:22",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:141",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:175",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:201",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:224",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol:248",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:121",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:221",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20BurnableUpgradeable.sol:30",
+   "src:0xcdd60d15125bf3362b6838d2506b0fa33bc1a515:contracts/external/openzeppelin/contracts-upgradeable/token/ERC20/ERC20BurnableUpgradeable.sol:45"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Pervasive use of _msgSender() via ContextUpgradeable indicates ERC-2771 meta-transaction forwarder support, where the trusted forwarder can inject an arbitrary sender address."
+ },
+ {
+  "token": "0x63401cdd577478f9389a1683e866a937f072d1c2",
+  "surface": "ownable_admin",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "contract owner EOA",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:src/AGL.sol:5",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:src/AGL.sol:34",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:src/AGL.sol:122",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/auth/Ownable.sol:14",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/auth/Ownable.sol:174",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/auth/Ownable.sol:186",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/auth/Ownable.sol:222",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/auth/Ownable.sol:274"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "AGL inherits Solady Ownable, granting a single owner exclusive access to privileged functions such as the payable onlyOwner call at line 122."
+ },
+ {
+  "token": "0x63401cdd577478f9389a1683e866a937f072d1c2",
+  "surface": "controller_eoa",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "0x9afdee0b0af90945e47e0d4e8d3139669a7c5f1a",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x63401cdd577478f9389a1683e866a937f072d1c2:0x9afdee0b0af90945e47e0d4e8d3139669a7c5f1a"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The current owner is a plain EOA (threshold=1), meaning a single private key controls all onlyOwner administrative actions on the token contract."
+ },
+ {
+  "token": "0x63401cdd577478f9389a1683e866a937f072d1c2",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/tokens/ERC20.sol:472",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/src/interfaces/IEIP712_v4.sol:9",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/lib/permit2/src/interfaces/IEIP712.sol:5",
+   "abi:0x63401cdd577478f9389a1683e866a937f072d1c2:eip2612_permit"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "DOMAIN_SEPARATOR is exposed by the Solady ERC20 base and referenced in peripheral interfaces, anchoring the EIP-712 typed-data domain used by permit."
+ },
+ {
+  "token": "0x63401cdd577478f9389a1683e866a937f072d1c2",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": false,
+  "evidence": [
+   "abi:0x63401cdd577478f9389a1683e866a937f072d1c2:eip2612_permit",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/solady/src/tokens/ERC20.sol:389",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/lib/permit2/src/interfaces/IAllowanceTransfer.sol:130",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/lib/permit2/src/interfaces/IAllowanceTransfer.sol:137",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/src/interfaces/IERC721Permit_v4.sol:18",
+   "src:0x63401cdd577478f9389a1683e866a937f072d1c2:lib/v4-periphery/src/interfaces/IPermit2Forwarder.sol:15"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The Solady ERC20 implementation exposes a standard EIP-2612 permit function allowing gasless approvals via holder-signed EIP-712 messages; Permit2 and v4-periphery interfaces extend the same pattern."
+ },
+ {
+  "token": "0xaeb0a5d56de94479cda178977570fd9079500527",
+  "surface": "eip2612_permit",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "abi:0xaeb0a5d56de94479cda178977570fd9079500527:eip2612_permit",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/solady/src/tokens/ERC20.sol:389"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Solady ERC20 permit implementation allows token holders to approve via off-chain secp256k1 signatures, bypassing on-chain transfer restrictions if not checked in the permit flow."
+ },
+ {
+  "token": "0xaeb0a5d56de94479cda178977570fd9079500527",
+  "surface": "eip712_domain",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "token holder",
+  "anchor_role": "holder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/solady/src/tokens/ERC20.sol:472",
+   "abi:0xaeb0a5d56de94479cda178977570fd9079500527:eip2612_permit"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "DOMAIN_SEPARATOR is exposed for EIP-712 structured-data signing underpinning the permit functionality."
+ },
+ {
+  "token": "0xaeb0a5d56de94479cda178977570fd9079500527",
+  "surface": "access_control_roles",
+  "algorithm": "contract-defined",
+  "signer": "TOKEN_OPERATOR_ROLE holder",
+  "anchor_role": "role_holder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:110",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:140",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:148",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:156",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:166",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:178",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:186",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:194",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:337",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:342",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/common/AccessControlledUpgradeable.sol:37"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "TOKEN_OPERATOR_ROLE gates all sensitive operations including mint, burn, pause, split, and transfer-restrictor updates, making the role holder a critical compliance control point."
+ },
+ {
+  "token": "0xaeb0a5d56de94479cda178977570fd9079500527",
+  "surface": "ownable_admin",
+  "algorithm": "contract-defined",
+  "signer": "contract owner (OAppCore owner)",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": false,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/devtools/packages/oapp-evm/contracts/oapp/OAppCore.sol:5",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/devtools/packages/oapp-evm/contracts/oapp/OAppCore.sol:12",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/devtools/packages/oapp-evm/contracts/oapp/OAppCore.sol:43",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/devtools/packages/oapp-evm/contracts/oapp/OAppCore.sol:80",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts/contracts/access/Ownable.sol:20",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts/contracts/access/Ownable.sol:48",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts/contracts/access/Ownable.sol:76",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts/contracts/access/Ownable.sol:84"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "OAppCore inherits OpenZeppelin Ownable, giving the owner exclusive control over cross-chain peer configuration and delegate assignment, which affects cross-chain compliance enforcement."
+ },
+ {
+  "token": "0xaeb0a5d56de94479cda178977570fd9079500527",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts-upgradeable/contracts/utils/ContextUpgradeable.sol:23",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:lib/openzeppelin-contracts/contracts/utils/Context.sol:17",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:202",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:213",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:286",
+   "src:0xaeb0a5d56de94479cda178977570fd9079500527:src/tokens/shares/retail/DShare.sol:303"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "_msgSender() is used throughout for role checks and allowance logic, indicating ERC-2771 forwarder support where the trusted forwarder can relay transactions on behalf of users, affecting who is treated as the effective sender for compliance checks."
+ },
+ {
+  "token": "0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7",
+  "surface": "ownable_admin",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "contract owner (multisig at 0xb10b260fbf5f33cc5ff81761e090aecdffcb1fd5)",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:20",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:35",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:51",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:61",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:69",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:70",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:contracts/Lumia.sol:5",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:contracts/Lumia.sol:7",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:contracts/Lumia.sol:51",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:contracts/Lumia.sol:58"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The Lumia contract inherits OpenZeppelin Ownable, gating minter toggling and burnFrom behind onlyOwner, with ownership held by the multisig."
+ },
+ {
+  "token": "0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7",
+  "surface": "controller_multisig",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "multisig signers at 0xb10b260fbf5f33cc5ff81761e090aecdffcb1fd5",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:0xb10b260fbf5f33cc5ff81761e090aecdffcb1fd5"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A 3-of-n multisig at 0xb10b260fbf5f33cc5ff81761e090aecdffcb1fd5 acts as the owner/admin controller of the token contract."
+ },
+ {
+  "token": "0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7",
+  "surface": "erc2771_forwarder",
+  "algorithm": "contract-defined",
+  "signer": "meta-transaction relayer / end user",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": false,
+  "evidence": [
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/utils/Context.sol:17",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:29",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/access/Ownable.sol:51",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/ERC20.sol:114",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/ERC20.sol:137",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/ERC20.sol:159",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/ERC20.sol:178",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/ERC20.sol:198",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol:21",
+   "src:0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7:@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol:36"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "Pervasive use of _msgSender() via Context.sol indicates the contract is structured to support ERC-2771 meta-transaction forwarding, though no explicit trusted forwarder address is evidenced in the snippets."
+ },
+ {
+  "token": "0x020940df9f5e77338a094d55b5b5914122a804a5",
+  "surface": "ownable_admin",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "0xeb11c67e39ccad3df6240c578bc3e149c92a59f2",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x020940df9f5e77338a094d55b5b5914122a804a5:0xeb11c67e39ccad3df6240c578bc3e149c92a59f2",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:20",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:48",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:76",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:84",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:contracts/RBNTNativeOFTAdapter.sol:4",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:contracts/RBNTNativeOFTAdapter.sol:13",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:contracts/RBNTOFT.sol:4",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:contracts/RBNTOFT.sol:14",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@layerzerolabs/oapp-evm/contracts/oapp/OAppCore.sol:43",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@layerzerolabs/oapp-evm/contracts/oapp/OAppCore.sol:80",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@layerzerolabs/oapp-evm/contracts/oapp/libs/OAppOptionsType3.sol:28",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@layerzerolabs/oapp-evm/contracts/precrime/OAppPreCrimeSimulator.sol:32",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@layerzerolabs/oft-evm/contracts/OFTCore.sol:96"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "A single EOA (0xeb11c67e39ccad3df6240c578bc3e149c92a59f2) is set as the Ownable owner/delegate at deployment and controls all onlyOwner-gated functions across RBNTOFT, RBNTNativeOFTAdapter, OAppCore, OAppOptionsType3, OAppPreCrimeSimulator, and OFTCore."
+ },
+ {
+  "token": "0x020940df9f5e77338a094d55b5b5914122a804a5",
+  "surface": "controller_eoa",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "0xeb11c67e39ccad3df6240c578bc3e149c92a59f2",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "ctrl:0x020940df9f5e77338a094d55b5b5914122a804a5:0xeb11c67e39ccad3df6240c578bc3e149c92a59f2"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The controlling address is a plain EOA with a single-key threshold, meaning no multisig or timelock protects privileged operations on this tokenised RWA contract."
+ },
+ {
+  "token": "0x020940df9f5e77338a094d55b5b5914122a804a5",
+  "surface": "erc2771_forwarder",
+  "algorithm": "contract-defined",
+  "signer": "forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": false,
+  "compliance_relevant": false,
+  "evidence": [
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/utils/Context.sol:17",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:64",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/access/Ownable.sol:65",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/token/ERC20/ERC20.sol:100",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/token/ERC20/ERC20.sol:121",
+   "src:0x020940df9f5e77338a094d55b5b5914122a804a5:@openzeppelin/contracts/token/ERC20/ERC20.sol:143"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The contracts inherit OpenZeppelin Context and use _msgSender() throughout, indicating the architecture is compatible with ERC-2771 meta-transaction forwarding, though no concrete trusted-forwarder registration is evidenced in the provided snippets."
+ },
+ {
+  "token": "0x8c9984b06281f1ca9416e493c2e602aab08513db",
+  "surface": "ownable_admin",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "contract owner EOA or multisig",
+  "anchor_role": "owner_admin",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:52",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:80",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:108",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:116",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:724",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:731"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The Sectora ERC-20 contract inherits OpenZeppelin Ownable, granting a single owner address exclusive administrative control over privileged functions."
+ },
+ {
+  "token": "0x8c9984b06281f1ca9416e493c2e602aab08513db",
+  "surface": "erc2771_forwarder",
+  "algorithm": "secp256k1-ecdsa",
+  "signer": "meta-transaction forwarder",
+  "anchor_role": "forwarder",
+  "quantum_vulnerable": true,
+  "compliance_relevant": true,
+  "evidence": [
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:19",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:96",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:97",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:509",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:530",
+   "src:0x8c9984b06281f1ca9416e493c2e602aab08513db:contract.sol:552"
+  ],
+  "classifier": "llm:model-sha256:7d811269d13fd7df0fd2cb573cbd1b11679a1ae347c179b3daf22b12408604c4",
+  "note": "The contract overrides _msgSender() via a Context abstraction consistent with ERC-2771, allowing a trusted forwarder to relay meta-transactions on behalf of end users."
+ }
+]
