@@ -90,17 +90,55 @@ def cmd_facts(args) -> None:
     print(json.dumps(summary_obs, indent=1, default=str))
 
 
+def cmd_label_sheet(args) -> None:
+    """Writes the blank hand-label sheet: one row per distinct source code and surface."""
+    import csv
+    from .observed import MANUAL_SURFACES, code_groups
+    toks = [ln.split()[0].lower() for ln in (config.DATA_DIR / "sample_tokens.txt").read_text().splitlines()
+            if ln.strip() and not ln.startswith("#")]
+    groups = code_groups(toks, config.DATA_DIR / "sources")
+    with open(config.DATA_DIR / "code_groups.csv", "w", newline="") as fh:
+        wr = csv.writer(fh)
+        wr.writerow(["token", "code_group"])
+        for rep, members in groups.items():
+            for m in members:
+                wr.writerow([m, rep])
+    out = config.DATA_DIR / "labels_sheet_blank.csv"
+    with open(out, "w", newline="") as fh:
+        wr = csv.writer(fh)
+        wr.writerow(["token", "tokens_with_same_code", "source_file", "surface", "present", "annotator", "evidence", "notes"])
+        for rep, members in groups.items():
+            src = f"sources/{rep}.impl.sol.txt" if (config.DATA_DIR / "sources" / f"{rep}.impl.sol.txt").exists() \
+                else f"sources/{rep}.sol.txt"
+            for surf in MANUAL_SURFACES:
+                wr.writerow([rep, len(members), src, surf, "", "", "", ""])
+    print(f"wrote {out.name}: {len(groups)} distinct codes x {len(MANUAL_SURFACES)} surfaces = "
+          f"{len(groups) * len(MANUAL_SURFACES)} rows; data/code_groups.csv maps each token to its code")
+
+
 def cmd_labels(args) -> None:
-    """Merges bytecode labels with your manual labels. Bytecode wins where it can decide."""
+    """Merges bytecode labels with your manual labels. Bytecode wins where it can decide.
+
+    A manual label on one token is copied to every token with identical code (data/code_groups.csv)."""
     import csv
     from .observed import BYTECODE_SURFACES
     bc_p, man_p = config.DATA_DIR / "labels_bytecode.csv", config.DATA_DIR / "labels_manual.csv"
+    grp_p = config.DATA_DIR / "code_groups.csv"
+    members: dict[str, list[str]] = {}
+    if grp_p.exists():
+        for r in csv.DictReader(open(grp_p, newline="")):
+            members.setdefault(r["code_group"], []).append(r["token"])
     rows, ignored = [], []
     if bc_p.exists():
         rows += list(csv.DictReader(open(bc_p, newline="")))
     if man_p.exists():
         for r in csv.DictReader(open(man_p, newline="")):
-            (ignored if r["surface"] in BYTECODE_SURFACES else rows).append(r)
+            if r["surface"] in BYTECODE_SURFACES:
+                ignored.append(r)
+                continue
+            for m in members.get(r["token"].lower(), [r["token"].lower()]):
+                note = (r.get("notes") or "") + ("" if m == r["token"].lower() else f" (copied from identical code {r['token'][:10]})")
+                rows.append(dict(r, token=m, notes=note.strip()))
     if not rows:
         raise SystemExit("no labels: run `python -m qamp facts` (bytecode labels) and/or write data/labels_manual.csv")
     with open(config.DATA_DIR / "labels.csv", "w", newline="") as fh:
@@ -181,7 +219,16 @@ def cmd_discover(args) -> None:
     if args.llm:
         res.update(hallucinated_citations=clf.hallucinated, dropped_entries=clf.dropped)
     if args.labels:
-        res["score"] = score(entries, read_labels(Path(args.labels)))
+        import csv
+        from .observed import OBSERVED_ONLY_SURFACES
+        labels = {k: v for k, v in read_labels(Path(args.labels)).items() if k[1] not in OBSERVED_ONLY_SURFACES}
+        scored = [e for e in entries if e.surface not in OBSERVED_ONLY_SURFACES]
+        res["score"] = score(scored, labels)                      # every token
+        grp_p = config.DATA_DIR / "code_groups.csv"
+        if grp_p.exists():                                         # each distinct code once
+            firsts = {r["code_group"] for r in csv.DictReader(open(grp_p, newline=""))}
+            res["score_per_distinct_code"] = score([e for e in scored if e.token.lower() in firsts],
+                                                   {k: v for k, v in labels.items() if k[0] in firsts})
     (out / f"discovery_{clf.name}.json").write_text(json.dumps(res, indent=1))
     print(json.dumps(res, indent=1))
 
@@ -317,6 +364,7 @@ def main(argv=None) -> None:
                     help="role holders that could not be listed: one key per token (default) or one per issuer")
     sub.add_parser("census")
     sub.add_parser("facts")
+    sub.add_parser("label-sheet")
     sub.add_parser("labels")
     x = sub.add_parser("explain-check")
     x.add_argument("--llm", action="store_true")
@@ -331,7 +379,7 @@ def main(argv=None) -> None:
     e.add_argument("--held-out", action="store_true")
     e.add_argument("--frozen-commit")
     args = ap.parse_args(argv)
-    dict(census=cmd_census, facts=cmd_facts, labels=cmd_labels, **{"explain-check": cmd_explain_check}, discover=cmd_discover, plan=cmd_plan, sensitivity=cmd_sensitivity, experiments=cmd_experiments)[args.cmd](args)
+    dict(census=cmd_census, facts=cmd_facts, labels=cmd_labels, **{"label-sheet": cmd_label_sheet, "explain-check": cmd_explain_check}, discover=cmd_discover, plan=cmd_plan, sensitivity=cmd_sensitivity, experiments=cmd_experiments)[args.cmd](args)
 
 
 if __name__ == "__main__":

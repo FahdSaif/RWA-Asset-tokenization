@@ -18,7 +18,14 @@ BYTECODE_SURFACES: dict[str, list[str]] = {
     "access_control_roles": ["grantRole(bytes32,address)", "hasRole(bytes32,address)"],
     "enumerable_roles": ["getRoleMember(bytes32,uint256)"],
     "upgradeable_proxy": ["upgradeTo(address)", "upgradeToAndCall(address,bytes)"],
+    "ownable_admin": ["owner()", "transferOwnership(address)"],      # added 2026-11-27, before any hand labels
 }
+
+# Surfaces a person labels by reading the verified source (docs/LABELLING.md).
+MANUAL_SURFACES = ("external_compliance_module", "signed_parameter_update", "ecrecover_direct", "ecdsa_library",
+                   "p256_verifier", "bls_precompile")
+# Surfaces read straight from chain data. Discovery uses the same data, so they are not scored for RQ1.
+OBSERVED_ONLY_SURFACES = ("controller_eoa", "controller_multisig", "controller_timelock")
 SURFACE_SELECTORS = {k: {selector(s) for s in v} for k, v in BYTECODE_SURFACES.items()}
 
 
@@ -64,6 +71,27 @@ def bytecode_labels(raw: dict) -> list[dict]:
             rows.append(dict(token=tok["address"].lower(), surface=surface, present=int(present),
                              annotator="bytecode", evidence=ev, notes="objective label from runtime bytecode"))
     return rows
+
+
+# --- hand labels: one row per distinct source code
+
+def code_groups(tokens: list[str], source_dir) -> dict[str, list[str]]:
+    """Tokens with identical verified source (implementation if a proxy) share one group.
+
+    Key: the first token of the group in sample order. A label for it holds for every member."""
+    import hashlib
+    from pathlib import Path
+    groups: dict[str, list[str]] = {}
+    first_of: dict[str, str] = {}
+    for t in tokens:
+        t = t.lower()
+        f = Path(source_dir) / f"{t}.impl.sol.txt"
+        if not f.exists():
+            f = Path(source_dir) / f"{t}.sol.txt"
+        h = hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() else f"no-source:{t}"
+        first_of.setdefault(h, t)
+        groups.setdefault(first_of[h], []).append(t)
+    return groups
 
 
 # --- governance events

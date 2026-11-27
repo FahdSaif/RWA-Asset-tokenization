@@ -252,3 +252,20 @@ def test_q1b_selectors():
     from qamp.keccak import selector
     assert selector("minter()") == "0x07546172"
     assert selector("pauser()") == "0x9fd0506d"
+
+
+def test_code_groups_share_labels(tmp_path):
+    """Tokens with identical source form one group, keyed by the first token."""
+    from qamp.observed import code_groups
+    (tmp_path / "0xa.impl.sol.txt").write_text("contract X {}")
+    (tmp_path / "0xb.impl.sol.txt").write_text("contract X {}")
+    (tmp_path / "0xc.sol.txt").write_text("contract Y {}")
+    g = code_groups(["0xA", "0xb", "0xc"], tmp_path)
+    assert g == {"0xa": ["0xa", "0xb"], "0xc": ["0xc"]}
+
+
+def test_ownable_is_a_bytecode_surface_and_controllers_are_not_scored():
+    from qamp.observed import BYTECODE_SURFACES, MANUAL_SURFACES, OBSERVED_ONLY_SURFACES
+    assert "ownable_admin" in BYTECODE_SURFACES
+    assert not set(MANUAL_SURFACES) & set(BYTECODE_SURFACES)
+    assert not set(OBSERVED_ONLY_SURFACES) & (set(MANUAL_SURFACES) | set(BYTECODE_SURFACES))
