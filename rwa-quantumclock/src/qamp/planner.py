@@ -101,18 +101,21 @@ def expected_cost_matrix(dep: Deployment, ctx: dict, ss: ScenarioSet, lp: LossPa
 
 
 def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, coupling: list[list[str]] | None = None,
-          method: str = "qamp") -> Plan:
+          method: str = "qamp", priority: str = "compliance") -> Plan:
+    """Chooses one start quarter per anchor.
+
+    priority "compliance" (default): first the fewest deadline misses, then the lowest expected cost.
+    priority "cost": first the lowest expected cost, then the fewest misses at that cost.
+    An anchor that does not fit within its issuer's capacity can take an "overflow" start: the last quarter,
+    outside the capacity limit, counted as a miss. The list baselines do the same, so the comparison is fair.
+    The deadline is therefore soft: the plan always exists, and misses are reported."""
     n, T = C.shape
     idx = lambda i, t: i * T + t  # noqa: E731
-    nv = n * T
-    c = C.flatten()
-    ub = F.flatten().astype(float)
-    # no start meets the deadline: allow the last one (counted as a miss)
-    for i in range(n):
-        if not F[i].any():
-            ub[idx(i, T - 1)] = 1.0
+    ov = lambda i: n * T + i      # noqa: E731  overflow variable of anchor i
+    nv = n * T + n
+    miss = np.concatenate([(~F).astype(float).flatten(), np.ones(n)])
+    cost = np.concatenate([C.flatten(), C[:, T - 1]])
     rows, lo, hi = [], [], []
-    A = lil_matrix((0, nv))
 
     def add(row: dict[int, float], l: float, h: float):
         rows.append(row)
@@ -120,7 +123,9 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
         hi.append(h)
 
     for i in range(n):
-        add({idx(i, t): 1.0 for t in range(T)}, 1, 1)
+        row = {idx(i, t): 1.0 for t in range(T)}
+        row[ov(i)] = 1.0
+        add(row, 1, 1)
     groups: dict[str, list[int]] = {}
     for i, a in enumerate(dep.anchors):
         groups.setdefault(a.issuer_group, []).append(i)
@@ -140,24 +145,63 @@ def solve(dep: Deployment, C: np.ndarray, F: np.ndarray, pp: PlanParams, couplin
         for j in ids[1:]:
             for t in range(T):
                 add({idx(ids[0], t): 1.0, idx(j, t): -1.0}, 0, 0)
-    A = lil_matrix((len(rows), nv))
-    for r, row in enumerate(rows):
-        for k, v in row.items():
-            A[r, k] = v
-    res = milp(c=c, constraints=LinearConstraint(A.tocsr(), lo, hi), integrality=np.ones(nv),
-               bounds=Bounds(np.zeros(nv), ub), options=dict(time_limit=pp.time_limit_s, disp=False))
+            add({ov(ids[0]): 1.0, ov(j): -1.0}, 0, 0)
+
+    def run(obj: np.ndarray, extra: tuple | None):
+        rr, ll, hh = list(rows), list(lo), list(hi)
+        if extra is not None:
+            rr.append({k: v for k, v in enumerate(extra[0]) if v}), ll.append(-np.inf), hh.append(extra[1])
+        A = lil_matrix((len(rr), nv))
+        for r, row in enumerate(rr):
+            for k, v in row.items():
+                A[r, k] = v
+        return milp(c=obj, constraints=LinearConstraint(A.tocsr(), ll, hh), integrality=np.ones(nv),
+                    bounds=Bounds(np.zeros(nv), np.ones(nv)), options=dict(time_limit=pp.time_limit_s, disp=False))
+
+    first, second = (miss, cost) if priority == "compliance" else (cost, miss)
+    r1 = run(first, None)
+    if r1.x is None:
+        raise RuntimeError(f"{method}: planning failed in step 1: {r1.message}")
+    bound = r1.fun + 0.5 if priority == "compliance" else r1.fun + max(1.0, 1e-9 * abs(r1.fun))
+    res = run(second, (first, bound))                     # step 2: best second goal without losing the first
     if res.x is None:
-        return Plan(starts={a.anchor_id: None for a in dep.anchors}, method=method, status=f"infeasible: {res.message}")
-    x = np.round(res.x).reshape(n, T)
-    starts = {a.anchor_id: int(np.argmax(x[i])) for i, a in enumerate(dep.anchors)}
-    return Plan(starts=starts, method=method, objective=float(res.fun), status=res.message,
-                info=dict(n_vars=nv, n_constraints=len(rows), mip_gap=getattr(res, "mip_gap", None)))
+        raise RuntimeError(f"{method}: planning failed in step 2: {res.message}")
+    x = np.round(res.x)
+    m_star = int(round(float(miss @ x)))
+    starts, overflow = {}, []
+    for i, a in enumerate(dep.anchors):
+        if x[ov(i)] > 0.5:
+            starts[a.anchor_id] = T - 1
+            overflow.append(a.anchor_id)
+        else:
+            starts[a.anchor_id] = int(np.argmax(x[i * T:(i + 1) * T]))
+    info = dict(n_vars=nv, n_constraints=len(rows), mip_gap=getattr(res, "mip_gap", None), priority=priority,
+                planned_misses=m_star, planned_cost=float(cost @ x),
+                overflow=overflow, diagnosis=diagnose(dep, pp, T))
+    return Plan(starts=starts, method=method, objective=float(res.fun), status=res.message, info=info)
+
+
+def diagnose(dep: Deployment, pp: PlanParams, T: int) -> list[dict]:
+    """Issuer groups that cannot finish all migrations in time, even with perfect scheduling.
+
+    Needed: sum of migration times. Available: capacity x quarters in the planning window."""
+    need: dict[str, int] = {}
+    for a in dep.anchors:
+        need[a.issuer_group] = need.get(a.issuer_group, 0) + max(1, a.migration_quarters)
+    out = []
+    for g, k in sorted(need.items()):
+        cap = int(dep.group_capacity.get(g, pp.capacity))
+        avail = cap * T
+        if k > avail:
+            out.append(dict(issuer_group=g, slots_needed=k, slots_available=avail, capacity=cap, quarters=T))
+    return out
 
 
 def plan(dep: Deployment, kb: KnowledgeBase, ss: ScenarioSet, lp: LossParams = LossParams(),
-         pp: PlanParams = PlanParams(), mode: str = "stochastic", coupling=None, ctx=None) -> Plan:
+         pp: PlanParams = PlanParams(), mode: str = "stochastic", coupling=None, ctx=None,
+         priority: str = "compliance") -> Plan:
     ctx = ctx or kb_context(dep, kb)
     C, F = expected_cost_matrix(dep, ctx, ss, lp, pp, mode)
-    p = solve(dep, C, F, pp, coupling, method=f"qamp_{mode}")
+    p = solve(dep, C, F, pp, coupling, method=f"qamp_{mode}", priority=priority)
     p.info.update(mode=mode, planning_scenarios=len(ss), planning_seed=ss.seed)
     return p

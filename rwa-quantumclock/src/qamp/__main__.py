@@ -42,7 +42,8 @@ def _load(args):
     tokens = config.DATA_DIR / "sample_tokens.txt" if q1.exists() else config.CENSUS_TOKENS
     dep = load_census(tokens_path=tokens, facts_path=facts if facts.exists() else None,
                       calendars_path=cals if cals.exists() else None, q1_raw_path=q1 if q1.exists() else None,
-                      calendar_policy=getattr(args, "calendar_policy", "observed_only"))
+                      calendar_policy=getattr(args, "calendar_policy", "observed_only"),
+                      unobserved_roles=getattr(args, "unobserved_roles", "per_token"))
     if q1.exists() and not dep.source.startswith("extraction notebook"):
         print("WARNING: data/q1_raw.json does not cover every token of data/sample_tokens.txt; using the census records")
     return dep
@@ -192,6 +193,12 @@ def cmd_plan(args) -> None:
         ev_by_token.setdefault(e.token, []).extend(e.evidence)
     lines = [f"# QAMP plan (development scenarios)\n\nSource: {dep.source}. Solver: {p.status}. "
              f"Objective (expected loss + spend): USD {p.objective / 1e6:,.1f}m.\n"]
+    for d in p.info.get("diagnosis", []):
+        lines.append(f"**Deadline cannot be met for {d['issuer_group']}:** its migrations need {d['slots_needed']} quarter-slots, "
+                     f"but capacity {d['capacity']} over {d['quarters']} quarters gives {d['slots_available']}.\n")
+    if p.info.get("overflow"):
+        lines.append(f"Anchors that miss the deadline (scheduled in the last quarter, beyond capacity): "
+                     f"{len(p.info['overflow'])}.\n")
     for a in sorted(dep.anchors, key=lambda a: (p.starts[a.anchor_id], -a.value_usd)):
         inf = ctx[a.anchor_id]["inference"]
         ev = [e for t in a.tokens for e in ev_by_token.get(t, [])][:3]
@@ -218,10 +225,18 @@ def cmd_experiments(args) -> None:
     dep = _load(args)
     kb = load_kb()
     tag = ("held_out" if args.held_out else "dev") + ("_quick" if quick else "")
+    if getattr(args, "unobserved_roles", "per_token") != "per_token":
+        tag += "_roles_" + args.unobserved_roles
     out = _out(tag)
     results = {}
     print("main …")
     results["main"] = evaluate.run_policies(dep, kb, rc)
+    sm = results["main"]["summary"]
+    dc = sm["qamp_stochastic"]["mean"] - sm["qamp_cost_first"]["mean"]
+    dm = sm["qamp_cost_first"]["deadline_misses"] - sm["qamp_stochastic"]["deadline_misses"]
+    results["price_of_compliance"] = dict(extra_cost_usd=dc, misses_avoided=dm,
+                                          usd_per_miss_avoided=(dc / dm if dm > 0 else None),
+                                          diagnosis=results["main"]["plans"]["qamp_stochastic"].get("info", {}).get("diagnosis"))
     print("period-1 calendars …")
     rc1 = evaluate.RunConfig(**{**rc.__dict__, "oracle": False})
     results["period1"] = evaluate.run_policies(evaluate.with_calendar_period(dep, 1), kb, rc1,
@@ -239,13 +254,18 @@ def cmd_experiments(args) -> None:
     print("explanations …")
     results["explanations"] = _explain_results(dep, kb)
     rows = hypotheses.evaluate_all(results)
+    from . import __version__
     meta = dict(seed_base=base, held_out=args.held_out, frozen_commit=args.frozen_commit, git_commit=_git_commit(),
+                qamp_version=__version__, unobserved_roles=getattr(args, "unobserved_roles", "per_token"),
                 run_config=rc.as_dict(), env=evaluate.environment(), kb_unverified_rules=kb.unverified())
     (out / "results.json").write_text(json.dumps(dict(meta=meta, results=results, hypotheses=rows), indent=1, default=str))
     note = (f"Seeds from {base} ({'HELD-OUT, pre-registered run' if args.held_out else 'development seeds, not evidence'}); "
-            f"commit {meta['git_commit'][:10] or 'n/a'}; n_eval {rc.n_eval}, n_plan {rc.n_plan}, oracle on {rc.n_oracle}.")
+            f"QAMP {__version__}; unseen role holders {meta['unobserved_roles']}; commit {meta['git_commit'][:10] or 'n/a'}; n_eval {rc.n_eval}, n_plan {rc.n_plan}, oracle on {rc.n_oracle}.")
     (out / "hypotheses.md").write_text(hypotheses.markdown(rows, note))
-    (out / "main_table.md").write_text(_main_table(results["main"]))
+    poc = results["price_of_compliance"]
+    (out / "main_table.md").write_text(_main_table(results["main"]) + (
+        f"\n\nPrice of compliance (QAMP compliance-first vs cost-first): extra expected cost USD {poc['extra_cost_usd'] / 1e6:,.1f}m "
+        f"for {poc['misses_avoided']:.2f} fewer deadline misses.\n"))
     print(hypotheses.markdown(rows, note))
     print(f"wrote {out}")
 
@@ -282,6 +302,8 @@ def main(argv=None) -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     ap.add_argument("--calendar-policy", default="observed_only", choices=["observed_only", "lower_bound"],
                     help="how observed key changes become calendars (qamp.observed.calendars_from_events)")
+    ap.add_argument("--unobserved-roles", default="per_token", choices=["per_token", "per_issuer"],
+                    help="role holders that could not be listed: one key per token (default) or one per issuer")
     sub.add_parser("census")
     sub.add_parser("facts")
     sub.add_parser("labels")

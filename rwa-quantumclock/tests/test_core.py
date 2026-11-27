@@ -137,6 +137,8 @@ def test_capacity_respected(dep, kb):
     p = planner.plan(dep, kb, ss, pp=pp, ctx=ctx)
     use = {}
     for a in dep.anchors:
+        if a.anchor_id in p.info["overflow"]:     # misses the deadline: outside capacity by design
+            continue
         t = p.starts[a.anchor_id]
         for q in range(t, t + max(1, a.migration_quarters)):
             use[(a.issuer_group, q)] = use.get((a.issuer_group, q), 0) + 1
@@ -148,6 +150,43 @@ def test_hard_deadline_respected(dep, kb):
     p = planner.plan(dep, kb, scenarios.sample(500, len(dep.anchors), seed=6), ctx=ctx)
     for a in dep.anchors:
         assert effective_quarter(a, p.starts[a.anchor_id]) <= ctx[a.anchor_id]["hard_q"]
+
+
+def test_overloaded_issuer_gets_a_plan_and_a_diagnosis(kb):
+    """Too many migrations for one issuer: the plan still exists, misses are minimal and explained."""
+    from qamp.model import Deployment
+    T = planner.PlanParams().last_start + 1
+    n = T // 2 + 3                                      # needs 2n > T quarter-slots at capacity 1
+    anchors = [Anchor(f"a{i}", "upgrade_admin", "eoa", migration_quarters=2, issuer_group="G", value_usd=1e8)
+               for i in range(n)]
+    d = Deployment(tokens=[], anchors=anchors, source="test")
+    d.group_capacity = {"G": 1}
+    C = np.tile(np.linspace(1.0, 2.0, T), (n, 1))
+    F = np.ones((n, T), dtype=bool)
+    F[:, T - 1] = False                                 # the last quarter misses the deadline
+    p = planner.solve(d, C, F, planner.PlanParams())
+    assert all(v is not None for v in p.starts.values())
+    fit = len(range(0, T - 1, 2))                       # starts 0, 2, 4 ... that finish in time
+    assert p.info["planned_misses"] == n - fit
+    assert p.info["diagnosis"][0]["issuer_group"] == "G"
+    assert p.info["diagnosis"][0]["slots_needed"] == 2 * n
+    c = planner.solve(d, C, F, planner.PlanParams(), priority="cost")
+    assert c.info["planned_cost"] <= p.info["planned_cost"] + 1e-9   # cost first is never dearer
+    assert c.info["planned_misses"] >= p.info["planned_misses"]      # and never misses fewer
+
+
+def test_missing_start_is_never_scored(dep, kb):
+    """A plan with anchors left out stops the run instead of counting as no migration."""
+    ctx = planner.kb_context(dep, kb)
+    bad = planner.Plan(starts={a.anchor_id: None for a in dep.anchors}, method="qamp_stochastic", status="test")
+    orig = planner.plan
+    try:
+        planner.plan = lambda *a, **k: bad
+        with pytest.raises(RuntimeError):
+            evaluate.run_policies(dep, kb, evaluate.RunConfig(n_plan=50, n_eval=20, n_oracle=0, oracle=False),
+                                  include=("qamp_stochastic",))
+    finally:
+        planner.plan = orig
 
 
 # --- guard

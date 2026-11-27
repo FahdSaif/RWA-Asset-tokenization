@@ -78,7 +78,8 @@ def _defaults(controller_type: str, n_keys: int) -> tuple[int, float]:
 
 def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.CENSUS_TOKENS,
                 calendars_path: Optional[Path] = None, facts_path: Optional[Path] = None,
-                q1_raw_path: Optional[Path] = None, calendar_policy: str = "observed_only") -> Deployment:
+                q1_raw_path: Optional[Path] = None, calendar_policy: str = "observed_only",
+                unobserved_roles: str = "per_token") -> Deployment:
     """Builds the deployment.
 
     Uses the census, or the notebook data if it covers every token in the list.
@@ -166,6 +167,8 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
                                        [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)
         elif compliance_caps or cats.get("mint_burn"):
             res = dict(type="unobserved_role", address=None)
+            if unobserved_roles == "per_issuer":    # sensitivity: one shared unseen role key per issuer
+                res["shared_key"] = f"role_holder:issuer:{group}"
             _add_controller_anchor(add_anchor, "role_holder", res, tok, group,
                                    [c for c in caps_all if c != "upgrade"], compliance_caps, known_calendars, facts)
 
