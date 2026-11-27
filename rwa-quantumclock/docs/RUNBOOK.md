@@ -80,7 +80,7 @@ a human usefulness study is stated as a limitation.
 
 ## 6. Freeze and pre-register [you]
 
-1. Review `docs/PREREGISTRATION.md` with your supervisors (no outside people are involved at any step). Approve or revise the hypotheses **before** the held-out
+1. Record the decisions in `docs/PREREGISTRATION.md` section 6 (no outside people are involved at any step). Approve or revise the hypotheses **before** the held-out
    run, and record any change and its reason in the addendum section (the development pilot has been run and must be
    disclosed; the held-out seeds have never been used).
 2. Commit, tag `quantumclock-v1.0-frozen`, archive on Zenodo, register on OSF with the tag and commit hash.

@@ -1,7 +1,7 @@
-# Pre-registration (DRAFT for the authors' approval)
+# Pre-registration
 
-Status: **draft**. Not yet registered. To be reviewed with the supervisors, frozen (tag `quantumclock-v1.0-frozen`),
-archived and registered on OSF before the held-out run. No interviews, questionnaires or outside participants are
+Status: **decided 2026-11-27** (section 6). Frozen with the public git tag `quantumclock-v1.0-frozen` before the
+held-out run (no OSF registration, D19). No interviews, questionnaires or outside participants are
 involved at any step.
 
 ## 1. Questions
@@ -86,7 +86,31 @@ authors' earlier project-governance result); the guard removed all mixed-state v
 capacity: about 20-24% with annual renewals and capacity 1, 34-39% with two-yearly renewals and capacity 1, and no
 significant difference with half-yearly renewals or capacity 2-3.
 
-## 5. Decisions the authors must take before freezing (record each in section 6)
+### 4b. Development outcomes on the real data (not evidence)
+
+After the census pilot, the same hypotheses were run on development seeds with the real data (steps 4 to 6 in
+`docs/steps/`). Several changes were made along the way; each is decided in section 6.
+
+| ID | Census pilot | Real data, Q1 only (step 4) | Real data with Q1b (step 5) |
+|---|---|---|---|
+| H1 | REFUTED | REFUTED | CONFIRMED |
+| H2 | REFUTED | CONFIRMED | REFUTED |
+| H2b | INCONCLUSIVE | CONFIRMED | CONFIRMED |
+| H3 | REFUTED | REFUTED | CONFIRMED |
+| H4 | CONFIRMED | REFUTED | REFUTED |
+| H5 | REFUTED | REFUTED | REFUTED |
+| H6 | CONFIRMED | CONFIRMED | CONFIRMED |
+| H7 | CONFIRMED | REFUTED | CONFIRMED |
+| H8 | REFUTED | REFUTED | CONFIRMED |
+| H11 | CONFIRMED | CONFIRMED | CONFIRMED |
+| H12 | CONFIRMED | CONFIRMED | CONFIRMED |
+| H9 | pending | pending | **REFUTED (final: recall 0.852; does not depend on seeds)** |
+| H10, H13 | pending | pending | pending |
+
+The ground truth for RQ1 changed from "the author's double-coded labels" (section 1) to labels made by an AI
+assistant with file-and-line evidence and an optional 40-row human check (`docs/LABELLING.md`; section 6, D8 and D15).
+
+## 5. Decisions the author must take before freezing (record each in section 6)
 
 1. Keep H1, H3 and H5 as stated (theory-derived; the pilot suggests they may be refuted) or revise them. Either is
    legitimate if recorded with its reason before the held-out run; revising them *to match the pilot* must be said so.
@@ -95,6 +119,44 @@ significant difference with half-yearly renewals or capacity 2-3.
 4. The LLM model name and version for H10 and H13.
 5. Whether the sensitivity grid is exploratory (recommended) or confirmatory.
 
-## 6. Addenda
+These, and the later ones, are decided in section 6.
 
-(empty)
+## 6. Addenda: decisions before the freeze (2026-11-27)
+
+Decided by the author alone (sole author; no one else consulted), after the development runs and **before** the
+held-out seeds were used. Evidence for each item is in `docs/steps/`.
+
+**Changes made after seeing data, accepted as disclosed deviations**
+
+| # | Change | Reason | Version, step |
+|---|---|---|---|
+| D1 | Issuers grouped by any shared controller, named after their largest token | The admin/owner-only rule split one issuer into "issuers" named after the stocks it tokenises | v0.3.1, step 3 |
+| D2 | One anchor per shared beacon | One key upgrades 44 tokens; counting it 44 times was wrong | v0.3.1, step 3 |
+| D3 | Soft 2035 deadline: fewest misses first, then lowest cost; overloaded issuers are named; a missing plan stops the run | With the Q1 data alone no plan existed, and it was scored silently as "no migration" | v0.3.2, step 4 |
+| D4 | Cost-first mode as an ablation; price of compliance as a descriptive figure (no new hypothesis) | Shows the trade-off between deadline misses and expected loss | v0.3.2, step 4 |
+| D5 | Q1b top-up collection (role holders from `minter()` etc.), rule tagged before fetching | The headline depended on whether Backed's role keys are shared | v0.3.3, step 5 |
+| D6 | The main run uses the Q1b role holders | Observed facts replace placeholders | v0.3.4, step 5 |
+| D7 | Labelling protocol: `ownable_admin` from bytecode; controller surfaces not scored; one label per distinct code | Removes circular scoring; 1,000 rows → 192 | v0.3.5, step 6 |
+| D8 | Source labels made by an AI assistant with file-and-line evidence, at the author's request; not independent of the system | Time | v0.3.6, step 6 |
+
+**Hypotheses**
+
+| # | Decision |
+|---|---|
+| D9 | H1, H2, H2b, H3, H4, H5, H6, H7, H8, H12 and H13 kept exactly as written in section 2. |
+| D10 | H5 keeps its definition; the oracle uses the same priority (deadline first) as QAMP's default. |
+| D11 | H11 kept, and reported as **formulated after the exploratory pilot grid**. |
+| D12 | H9 is final: **REFUTED** (recall 0.852 < 0.90). It does not depend on seeds and is not re-run. |
+| D13 | H10 kept as written; run after the freeze with the model fixed on the run day and named in the paper's AI declaration (the repository names no tool). |
+
+**Settings for the held-out run**
+
+| # | Decision |
+|---|---|
+| D14 | Primary outcome for RQ2: realised cost (expected loss plus migration spend). Deadline misses and the price of compliance are secondary and descriptive. |
+| D15 | No human check of the AI-made labels. H9 and H10 are reported with the caveat that their ground truth was made by an AI assistant that also drafted the discovery rules. |
+| D16 | Role holders that cannot be read: one placeholder key per token (main run); one per issuer as the sensitivity run. |
+| D17 | Calendar policy `observed_only`; `lower_bound` is exploratory. |
+| D18 | The sensitivity grid is exploratory. |
+| D19 | No OSF registration. The public, dated git tag `quantumclock-v1.0-frozen` is the record of what was fixed. |
+| D20 | The held-out run is done once: `python -m qamp experiments --held-out --frozen-commit <sha>` (and the per-issuer sensitivity run), outputs committed unchanged. |
