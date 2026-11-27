@@ -97,7 +97,8 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
             raw = [q1[a] for a in meta]
             raw_path = q1_raw_path
     raw = [r for r in raw if r["address"].lower() in meta]
-    groups = observed.issuer_groups(raw, lambda r: _issuer_group(meta[r["address"].lower()], r.get("contract_name") or ""))
+    groups = observed.issuer_groups(raw, lambda r: _issuer_group(meta[r["address"].lower()], r.get("contract_name") or ""),
+                                    rank={a: m["rank"] for a, m in meta.items()})
     known_calendars = _read_calendars(calendars_path) if calendars_path else {}
     facts = json.loads(Path(facts_path).read_text()) if facts_path and Path(facts_path).exists() else {}
 
@@ -137,6 +138,9 @@ def load_census(raw_path: Path = config.CENSUS_RAW, tokens_path: Path = config.C
         if tok.is_proxy:
             admin = rec.get("admin_slot")
             res = _resolve(admin, ctrls) if admin and admin.lower() != "0x" + "0" * 40 else dict(type="not_readable", address=None)
+            if res["type"] == "not_readable" and tok.contract_name == "BeaconProxy" and rec.get("implementation"):
+                # beacon proxies with the same implementation share one beacon: one upgrade key for all
+                res = dict(res, shared_key=f"beacon:{rec['implementation'].lower()}")
             _add_controller_anchor(add_anchor, "upgrade_admin", res, tok, group, caps_all, compliance_caps, known_calendars, facts)
 
         # 2. owner or default admin
@@ -193,7 +197,7 @@ def _add_controller_anchor(add_anchor, role: str, res: dict, tok: Token, group: 
     address = res.get("address")
     n_keys = int(res.get("threshold") or 1) if ctype == "multisig" else 1
     # one anchor per key, even if it has several roles
-    key = f"ctrl:{address}" if address else f"{role}:{tok.address}"
+    key = f"ctrl:{address}" if address else res.get("shared_key") or f"{role}:{tok.address}"
     mq, cost = _defaults(ctype, n_keys)
     delay_s = res.get("delay_seconds") or 0
     cal = known_calendars.get(key) or _calendar_for(group, role)

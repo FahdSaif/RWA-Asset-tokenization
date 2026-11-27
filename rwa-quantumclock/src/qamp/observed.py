@@ -136,8 +136,11 @@ def capacity_from_events(days: dict[str, list[dt.date]], dep, cap_max: int = 4) 
     return {g: int(min(cap_max, max(1, max(len(s) for s in q.values())))) for g, q in per.items() if q}
 
 
-def issuer_groups(raw_tokens: list[dict], name_group) -> dict[str, str]:
-    """Tokens that share a controller are one issuer; otherwise the name rule."""
+def issuer_groups(raw_tokens: list[dict], name_group, rank=None) -> dict[str, str]:
+    """Tokens that share any controller are one issuer; tokens with the same name rule too.
+
+    Controllers: upgrade admin, owner, default admin, role members and other observed controllers.
+    Each group takes the name of its largest token (lowest rank)."""
     parent: dict[str, str] = {}
 
     def find(x):
@@ -152,27 +155,34 @@ def issuer_groups(raw_tokens: list[dict], name_group) -> dict[str, str]:
         if ra != rb:
             parent[rb] = ra
 
+    zero = "0x" + "0" * 40   # the zero address means no controller
     owner_of: dict[str, str] = {}
     for t in raw_tokens:
         a = t["address"].lower()
         find(a)
-        ctrls = [x for x in (t.get("admin_slot"), t.get("owner"), t.get("default_admin"))
-                 if x and x.lower() != "0x" + "0" * 40]   # the zero address means no controller
-        for c in ctrls:
-            c = c.lower()
+        ctrls = {x.lower() for x in (t.get("admin_slot"), t.get("owner"), t.get("default_admin")) if x}
+        ctrls |= {c.lower() for c in (t.get("controllers") or {})}
+        for r in (t.get("roles") or {}).values():
+            ctrls |= {m.lower() for m in r.get("members", [])}
+        ctrls.discard(zero)
+        for c in sorted(ctrls):
             if c in owner_of:
                 union(owner_of[c], a)
             else:
                 owner_of[c] = a
     names = {t["address"].lower(): name_group(t) for t in raw_tokens}
-    # same name rule: same issuer too
     first_by_name: dict[str, str] = {}
     for a, n in names.items():
         if n in first_by_name:
             union(first_by_name[n], a)
         else:
             first_by_name[n] = a
-    return {a: names[find(a)] for a in names}
+    rank = rank or {}
+    members: dict[str, list[str]] = defaultdict(list)
+    for a in names:
+        members[find(a)].append(a)
+    label = {r: names[min(ms, key=lambda x: (rank.get(x, 10**9), x))] for r, ms in members.items()}
+    return {a: label[find(a)] for a in names}
 
 
 # --- other chains
@@ -181,7 +191,8 @@ def topology_from_raw(raw: dict, dep) -> dict[str, dict[str, float]]:
     """Copies of each anchor's tokens on other chains, with value shares.
 
     A copy counts if the same address has code and the same symbol. Shares follow totalSupply.
-    Bridges between copies are assumed."""
+    Bridges between copies are assumed. Chains the key could not read count as no copy,
+    so this is a lower bound."""
     by_token = {t["address"].lower(): t for t in raw["tokens"]}
     token_shares: dict[str, dict[str, float]] = {}
     for a, t in by_token.items():

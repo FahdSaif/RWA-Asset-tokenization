@@ -219,3 +219,15 @@ def test_topology_requires_matching_symbol(observed_raw):
     raw["tokens"][0]["chains"].pop(10, None)
     dep = Deployment(tokens=[Token(TOKEN, 1, "T", "TOK", 1e6)], anchors=[Anchor("x", "owner_admin", "eoa", tokens=[TOKEN])])
     assert topology_from_raw(raw, dep) == {}
+
+
+def test_issuer_groups_use_role_members_and_top_rank_name():
+    """Tokens sharing a role member are one issuer, named after the largest token."""
+    from qamp.observed import issuer_groups
+    m = "0x" + "ab" * 20
+    toks = [dict(address="0x" + "01" * 20, roles={"R": {"members": [m]}}, name="iShares"),
+            dict(address="0x" + "02" * 20, roles={"R": {"members": [m]}}, name="Ondo"),
+            dict(address="0x" + "03" * 20, owner="0x" + "0" * 40, name="Other")]
+    g = issuer_groups(toks, lambda t: t["name"], rank={toks[0]["address"]: 5, toks[1]["address"]: 1})
+    assert g[toks[0]["address"]] == g[toks[1]["address"]] == "Ondo"
+    assert g[toks[2]["address"]] == "Other"   # the zero address joins nothing
