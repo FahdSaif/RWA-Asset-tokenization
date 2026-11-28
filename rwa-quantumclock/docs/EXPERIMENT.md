@@ -64,7 +64,7 @@ flowchart TD
 
 Each box is a milestone. Green: worked as planned. Red: failed or was refuted. Amber: a fix made in the open after
 a failure. Grey: still to come. Details for each step: [1](steps/01_sample.md), [2](steps/02_collection.md),
-[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md). Background on Safe multisig wallets:
+[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md), [9](steps/09_manuscript.md). Background on Safe multisig wallets:
 [SAFE.md](SAFE.md).
 
 ```mermaid
@@ -102,7 +102,10 @@ flowchart TD
     A8["Step 8 · AI runs on frozen code<br/>(model with temperature 0; retry when busy)"]:::ok
     F4["H10 refuted: AI F1 0.16 vs rules 0.75<br/>85/100 answers cut off at 2,000 tokens"]:::bad
     F5["H13 refuted: 55% of AI rewording verifiable<br/>(numbers rephrased; templates 100%)"]:::bad
-    F3["Next · manuscript"]:::todo
+    M9["Step 9 · Manuscript v2 compiles on Overleaf<br/>named + review copy; per-issuer appendix"]:::ok
+    L9["Overleaf: table too wide, empty pages,<br/>appendix tables misplaced"]:::bad
+    X9["Layout and wording fixed<br/>('two-stage' removed; p-values explained)"]:::fix
+    F3["Next · author details, own papers,<br/>plain-English pass, submission"]:::todo
 
     P1 --> R0 --> S1
     S1 --> F1 --> X1 --> S2
@@ -115,8 +118,9 @@ flowchart TD
     S7 --> A8
     A8 --> F4
     A8 --> F5
-    F4 --> F3
-    F5 --> F3
+    F4 --> M9
+    F5 --> M9
+    M9 --> L9 --> X9 --> F3
     O5 --> E5
     R5 --> K5
 ```
