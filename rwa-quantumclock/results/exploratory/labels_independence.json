@@ -1,0 +1,856 @@
+{
+ "meta": {
+  "post_registration": true,
+  "plan": "docs/LABELS_INDEPENDENCE_PLAN.md",
+  "runtime_s": 0.3,
+  "env": {
+   "python": "3.13.18",
+   "numpy": "2.4.6",
+   "scipy": "1.16.3",
+   "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+   "utc": "2026-11-28T16:15:33Z"
+  },
+  "distinct_codes": 32,
+  "src_kb_hash_before": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "src_kb_hash_after": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "src_kb_unchanged": true,
+  "git_lines_changed_src_kb": 0
+ },
+ "human_check_40_rows": "not done",
+ "scores_by_label_source": {
+  "rules_all_per_token": {
+   "labels": 1400,
+   "positives": 384,
+   "tp": 327,
+   "fp": 161,
+   "fn": 57,
+   "precision": 0.67,
+   "recall": 0.852,
+   "f1": 0.75
+  },
+  "rules_all_per_code": {
+   "labels": 448,
+   "positives": 111,
+   "tp": 96,
+   "fp": 52,
+   "fn": 15,
+   "precision": 0.649,
+   "recall": 0.865,
+   "f1": 0.741
+  },
+  "rules_bytecode_per_token": {
+   "labels": 800,
+   "positives": 265,
+   "tp": 264,
+   "fp": 106,
+   "fn": 1,
+   "precision": 0.714,
+   "recall": 0.996,
+   "f1": 0.831
+  },
+  "rules_bytecode_per_code": {
+   "labels": 256,
+   "positives": 82,
+   "tp": 81,
+   "fp": 38,
+   "fn": 1,
+   "precision": 0.681,
+   "recall": 0.988,
+   "f1": 0.806
+  },
+  "rules_hand_per_token": {
+   "labels": 600,
+   "positives": 119,
+   "tp": 63,
+   "fp": 55,
+   "fn": 56,
+   "precision": 0.534,
+   "recall": 0.529,
+   "f1": 0.532
+  },
+  "rules_hand_per_code": {
+   "labels": 192,
+   "positives": 29,
+   "tp": 15,
+   "fp": 14,
+   "fn": 14,
+   "precision": 0.517,
+   "recall": 0.517,
+   "f1": 0.517
+  },
+  "language_model_all_per_token": {
+   "labels": 1400,
+   "positives": 384,
+   "tp": 34,
+   "fp": 17,
+   "fn": 350,
+   "precision": 0.667,
+   "recall": 0.089,
+   "f1": 0.156
+  },
+  "language_model_all_per_code": {
+   "labels": 448,
+   "positives": 111,
+   "tp": 28,
+   "fp": 14,
+   "fn": 83,
+   "precision": 0.667,
+   "recall": 0.252,
+   "f1": 0.366
+  },
+  "language_model_bytecode_per_token": {
+   "labels": 800,
+   "positives": 265,
+   "tp": 27,
+   "fp": 13,
+   "fn": 238,
+   "precision": 0.675,
+   "recall": 0.102,
+   "f1": 0.177
+  },
+  "language_model_bytecode_per_code": {
+   "labels": 256,
+   "positives": 82,
+   "tp": 23,
+   "fp": 11,
+   "fn": 59,
+   "precision": 0.676,
+   "recall": 0.28,
+   "f1": 0.397
+  },
+  "language_model_hand_per_token": {
+   "labels": 600,
+   "positives": 119,
+   "tp": 7,
+   "fp": 4,
+   "fn": 112,
+   "precision": 0.636,
+   "recall": 0.059,
+   "f1": 0.108
+  },
+  "language_model_hand_per_code": {
+   "labels": 192,
+   "positives": 29,
+   "tp": 5,
+   "fp": 3,
+   "fn": 24,
+   "precision": 0.625,
+   "recall": 0.172,
+   "f1": 0.27
+  }
+ },
+ "mechanical_check": {
+  "ecdsa": {
+   "hand_labels": {
+    "both": 0,
+    "mechanical_only": 2,
+    "other_only": 14,
+    "neither": 16,
+    "agreement": 0.5,
+    "kappa": -0.123,
+    "disagreements": [
+     "0x015c477a4e2881c4b3bb8999f59ee4a04e812344",
+     "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+     "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+     "0x18f52b3fb465118731d9e0d276d4eb3599d57596",
+     "0x2e44f3f609ff5aa4819b323fd74690f07c3607c4",
+     "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+     "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+     "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+     "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+     "0x63401cdd577478f9389a1683e866a937f072d1c2",
+     "0x8238884ec9668ef77b90c6dff4d1a9f4f4823bfe",
+     "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+     "0xad55aebc9b8c03fc43cd9f62260391c13c23e7c0",
+     "0xaeb0a5d56de94479cda178977570fd9079500527",
+     "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+     "0xd0ec028a3d21533fdd200838f39c85b03679285d"
+    ]
+   },
+   "rules": {
+    "both": 0,
+    "mechanical_only": 2,
+    "other_only": 14,
+    "neither": 16,
+    "agreement": 0.5,
+    "kappa": -0.123,
+    "disagreements": [
+     "0x015c477a4e2881c4b3bb8999f59ee4a04e812344",
+     "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+     "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+     "0x18f52b3fb465118731d9e0d276d4eb3599d57596",
+     "0x2e44f3f609ff5aa4819b323fd74690f07c3607c4",
+     "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+     "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+     "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+     "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+     "0x63401cdd577478f9389a1683e866a937f072d1c2",
+     "0x8238884ec9668ef77b90c6dff4d1a9f4f4823bfe",
+     "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+     "0xad55aebc9b8c03fc43cd9f62260391c13c23e7c0",
+     "0xaeb0a5d56de94479cda178977570fd9079500527",
+     "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+     "0xd0ec028a3d21533fdd200838f39c85b03679285d"
+    ]
+   }
+  },
+  "p256": {
+   "hand_labels": {
+    "both": 0,
+    "mechanical_only": 0,
+    "other_only": 0,
+    "neither": 32,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "disagreements": []
+   },
+   "rules": {
+    "both": 0,
+    "mechanical_only": 0,
+    "other_only": 0,
+    "neither": 32,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "disagreements": []
+   }
+  },
+  "bls": {
+   "hand_labels": {
+    "both": 0,
+    "mechanical_only": 0,
+    "other_only": 0,
+    "neither": 32,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "disagreements": []
+   },
+   "rules": {
+    "both": 0,
+    "mechanical_only": 0,
+    "other_only": 0,
+    "neither": 32,
+    "agreement": 1.0,
+    "kappa": 1.0,
+    "disagreements": []
+   }
+  }
+ },
+ "mechanical_rows": [
+  {
+   "code": "0x015c477a4e2881c4b3bb8999f59ee4a04e812344",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x020940df9f5e77338a094d55b5b5914122a804a5",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x0990b149e915cb08e2143a5c6f669c907eddc8b0",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x119dd7daff816f29d7ee47596ae5e4bdc4299165",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x18f52b3fb465118731d9e0d276d4eb3599d57596",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x2a8c22e3b10036f3aef5875d04f8441d4188b656",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x2e44f3f609ff5aa4819b323fd74690f07c3607c4",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x396382f6048ceb0407e5b8f0b6fefeebd244c6f7",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x4c1746a800d224393fe2470c70a35717ed4ea5f1",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x5086bf358635b81d8c47c66d1c8b9e567db70c72",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x54a4fc78431f9201824643e99bec891bb7462a1d",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x5a0f93d040de44e78f251b03c43be9cf317dcf64",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x5fa487bca6158c64046b2813623e20755091da0b",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x62ca254a363dc3c748e7e955c20447ab5bf06ff7",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x63401cdd577478f9389a1683e866a937f072d1c2",
+   "calls": {
+    "ecdsa": [
+     "0x964"
+    ]
+   },
+   "ecdsa": {
+    "mechanical": true,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x6a9da2d710bb9b700acde7cb81f10f1ff8c89041",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x7e2ac793f3e692f388e66c7dc28f739d13b0b71a",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x8238884ec9668ef77b90c6dff4d1a9f4f4823bfe",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x87c9053c819bb28e0d73d33059e1b3da80afb0cf",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x8c9984b06281f1ca9416e493c2e602aab08513db",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x94a8b4ee5cd64c79d0ee816f467ea73009f51aa0",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0x96f6ef951840721adbf46ac996b59e0235cb985c",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xaaa0008c8cf3a7dca931adaf04336a5d808c82cc",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xace8e719899f6e91831b18ae746c9a965c2119f1",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xad55aebc9b8c03fc43cd9f62260391c13c23e7c0",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xaeb0a5d56de94479cda178977570fd9079500527",
+   "calls": {
+    "ecdsa": [
+     "0x8f0"
+    ]
+   },
+   "ecdsa": {
+    "mechanical": true,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xc0c17dd08263c16f6b64e772fb9b723bf1344ddf",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xc845b2894dbddd03858fd2d643b4ef725fe0849d",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xc8495eaff71d3a563b906295fcf2f685b1783085",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xd0ec028a3d21533fdd200838f39c85b03679285d",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": true,
+    "rules": true
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xd9343a049d5dbd89cd19dc6bca8c48fb3a0a42a7",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  },
+  {
+   "code": "0xe820c06321e60d36257c666643fa5436643445e3",
+   "calls": {},
+   "ecdsa": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "p256": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   },
+   "bls": {
+    "mechanical": false,
+    "hand_label": false,
+    "rules": false
+   }
+  }
+ ]
+}
