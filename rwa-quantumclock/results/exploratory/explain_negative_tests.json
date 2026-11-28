@@ -1,0 +1,160 @@
+{
+ "meta": {
+  "post_registration": true,
+  "plan": "docs/EXPLAIN_NEGATIVE_TESTS_PLAN.md",
+  "runtime_s": 1.3,
+  "env": {
+   "python": "3.13.18",
+   "numpy": "2.4.6",
+   "scipy": "1.16.3",
+   "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+   "utc": "2026-11-28T15:59:39Z"
+  },
+  "src_kb_hash_before": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "src_kb_hash_after": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "src_kb_unchanged": true,
+  "git_lines_changed_src_kb": 0
+ },
+ "control": {
+  "sentences": 781,
+  "accepted_frozen": 781,
+  "accepted_strict": 781
+ },
+ "wrong": {
+  "N1": {
+   "error": "Value changed to one not in the cited facts",
+   "wrong_sentences": 471,
+   "rejected_frozen": 471,
+   "rejected_frozen_share": 1.0,
+   "rejected_strict": 471,
+   "rejected_strict_share": 1.0
+  },
+  "N2": {
+   "error": "Two valid values swapped",
+   "wrong_sentences": 150,
+   "rejected_frozen": 0,
+   "rejected_frozen_share": 0.0,
+   "rejected_strict": 150,
+   "rejected_strict_share": 1.0
+  },
+  "N3": {
+   "error": "Valid value in the wrong place",
+   "wrong_sentences": 471,
+   "rejected_frozen": 361,
+   "rejected_frozen_share": 0.766,
+   "rejected_strict": 471,
+   "rejected_strict_share": 1.0
+  },
+  "N4": {
+   "error": "Statement reversed",
+   "wrong_sentences": 450,
+   "rejected_frozen": 0,
+   "rejected_frozen_share": 0.0,
+   "rejected_strict": 450,
+   "rejected_strict_share": 1.0
+  },
+  "N5": {
+   "error": "Wrong regulation named",
+   "wrong_sentences": 75,
+   "rejected_frozen": 0,
+   "rejected_frozen_share": 0.0,
+   "rejected_strict": 75,
+   "rejected_strict_share": 1.0
+  },
+  "N6": {
+   "error": "Unsupported reason added",
+   "wrong_sentences": 781,
+   "rejected_frozen": 0,
+   "rejected_frozen_share": 0.0,
+   "rejected_strict": 781,
+   "rejected_strict_share": 1.0
+  },
+  "N7": {
+   "error": "Right citation, wrong claim",
+   "wrong_sentences": 781,
+   "rejected_frozen": 471,
+   "rejected_frozen_share": 0.603,
+   "rejected_strict": 778,
+   "rejected_strict_share": 0.996
+  },
+  "N8": {
+   "error": "Wrong deadline date",
+   "wrong_sentences": 150,
+   "rejected_frozen": 150,
+   "rejected_frozen_share": 1.0,
+   "rejected_strict": 150,
+   "rejected_strict_share": 1.0
+  }
+ },
+ "examples_missed_by_frozen": {
+  "N1": [],
+  "N2": [
+   {
+    "original": "Start the migration in 2027 Q1; with a planned execution time of 2 quarter(s) it takes effect at the renewal boundary 2027 Q3 [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7].",
+    "wrong": "Start the migration in 2; with a planned execution time of 2027 Q1 quarter(s) it takes effect at the renewal boundary 2027 Q3 [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7]."
+   },
+   {
+    "original": "The decision window for that boundary closes at the start of 2027 Q1; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7].",
+    "wrong": "The decision window for that boundary closes at the start of 1; a later start waits 2027 Q1 quarter(s) for the next boundary [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7]."
+   }
+  ],
+  "N3": [
+   {
+    "original": "The decision window for that boundary closes at the start of 2027 Q1; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7].",
+    "wrong": "The decision window for that boundary closes at the start of 2027 Q3; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7]."
+   },
+   {
+    "original": "The decision window for that boundary closes at the start of 2027 Q1; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x25a103a1d6aec5967c1a4fe2039cdc514886b97e].",
+    "wrong": "The decision window for that boundary closes at the start of 2027 Q3; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x25a103a1d6aec5967c1a4fe2039cdc514886b97e]."
+   }
+  ],
+  "N4": [
+   {
+    "original": "The algorithm secp256k1-ecdsa is disallowed after 2035-12-31 under NIST IR 8547 [R:NIST8547-DISALLOW].",
+    "wrong": "The algorithm secp256k1-ecdsa is allowed after 2035-12-31 under NIST IR 8547 [R:NIST8547-DISALLOW]."
+   },
+   {
+    "original": "It is deprecated after 2030-12-31 [R:NIST8547-DEPRECATE].",
+    "wrong": "It is not deprecated after 2030-12-31 [R:NIST8547-DEPRECATE]."
+   }
+  ],
+  "N5": [
+   {
+    "original": "The algorithm secp256k1-ecdsa is disallowed after 2035-12-31 under NIST IR 8547 [R:NIST8547-DISALLOW].",
+    "wrong": "The algorithm secp256k1-ecdsa is disallowed after 2035-12-31 under the EU AML directive [R:NIST8547-DISALLOW]."
+   },
+   {
+    "original": "The algorithm secp256k1-ecdsa is disallowed after 2035-12-31 under NIST IR 8547 [R:NIST8547-DISALLOW].",
+    "wrong": "The algorithm secp256k1-ecdsa is disallowed after 2035-12-31 under the EU AML directive [R:NIST8547-DISALLOW]."
+   }
+  ],
+  "N6": [
+   {
+    "original": "Start the migration in 2027 Q1; with a planned execution time of 2 quarter(s) it takes effect at the renewal boundary 2027 Q3 [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7].",
+    "wrong": "Start the migration in 2027 Q1; with a planned execution time of 2 quarter(s) it takes effect at the renewal boundary 2027 Q3, because the issuer asked for it [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7]."
+   },
+   {
+    "original": "The decision window for that boundary closes at the start of 2027 Q1; a later start waits 1 quarter(s) for the next boundary [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7].",
+    "wrong": "The decision window for that boundary closes at the start of 2027 Q1; a later start waits 1 quarter(s) for the next boundary, because the issuer asked for it [P:ctrl:0x1a694a09494e214a3be3652e4b343b7b81a73ad7]."
+   }
+  ],
+  "N7": [
+   {
+    "original": "Its public key can be attacked as soon as a CRQC exists [R:EXP-KEY-EXPOSED].",
+    "wrong": "Its public key can be attacked as soon as a CRQC exists [E:abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:access_control_roles]."
+   },
+   {
+    "original": "Inventory evidence: access_control_roles [E:abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:access_control_roles].",
+    "wrong": "Inventory evidence: access_control_roles [E:abi:0x96f6ef951840721adbf46ac996b59e0235cb985c:enumerable_roles]."
+   }
+  ],
+  "N8": []
+ },
+ "reworded_h13": {
+  "sentences": 821,
+  "accepted_frozen": 455,
+  "accepted_frozen_share": 0.554,
+  "accepted_strict": 0,
+  "accepted_strict_share": 0.0
+ }
+}
