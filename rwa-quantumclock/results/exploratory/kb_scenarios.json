@@ -1,0 +1,658 @@
+{
+ "meta": {
+  "post_registration": true,
+  "plan": "docs/KB_SCENARIOS_PLAN.md",
+  "seed_base": 50000,
+  "n_plan": 20000,
+  "n_eval": 2000,
+  "runtime_s": 60.6,
+  "env": {
+   "python": "3.13.18",
+   "numpy": "2.4.6",
+   "scipy": "1.16.3",
+   "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+   "utc": "2026-11-28T14:09:35Z"
+  },
+  "M7_src_kb_hash_before": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "M7_src_kb_hash_after": "15c7526475132b6e53dec175d4c079d4b359f62a365782adae3f50c5e9de80b6",
+  "M7_unchanged": true,
+  "M7_git_lines_changed_src_kb": 0
+ },
+ "scenarios": {
+  "S0": {
+   "label": "Frozen knowledge base",
+   "extra_rules": null,
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 0,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_own_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57
+   },
+   "M6_hard_deadline_quarter": {
+    "2036 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 781,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 0,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": null,
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S1": {
+   "label": "Hard deadline 2030 for compliance-critical keys",
+   "extra_rules": "S1",
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 5,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 369.7,
+   "M3_diff_vs_S0_own_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    -0.2,
+    0.2
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.7,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    -0.2,
+    0.2
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 2.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57,
+    "SCN-S1-CRITICAL-2030": 43
+   },
+   "M6_hard_deadline_quarter": {
+    "2031 Q1": 43,
+    "2036 Q1": 32
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 32,
+    "SCN-S1-CRITICAL-2030": 43
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 824,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 43,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": "The algorithm secp256k1-ecdsa is disallowed after 2030-12-31 under NIST IR 8547 [R:SCN-S1-CRITICAL-2030].",
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S2": {
+   "label": "Hard deadline 2032 for compliance-critical keys",
+   "extra_rules": "S2",
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 4,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_own_rules_usd_m": -0.0,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    -0.2,
+    0.2
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": -0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    -0.2,
+    0.2
+   ],
+   "M4_price_of_compliance_usd_m": -0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57,
+    "SCN-S2-CRITICAL-2032": 43
+   },
+   "M6_hard_deadline_quarter": {
+    "2033 Q1": 43,
+    "2036 Q1": 32
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 32,
+    "SCN-S2-CRITICAL-2032": 43
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 824,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 43,
+   "M8_sentences_naming_nist_for_another_source": 43,
+   "M8_example_scenario_sentence": "The algorithm secp256k1-ecdsa is disallowed after 2032-12-31 under NIST IR 8547 [R:SCN-S2-CRITICAL-2032].",
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S3": {
+   "label": "Hard deadline 2030 for all quantum-vulnerable keys",
+   "extra_rules": "S3",
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 6,
+   "M2_expected_deadline_misses": 0.29,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 369.7,
+   "M3_diff_vs_S0_own_rules_usd_m": 0.1,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    -0.1,
+    0.3
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.7,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.1,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    -0.1,
+    0.3
+   ],
+   "M4_price_of_compliance_usd_m": 0.1,
+   "M4_cost_first_expected_misses": 3.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57,
+    "SCN-S3-ALL-2030": 75
+   },
+   "M6_hard_deadline_quarter": {
+    "2031 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "SCN-S3-ALL-2030": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 856,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 75,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": "The algorithm secp256k1-ecdsa is disallowed after 2030-12-31 under NIST IR 8547 [R:SCN-S3-ALL-2030].",
+   "diagnose_by_2031": [],
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S4a": {
+   "label": "Jurisdictions: EU only",
+   "extra_rules": null,
+   "rules_left_out": [],
+   "jurisdictions": [
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 0,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 367.6,
+   "M3_diff_vs_S0_own_rules_usd_m": -2.0,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    -2.3,
+    -1.7
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57
+   },
+   "M6_hard_deadline_quarter": {
+    "2036 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "5.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-FATF-R11": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 724,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 0,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": null,
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S4b": {
+   "label": "Jurisdictions: US only",
+   "extra_rules": null,
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 0,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_own_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57
+   },
+   "M6_hard_deadline_quarter": {
+    "2036 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 724,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 0,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": null,
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S4c": {
+   "label": "No retention rules",
+   "extra_rules": null,
+   "rules_left_out": [
+    "RET-FATF-R11",
+    "RET-EU-AMLD-40",
+    "RET-US-SEC-17A4"
+   ],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 0,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 358.8,
+   "M3_diff_vs_S0_own_rules_usd_m": -10.8,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    -11.5,
+    -10.1
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    0.0,
+    0.0
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_hard_deadline_quarter": {
+    "2036 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_retention_years": {
+    "0.0": 75
+   },
+   "M6_retention_decided_by": {
+    "none": 75
+   },
+   "M8_explanations": {
+    "sentences": 610,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 0,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": null,
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S5": {
+   "label": "EU retention 10 years",
+   "extra_rules": "S5",
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": false,
+   "M1_starts_changed_vs_S0": 2,
+   "M2_expected_deadline_misses": 0.0,
+   "M2_planned_misses_by_issuer": {},
+   "M3_mean_cost_own_rules_usd_m": 377.0,
+   "M3_diff_vs_S0_own_rules_usd_m": 7.3,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    6.8,
+    8.0
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 369.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 0.0,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    -0.0,
+    0.0
+   ],
+   "M4_price_of_compliance_usd_m": 0.0,
+   "M4_cost_first_expected_misses": 0.0,
+   "M5_protected_by_2030": 1.0,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57,
+    "SCN-S5-EU-RETENTION-10": 57
+   },
+   "M6_hard_deadline_quarter": {
+    "2036 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "NIST8547-DISALLOW": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "10.0": 57
+   },
+   "M6_retention_decided_by": {
+    "SCN-S5-EU-RETENTION-10": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 838,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 57,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": "The anchor signs compliance records that must remain evidence for 10 years [R:SCN-S5-EU-RETENTION-10].",
+   "diagnose_by_2031": null,
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  },
+  "S6": {
+   "label": "S3 with capacity 1 per issuer",
+   "extra_rules": "S3",
+   "rules_left_out": [],
+   "jurisdictions": [
+    "US",
+    "EU"
+   ],
+   "capacity_1": true,
+   "M1_starts_changed_vs_S0": 31,
+   "M2_expected_deadline_misses": 3.9,
+   "M2_planned_misses_by_issuer": {
+    "Ondo": 3
+   },
+   "M3_mean_cost_own_rules_usd_m": 727.3,
+   "M3_diff_vs_S0_own_rules_usd_m": 357.6,
+   "M3_diff_vs_S0_own_rules_ci95": [
+    307.7,
+    408.2
+   ],
+   "M3_mean_cost_scored_with_S0_rules_usd_m": 727.3,
+   "M3_diff_vs_S0_scored_with_S0_rules_usd_m": 357.6,
+   "M3_diff_vs_S0_scored_with_S0_rules_ci95": [
+    307.7,
+    408.2
+   ],
+   "M4_price_of_compliance_usd_m": -1.5,
+   "M4_cost_first_expected_misses": 6.61,
+   "M5_protected_by_2030": 0.986,
+   "M5_protected_by_2032": 1.0,
+   "M6_rules_fired": {
+    "EXP-COMPLIANCE-CRITICAL": 43,
+    "EXP-DISCOVERY-INCOMPLETE": 50,
+    "EXP-KEY-EXPOSED": 14,
+    "EXP-KEY-HIDDEN": 1,
+    "EXP-KEY-UNKNOWN": 60,
+    "EXP-SHARED-ANCHOR": 11,
+    "EXP-SINGLE-KEY-ADMIN": 5,
+    "G7-CRITICAL-FIRST": 43,
+    "G7-OVERALL": 75,
+    "NIST8547-DEPRECATE": 75,
+    "NIST8547-DISALLOW": 75,
+    "RET-EU-AMLD-40": 57,
+    "RET-FATF-R11": 57,
+    "RET-US-SEC-17A4": 57,
+    "SCN-S3-ALL-2030": 75
+   },
+   "M6_hard_deadline_quarter": {
+    "2031 Q1": 75
+   },
+   "M6_deadline_decided_by": {
+    "SCN-S3-ALL-2030": 75
+   },
+   "M6_retention_years": {
+    "0.0": 18,
+    "6.0": 57
+   },
+   "M6_retention_decided_by": {
+    "RET-US-SEC-17A4": 57,
+    "none": 18
+   },
+   "M8_explanations": {
+    "sentences": 856,
+    "citation_validity": 1.0,
+    "faithfulness": 1.0
+   },
+   "M8_sentences_citing_scenario_rules": 75,
+   "M8_sentences_naming_nist_for_another_source": 0,
+   "M8_example_scenario_sentence": "The algorithm secp256k1-ecdsa is disallowed after 2030-12-31 under NIST IR 8547 [R:SCN-S3-ALL-2030].",
+   "diagnose_by_2031": [
+    {
+     "issuer_group": "Ondo",
+     "slots_needed": 22,
+     "slots_available": 16,
+     "capacity": 1,
+     "quarters": 16
+    }
+   ],
+   "plan_status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+  }
+ }
+}
