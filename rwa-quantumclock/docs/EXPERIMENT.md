@@ -64,7 +64,7 @@ flowchart TD
 
 Each box is a milestone. Green: worked as planned. Red: failed or was refuted. Amber: a fix made in the open after
 a failure. Grey: still to come. Details for each step: [1](steps/01_sample.md), [2](steps/02_collection.md),
-[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md), [9](steps/09_manuscript.md). Background on Safe multisig wallets:
+[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md), [9](steps/09_manuscript.md), [10](steps/10_post_hoc_checks.md). Background on Safe multisig wallets:
 [SAFE.md](SAFE.md).
 
 ```mermaid
@@ -105,7 +105,13 @@ flowchart TD
     M9["Step 9 · Manuscript v2 compiles on Overleaf<br/>named + review copy; per-issuer appendix"]:::ok
     L9["Overleaf: table too wide, empty pages,<br/>appendix tables misplaced"]:::bad
     X9["Layout and wording fixed<br/>('two-stage' removed; p-values explained)"]:::fix
-    F3["Next · author details, own papers,<br/>plain-English pass, submission"]:::todo
+    P10["Step 10 · Checks after the run (not pre-registered)<br/>loss settings, H6 guard, knowledge-base scenarios"]:::ok
+    O10a["QAMP cheaper than ASAP, greedy and Mosca<br/>in all 14 loss settings"]:::ok
+    L10a["H6 measured unlike for like (47.0%)<br/>guard fails when copies run late on their own"]:::bad
+    X10a["Pre-registration corrections C1-C3<br/>like for like 23.7%: H6 kept, scope stated"]:::fix
+    O10b["Scenario plan committed first; deadline rules<br/>steer the plan; Ondo shown infeasible (22 vs 16)"]:::ok
+    L10b["Retention rules barely move the plan;<br/>checks miss a wrong source name (43 sentences)"]:::bad
+    F3["Next · author details, own papers,<br/>submission"]:::todo
 
     P1 --> R0 --> S1
     S1 --> F1 --> X1 --> S2
@@ -120,7 +126,12 @@ flowchart TD
     A8 --> F5
     F4 --> M9
     F5 --> M9
-    M9 --> L9 --> X9 --> F3
+    M9 --> L9 --> X9 --> P10
+    P10 --> O10a
+    P10 --> L10a --> X10a
+    P10 --> O10b
+    P10 --> L10b
+    O10a & X10a & O10b & L10b --> F3
     O5 --> E5
     R5 --> K5
 ```
