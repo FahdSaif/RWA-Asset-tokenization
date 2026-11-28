@@ -17,6 +17,7 @@ The overall flow is in [../EXPERIMENT.md](../EXPERIMENT.md).
 | 8 | [AI runs (H10, H13)](08_ai_runs.md) | 2026-11-27 | `quantumclock-v1.0-ai` | done |
 | 9 | [Manuscript for Expert Systems with Applications](09_manuscript.md) | 2026-11-28 | `quantumclock-v1.0-eswa` (on submission) | in progress |
 | 10 | [Checks after the held-out run (not pre-registered)](10_post_hoc_checks.md) | 2026-11-28 | – | done |
+| 11 | [Stronger baselines and calendar robustness (post-registration)](11_baselines_calendars.md) | 2026-11-28 | – | done |
 
 Earlier development (prototype on the 25-token census, development seeds only): tags `quantumclock-v0.1.1` and
 `quantumclock-v0.2.1`.
