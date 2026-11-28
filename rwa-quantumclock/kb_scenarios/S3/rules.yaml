@@ -1,0 +1,14 @@
+# Scenario S3: the NIST deprecation date treated as a hard deadline for every quantum-vulnerable key.
+
+- id: SCN-S3-ALL-2030
+  description: "Scenario: every quantum-vulnerable key must be migrated by the end of 2030."
+  when: {fact: quantum_vulnerable, is_true: true}
+  then:
+    deadline_hard: "2030-12-31"
+  source:
+    title: "NIST IR 8547 (final, October 2026), deprecation date treated as binding (scenario)"
+    url: "https://nvlpubs.nist.gov/nistpubs/ir/2026/NIST.IR.8547.pdf"
+    clause: "Scenario only: the 2030 deprecation date is applied as a hard deadline to all quantum-vulnerable keys."
+    accessed: "2026-11-28"
+    verified: true
+    scenario: true

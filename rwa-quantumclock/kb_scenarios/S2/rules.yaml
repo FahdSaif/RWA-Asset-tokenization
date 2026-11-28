@@ -1,0 +1,17 @@
+# Scenario S2: the G7 example timeframe treated as a hard deadline for compliance-critical keys.
+
+- id: SCN-S2-CRITICAL-2032
+  description: "Scenario: compliance-critical keys must be migrated by the end of 2032."
+  when:
+    all:
+      - {fact: quantum_vulnerable, is_true: true}
+      - {fact: compliance_critical, is_true: true}
+  then:
+    deadline_hard: "2032-12-31"
+  source:
+    title: "G7 Cyber Expert Group PQC roadmap (January 2026), example timeframe treated as binding (scenario)"
+    url: "https://home.treasury.gov/system/files/136/G7-CEG-Quantum-Roadmap.pdf"
+    clause: "Scenario only: the 2030-32 example for the most critical systems is applied as a hard deadline at the end of 2032."
+    accessed: "2026-11-28"
+    verified: true
+    scenario: true

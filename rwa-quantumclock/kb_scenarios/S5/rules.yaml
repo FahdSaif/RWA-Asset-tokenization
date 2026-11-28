@@ -1,0 +1,17 @@
+# Scenario S5: EU records kept for the full extended period (5 + 5 years). The longest period wins.
+
+- id: SCN-S5-EU-RETENTION-10
+  description: "Scenario: EU records kept 10 years (5 years plus the further 5 allowed)."
+  when:
+    all:
+      - {fact: signs_records, is_true: true}
+      - {fact: jurisdictions, contains_any: [EU]}
+  then:
+    retention_years: 10
+  source:
+    title: "Directive (EU) 2015/849, Article 40, further retention period used in full (scenario)"
+    url: "https://www.eba.europa.eu/single-rule-book-qa/qna/view/publicId/2020_5362"
+    clause: "Scenario only: the further period of up to five additional years is applied in full."
+    accessed: "2026-11-28"
+    verified: true
+    scenario: true
