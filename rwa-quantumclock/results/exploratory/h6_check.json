@@ -1,0 +1,47 @@
+{
+ "meta": {
+  "post_hoc": true,
+  "seed_base": 50000,
+  "n_plan": 20000,
+  "n_eval": 2000,
+  "runtime_s": 262.4278841018677,
+  "env": {
+   "python": "3.13.18",
+   "numpy": "2.4.6",
+   "scipy": "1.16.3",
+   "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+   "utc": "2026-11-28T10:58:55Z"
+  }
+ },
+ "frozen_reproduced": {
+  "mean_cost_usd_m": {
+   "independent": 480.0,
+   "guarded": 450.7,
+   "independent_pause_revalidate": 401.1
+  },
+  "independent_believed_loss_usd_m": 254.6,
+  "violations": {
+   "independent": 13,
+   "guarded": 0,
+   "independent_pause_revalidate": 0
+  },
+  "components": 13
+ },
+ "spend_usd_m": {
+  "independent": 146.5,
+  "guarded": 140.5
+ },
+ "independent_realised_loss_usd_m": 333.5,
+ "underestimate": {
+  "frozen_loss_vs_cost": 0.47,
+  "loss_vs_loss": 0.237,
+  "loss_plus_spend_vs_cost": 0.164
+ },
+ "guarded_under_sampled_delays": {
+  "starts_identical_within_every_component": true,
+  "mean_components_with_different_effect_quarters": 5.54,
+  "share_of_scenarios_with_a_violation_open_bridges": 1.0,
+  "mean_violations_open_bridges": 5.54,
+  "share_of_scenarios_with_a_violation_pause_revalidate": 0.0
+ }
+}
