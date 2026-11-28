@@ -78,7 +78,8 @@ USD 29.5m at 4 and USD 19.9m at 8. At 8 quarters QAMP minus B3 is USD 5.7m (-2.8
   about zero.
 - **Wrong calendars erode the advantage over simple greedy**, and planning on wrong calendars is slightly worse than
   planning without them.
-- **Calendar-aware heuristics B1 and B2 did not beat plain greedy risk** in the main setting.
+- **Calendar information alone helped little:** in the main setting B1 (USD 402.4m) and B3 (USD 404.4m) cost more
+  than plain greedy risk (USD 399.6m); B2 saved USD 8.9m (USD 390.7m).
 - **The decision rule fails once**: assumed 8-quarter calendars, QAMP vs B3 (held-out seeds only).
 - **C4:** the frozen tight setting gave capacity 1 to 25 of 28 issuers; Backed (4), Ondo (4) and Re (2) kept their
   observed capacity. H11 stays confirmed for the setting as run.
