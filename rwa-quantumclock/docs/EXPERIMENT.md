@@ -64,7 +64,7 @@ flowchart TD
 
 Each box is a milestone. Green: worked as planned. Red: failed or was refuted. Amber: a fix made in the open after
 a failure. Grey: still to come. Details for each step: [1](steps/01_sample.md), [2](steps/02_collection.md),
-[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md), [9](steps/09_manuscript.md), [10](steps/10_post_hoc_checks.md). Background on Safe multisig wallets:
+[3](steps/03_facts.md), [4](steps/04_dev_real.md), [5](steps/05_q1b.md), [6](steps/06_rq1.md), [7](steps/07_held_out.md), [8](steps/08_ai_runs.md), [9](steps/09_manuscript.md), [10](steps/10_post_hoc_checks.md), [11](steps/11_baselines_calendars.md). Background on Safe multisig wallets:
 [SAFE.md](SAFE.md).
 
 ```mermaid
@@ -111,6 +111,12 @@ flowchart TD
     X10a["Pre-registration corrections C1-C3<br/>like for like 23.7%: H6 kept, scope stated"]:::fix
     O10b["Scenario plan committed first; deadline rules<br/>steer the plan; Ondo shown infeasible (22 vs 16)"]:::ok
     L10b["Retention rules barely move the plan;<br/>checks miss a wrong source name (43 sentences)"]:::bad
+    P11["Step 11 · Stronger baselines and calendars<br/>plan and decision rule committed first"]:::ok
+    O11a["Same information, QAMP still wins on both seed bases<br/>(main +21.1m vs best calendar-aware heuristic)"]:::ok
+    O11b["One-date planning costs billions more:<br/>planning over many dates is essential"]:::ok
+    L11a["Window value rests on assumed annual calendars;<br/>wrong calendars erode the lead over greedy"]:::bad
+    L11b["Rule fails once (8-quarter calendars vs B3);<br/>tight setting kept 3 issuers above capacity 1"]:::bad
+    X11["Pre-registration clarification C4<br/>H11 kept for the setting as run"]:::fix
     F3["Next · author details, own papers,<br/>submission"]:::todo
 
     P1 --> R0 --> S1
@@ -131,7 +137,12 @@ flowchart TD
     P10 --> L10a --> X10a
     P10 --> O10b
     P10 --> L10b
-    O10a & X10a & O10b & L10b --> F3
+    O10a & X10a & O10b & L10b --> P11
+    P11 --> O11a
+    P11 --> O11b
+    P11 --> L11a
+    P11 --> L11b --> X11
+    O11a & O11b & L11a & X11 --> F3
     O5 --> E5
     R5 --> K5
 ```
