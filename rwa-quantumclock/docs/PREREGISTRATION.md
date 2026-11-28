@@ -173,3 +173,15 @@ no results.
 | D22 | A network wrapper retried calls that failed because the service was busy (HTTP 429, 500, 502, 503, 529, timeouts). The frozen code was not changed. |
 | D23 | Outcomes, decided with the rules in section 2: **H10 REFUTED** (AI F1 0.156 vs rules 0.750; 59% of answers dropped, 85 of 100 cut off by the frozen 2,000-token answer limit). **H13 REFUTED** (55.4% of reworded sentences pass, against ≥ 95%). See `docs/steps/08_ai_runs.md`. |
 
+
+## 8. Corrections and clarifications after the run (2026-11-28)
+
+Found in an independent pre-submission review. Nothing above is changed: the frozen code, the frozen results and the
+recorded verdicts stay as they are. Each item says what was wrong or unclear, what was checked, and whether a verdict
+changes. The checks use the frozen code and the held-out seeds and are labelled post hoc.
+
+| # | Item |
+|---|---|
+| C1 | **H6, how the underestimate was measured (an error).** The rule in section 2 asks whether the independent planner underestimates its *realised loss* by at least 10%. The frozen code compared its expected loss (USD 254.6m) with its realised loss *plus migration spend* (USD 480.0m) and reported 47.0%. Like for like, the underestimate is **23.7%** (expected loss vs realised loss, USD 254.6m vs 333.5m) or **16.4%** (both sides including spend of USD 146.5m). Both are above 10%, so **H6 stays CONFIRMED**. The 47.0% figure is not used as a result. Check: `tools/h6_check.py`, `results/exploratory/h6_check.*`, run `notebooks/runs/h6_check_run_2026-11-28.ipynb` (commit `a52fc62`). |
+| C2 | **H6, scope of "none with the guard" (a clarification).** The frozen guard check uses the planned migration durations. Under the model's own random delays, drawn separately for each bridged copy, copies that start together can still take effect in different quarters: on average 5.54 of 13 components per scenario, and every scenario has at least one cross-chain forgery path while the bridges stay open. With pause-and-revalidate (bridge closed until both ends are in the same state) there are none. The H6 verdict was decided, as pre-registered, with the planned durations and **stays CONFIRMED with that scope stated**. The H7 costs are not affected: realised cost already counts a copy as protected only when every bridged copy has migrated. Same check and files as C1. |
+| C3 | **Records loss, which records count (a clarification of wording).** `src/qamp/loss.py` counts records signed with the old key from the start of the retention window up to the quarter the migration takes effect, including records signed after the quantum computer arrives (a signature made with a broken key cannot be trusted either). This is the intended definition; one sentence in the manuscript's supplementary material described only records already signed when the computer arrives. The wording is corrected. Bound on the effect: setting the record value to zero changes ASAP minus QAMP only from USD 39.5m to 38.5m (`results/exploratory/loss_sensitivity.md`). **No verdict changes.** |
